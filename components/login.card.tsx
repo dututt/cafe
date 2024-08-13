@@ -23,8 +23,6 @@ function LoginCard() {
             <Button variant="primary" type="submit">
                 Submit
             </Button>
-            <br />
-            <br />
         </Form>
     );
 }

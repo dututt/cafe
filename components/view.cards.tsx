@@ -14,7 +14,6 @@ function ViewCard() {
                     </Card.Text>
                 </Card.Body>
             </Card>
-            <br />
 
             <Card border="secondary">
                 <Card.Header>Header</Card.Header>
@@ -26,7 +25,6 @@ function ViewCard() {
                     </Card.Text>
                 </Card.Body>
             </Card>
-            <br />
         </>
     );
 }
