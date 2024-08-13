@@ -11,7 +11,7 @@ function GridCard() {
             {Array.from({ length: 4 }).map((_, idx) => (
                 <Col key={idx}>
                     <Card>
-                        <Card.Img variant="top" src="https://th.bing.com/th/id/OIP.xZ4VQKpf4Tb6fMaCG7ettQAAAA?rs=1&pid=ImgDetMain/100px160" />
+                        <Card.Img variant="top" src="https://th.bing.com/th/id/OIP.xZ4VQKpf4Tb6fMaCG7ettQAAAA?rs=1&pid=ImgDetMain" height={"250px"} width={"250px"} />
                         <Card.Body>
                             <Card.Title>Card title</Card.Title>
                             <Card.Text>
