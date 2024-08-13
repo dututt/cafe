@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "next --coverage",
-    "test:ci": "next --ci"
+    "test": "jest --coverage",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "@types/node": "20.1.7",
