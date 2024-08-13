@@ -1,3 +1,4 @@
+'use client'
 import Card from 'react-bootstrap/Card';
 
 function ViewCard() {
