@@ -1,8 +1,9 @@
 'use client'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import GridCard from './grid.cards';
+import ViewCard from './view.cards';
+import LoginCard from './login.card';
 
 function AppHeader() {
     return (
@@ -10,15 +11,19 @@ function AppHeader() {
             defaultActiveKey="profile"
             id="uncontrolled-tab-example"
             className="mb-3"
+            justify
         >
-            <Tab eventKey="home" title="Home">
+            <Tab eventKey="home" title="Ăn">
                 <GridCard />
             </Tab>
-            <Tab eventKey="profile" title="Profile">
+            <Tab eventKey="profile" title="Uống">
                 <GridCard />
             </Tab>
-            <Tab eventKey="contact" title="Contact" disabled>
-                <GridCard />
+            <Tab eventKey="contact" title="Xem">
+                <ViewCard />
+            </Tab>
+            <Tab eventKey="login" title="Login">
+                <LoginCard />
             </Tab>
         </Tabs>
     );
