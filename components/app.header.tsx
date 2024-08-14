@@ -5,6 +5,7 @@ import GridCard from './grid.cards';
 import ViewCard from './view.cards';
 import LoginCard from './login.card';
 import { Badge } from 'react-bootstrap';
+import Register from './register';
 
 function AppHeader() {
     return (
@@ -22,6 +23,9 @@ function AppHeader() {
             </Tab>
             <Tab eventKey="contact" title="Xem">
                 <ViewCard />
+            </Tab>
+            <Tab eventKey="admin" title="Register">
+                <Register />
             </Tab>
             <Tab eventKey="login" title="Login">
                 <LoginCard />

@@ -19,17 +19,14 @@ function GridCard() {
                                     <Card.Title>Card title</Card.Title>
                                     <Card.Text>
                                         This is a longer card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit
-                                        longer.
+                                        lead-in to additional content.
                                     </Card.Text>
                                 </Card.Body>
                                 <ListGroup className="list-group-flush">
                                     <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                                    <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
                                 </ListGroup>
                                 <Card.Body>
                                     <Card.Link href="#">Card Link</Card.Link>
-                                    <Card.Link href="#">Another Link</Card.Link>
                                 </Card.Body></Col>
                         </Row>
                     </Card>
