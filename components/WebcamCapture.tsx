@@ -5,8 +5,8 @@ const WebcamCapture = () => {
     const webcamRef = useRef(null);
 
     const capture = useCallback(() => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        console.log(imageSrc); // You can handle the captured image here
+        // const imageSrc = webcamRef.current.getScreenshot();
+        // console.log(imageSrc); // You can handle the captured image here
     }, [webcamRef]);
 
     return (
