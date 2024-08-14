@@ -4,6 +4,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import GridCard from './grid.cards';
 import ViewCard from './view.cards';
 import LoginCard from './login.card';
+import { Badge } from 'react-bootstrap';
 
 function AppHeader() {
     return (
