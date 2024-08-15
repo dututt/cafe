@@ -26,7 +26,7 @@ function NavBarApp() {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            Signed in as: <Link onClick={handleShow} href={''}>Login</Link>
+                            Signed in as: <Link onClick={handleShow} href={'#'}>Login</Link>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
@@ -39,16 +39,8 @@ function NavBarApp() {
                 </Modal.Header>
                 <Modal.Body>
                     <LoginCard />
-                    <Link onClick={handleShowR} href={''}>Register</Link>
+                    <Link onClick={handleShowR} href={'#'}>Đăng Ký</Link>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
             </Modal>
 
 
@@ -59,14 +51,6 @@ function NavBarApp() {
                 <Modal.Body>
                     <Register />
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseR}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleCloseR}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
             </Modal>
         </>
     );
