@@ -1,5 +1,5 @@
 'use client'
-import { ListGroup } from 'react-bootstrap';
+import { Form, ListGroup } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -16,18 +16,20 @@ function GridCard() {
                             </Col>
                             <Col>
                                 <Card.Body>
-                                    <Card.Title>Card title</Card.Title>
+                                    <Card.Title>Tên món</Card.Title>
                                     <Card.Text>
-                                        This is a longer card with supporting text below as a natural
-                                        lead-in to additional content.
+                                        Thông tin chi tiết của món.
                                     </Card.Text>
                                 </Card.Body>
-                                <ListGroup className="list-group-flush">
-                                    <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                                </ListGroup>
-                                <Card.Body>
+                                <Form>
+                                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                        <Form.Check type="checkbox" label="Chọn món" />
+                                    </Form.Group>
+                                </Form>
+                                {/* <Card.Body>
                                     <Card.Link href="#">Card Link</Card.Link>
-                                </Card.Body></Col>
+                                </Card.Body> */}
+                            </Col>
                         </Row>
                     </Card>
                 </Col>
