@@ -19,7 +19,7 @@ function NavBarApp() {
         setShowR(true);
     }
     return (
-        <>
+        <div>
             <Navbar className="bg-body-tertiary">
                 <Container>
                     <Navbar.Brand href="#home">[Logo Cafe]</Navbar.Brand>
@@ -52,7 +52,7 @@ function NavBarApp() {
                     <Register />
                 </Modal.Body>
             </Modal>
-        </>
+        </div>
     );
 }
 
