@@ -24,12 +24,6 @@ function AppHeader() {
             <Tab eventKey="contact" title="Xem">
                 <ViewCard />
             </Tab>
-            <Tab eventKey="admin" title="Register">
-                <Register />
-            </Tab>
-            <Tab eventKey="login" title="Login">
-                <LoginCard />
-            </Tab>
         </Tabs>
     );
 }
