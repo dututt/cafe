@@ -7,7 +7,7 @@ const AppFooter = () => {
                 padding: "5px 0"
             }
         }>
-            Dutu - Coffee House
+            Dutu - tvdutt2024@gmail.com
         </div>
     );
 }
