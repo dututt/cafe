@@ -1,7 +1,6 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { useState } from 'react';
-import Link from 'next/link';
 import { Modal, Button } from 'react-bootstrap';
 import LoginCard from './login.card';
 import Register from './register';

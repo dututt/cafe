@@ -1,5 +1,5 @@
 
-import GridCard from '../../components/grid.cards'
+import GridCard from '../components/grid.cards'
 
 export default function Home() {
   return (

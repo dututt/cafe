@@ -1,13 +1,30 @@
 'use client'
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import GridCard from './grid.cards';
 import ViewCard from './view.cards';
-import LoginCard from './login.card';
-import { Badge } from 'react-bootstrap';
-import Register from './register';
+import useSWR from 'swr';
+import DrinkCard from './drink.card';
+import FoodCard from './food.card';
+
 
 function AppHeader() {
+
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+    const { data } = useSWR(
+        "http://localhost:8000/blogs",
+        fetcher,
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+        }
+    );
+
+    if (!data) {
+        return <div>loading...</div>
+    }
+
     return (
         <Tabs
             defaultActiveKey="profile"
@@ -16,10 +33,10 @@ function AppHeader() {
             justify
         >
             <Tab eventKey="home" title="Ăn">
-                <GridCard />
+                <DrinkCard catalogs={data} />
             </Tab>
             <Tab eventKey="profile" title="Uống">
-                <GridCard />
+                <FoodCard catalogs={data} />
             </Tab>
             <Tab eventKey="contact" title="Xem">
                 <ViewCard />

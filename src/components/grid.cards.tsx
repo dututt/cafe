@@ -4,31 +4,31 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-function GridCard() {
+
+function GridCard(props: IProps) {
+    const { catalogs } = props;
+
     return (
         <Row xs={1} md={2} className="g-4">
-            {Array.from({ length: 4 }).map((_, idx) => (
+            {Array.from({ length: catalogs?.length }).map((_, idx) => (
                 <Col key={idx}>
                     <Card>
                         <Row>
                             <Col>
-                                <Card.Img variant="top" src="https://th.bing.com/th/id/OIP.xZ4VQKpf4Tb6fMaCG7ettQAAAA?rs=1&pid=ImgDetMain" />
+                                <Card.Img variant="top" src={catalogs[idx].image} />
                             </Col>
                             <Col>
                                 <Card.Body>
-                                    <Card.Title>Tên món</Card.Title>
+                                    <Card.Title>{catalogs[idx].title}</Card.Title>
                                     <Card.Text>
-                                        Thông tin chi tiết của món.
+                                        {catalogs[idx].content}
                                     </Card.Text>
                                 </Card.Body>
                                 <Form>
-                                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                                    <Form.Group className="mb-3" controlId={"formBasicCheckbox" + catalogs[idx].id + catalogs[idx].type}>
                                         <Form.Check type="checkbox" label="Chọn món" />
                                     </Form.Group>
                                 </Form>
-                                {/* <Card.Body>
-                                    <Card.Link href="#">Card Link</Card.Link>
-                                </Card.Body> */}
                             </Col>
                         </Row>
                     </Card>
