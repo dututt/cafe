@@ -22,6 +22,7 @@ function AppHeader() {
         }
     );
 
+    console.info(">>> data info: ", data?.blogs)
     if (!data) {
         return <div>loading...</div>
     }
@@ -34,16 +35,16 @@ function AppHeader() {
             justify
         >
             <Tab eventKey="home" title="Ăn">
-                <DrinkCard catalogs={data} />
+                <DrinkCard catalogs={data?.blogs} />
             </Tab>
             <Tab eventKey="profile" title="Uống">
-                <FoodCard catalogs={data} />
+                <FoodCard catalogs={data?.blogs} />
             </Tab>
             <Tab eventKey="contact" title="Xem">
                 <ViewCard />
             </Tab>
             <Tab eventKey="admin" title="Admin">
-                <TableMeal catalogs={data} />
+                <TableMeal catalogs={data?.blogs} />
             </Tab>
         </Tabs>
     );
