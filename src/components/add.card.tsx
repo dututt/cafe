@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { mutate } from "swr";
 
 const AddCard = () => {
     const [title, setTitle] = useState<string>("")
@@ -35,6 +36,7 @@ const AddCard = () => {
             .then(res => {
                 if (res) {
                     toast.success("Create new meal succeed !")
+                    mutate("https://dututt.github.io/backend-cafe/db.json")
                 }
             })
 

@@ -8,7 +8,7 @@ interface IProps {
 const TableMeal = (props: IProps) => {
     const { catalogs } = props
     return (
-        <Table striped bordered hover>
+        <Table bordered hover size='sm'>
             <thead>
                 <tr>
                     <th>#</th>

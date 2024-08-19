@@ -5,7 +5,6 @@ import ViewCard from './view.cards';
 import useSWR from 'swr';
 import DrinkCard from './drink.card';
 import FoodCard from './food.card';
-import AddCard from './add.card';
 import TableMeal from './table.meal';
 
 
@@ -14,7 +13,7 @@ function AppHeader() {
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data } = useSWR(
-        "http://localhost:8000/blogs",
+        "https://dututt.github.io/backend-cafe/db.json",
         fetcher,
         {
             revalidateIfStale: false,
