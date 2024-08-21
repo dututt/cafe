@@ -7,8 +7,15 @@ interface ICatalog {
     image: string
 }
 
-
-
 interface IProps {
-    catalogs: ICatalog[];
+    catalogs: ICatalog[]
+}
+
+interface ISelection {
+    item: ICatalog
+    selected: boolean
+}
+
+interface ISelections {
+    selections: ISelection[]
 }

@@ -2,7 +2,14 @@
 import Card from 'react-bootstrap/Card';
 import WebcamCapture from './WebcamCapture';
 
-function ViewCard() {
+interface IProps {
+    selections: ISelections
+    setSelections: (value: ISelections) => void
+}
+
+function ViewCard(props: IProps) {
+    const { selections, setSelections } = props
+    console.log(">>> Selections123: ", selections)
     return (
         <>
             <Card border="primary">

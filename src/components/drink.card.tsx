@@ -2,14 +2,17 @@ import GridCard from "./grid.cards";
 
 interface IProps {
     catalogs: ICatalog[];
+    selects: ISelections;
 }
 
 const DrinkCard = (props: IProps) => {
-    const { catalogs } = props;
+    const { catalogs, selects } = props
     const cats = catalogs.filter(cat => cat.type === 1)
+    console.log(">>>>Drink catalogs: ", cats)
+
     return (
         <>
-            <GridCard catalogs={cats} />
+            <GridCard catalogs={cats} selects={selects} />
         </>
     );
 }
