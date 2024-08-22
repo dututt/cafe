@@ -49,16 +49,16 @@ function AppHeader() {
             justify
         >
             <Tab eventKey="eat" title="Ăn">
-                <DrinkCard catalogs={data} selects={selects} />
+                <DrinkCard catalogs={data?.blogs} selects={selects} />
             </Tab>
             <Tab eventKey="drink" title="Uống">
-                <FoodCard catalogs={data} selects={selects} />
+                <FoodCard catalogs={data?.blogs} selects={selects} />
             </Tab>
             <Tab eventKey="view" title="Xem">
                 <ViewCard selections={selects} setSelections={setSelections} />
             </Tab>
             <Tab eventKey="admin" title="Admin">
-                <TableMeal catalogs={data} />
+                <TableMeal catalogs={data?.blogs} />
             </Tab>
         </Tabs>
     );
