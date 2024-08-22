@@ -11,15 +11,15 @@ import { useState } from 'react';
 
 function AppHeader() {
 
-    // const selects: ISelections = { selections: [] }
-    const [selects, setSelects] = useState<ISelections>()
+    const selects: ISelections = { selections: [] }
+    // const [selects, setSelects] = useState<ISelections>()
     const [_selections, setSelections] = useState<ISelections | null>(null)
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data } = useSWR(
-        // "https://dututt.github.io/backend-cafe/db.json",
-        "http://localhost:8000/blogs",
+        "https://dututt.github.io/backend-cafe/db.json",
+        // "http://localhost:8000/blogs",
         fetcher,
         {
             revalidateIfStale: false,
