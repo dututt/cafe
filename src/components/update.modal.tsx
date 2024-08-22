@@ -137,7 +137,7 @@ function UpdateModal(props: IProps) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => handleCloseModal()}>Close</Button>
-                <Button variant="warning" onClick={() => handleSubmit()} disabled>Update</Button>
+                <Button variant="warning" onClick={() => handleSubmit()}>Update</Button>
             </Modal.Footer>
         </Modal>
     );

@@ -1,3 +1,4 @@
+'use client'
 import { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -119,7 +120,7 @@ const CreateModal = (props: IProps) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => handleCloseModal()}>Đóng</Button>
-                <Button variant="warning" onClick={() => handleSubmit()} disabled>Thêm</Button>
+                <Button variant="warning" onClick={() => handleSubmit()}>Thêm</Button>
             </Modal.Footer>
         </Modal>
     );
