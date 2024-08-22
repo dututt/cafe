@@ -1,3 +1,4 @@
+'use client'
 import { Button } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import UpdateModal from './update.modal';

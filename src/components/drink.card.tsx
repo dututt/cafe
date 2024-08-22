@@ -1,3 +1,4 @@
+'use client'
 import GridCard from "./grid.cards";
 
 interface IProps {
