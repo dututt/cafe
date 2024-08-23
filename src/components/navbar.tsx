@@ -6,16 +6,16 @@ import LoginCard from './login.card';
 import Register from './register';
 
 function NavBarApp() {
-    const [show, setShow] = useState(false);
-    const [showR, setShowR] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => setShowLogin(false);
+    const handleShowLogin = () => setShowLogin(true);
 
-    const handleCloseR = () => setShowR(false);
-    const handleShowR = () => {
-        setShow(false);
-        setShowR(true);
+    const handleCloseRegister = () => setShowRegister(false);
+    const handleShowRegister = () => {
+        setShowLogin(false);
+        setShowRegister(true);
     }
     return (
         <div>
@@ -25,25 +25,25 @@ function NavBarApp() {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            Signed in as: <Navbar.Brand onClick={handleShow} href="#">Login</Navbar.Brand>
+                            Signed in as: <Navbar.Brand onClick={handleShowLogin} href="#">Login</Navbar.Brand>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
 
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={showLogin} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Đăng Nhập</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <LoginCard />
-                    <Navbar.Brand onClick={handleShowR} href="#">Đăng Ký</Navbar.Brand>
+                    <Navbar.Brand onClick={handleShowRegister} href="#">Đăng Ký</Navbar.Brand>
                 </Modal.Body>
             </Modal>
 
 
-            <Modal show={showR} onHide={handleCloseR}>
+            <Modal show={showRegister} onHide={handleCloseRegister}>
                 <Modal.Header closeButton>
                     <Modal.Title>Đăng Ký</Modal.Title>
                 </Modal.Header>

@@ -14,6 +14,7 @@ interface IProps {
 interface ISelection {
     item: ICatalog
     selected: boolean
+    amount: number = 1
 }
 
 interface ISelections {

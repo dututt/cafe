@@ -20,7 +20,7 @@ function GridCard(props: IProps) {
     const handleCheck = (ck: boolean, cat: ICatalog) => {
 
         setChecked(checked)
-        const select: ISelection = { item: cat, selected: ck }
+        const select: ISelection = { item: cat, selected: ck, amount: 1 }
 
         if (ck) {
             selects?.selections.push(select)
@@ -28,7 +28,6 @@ function GridCard(props: IProps) {
             const newSelects = selects?.selections.filter(sel => !(sel.item.id === cat.id && sel.selected === true))
             selects.selections = [...newSelects]
         }
-        console.log(">>>>selects: ", selects?.selections)
         setSelects(selects)
     }
 
