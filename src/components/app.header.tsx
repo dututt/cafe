@@ -11,9 +11,10 @@ import { useState } from 'react';
 
 function AppHeader() {
 
-    const selects: ISelections = { selections: [] }
-    // const [selects, setSelects] = useState<ISelections>()
-    const [_selections, setSelections] = useState<ISelections | null>(null)
+    const s: ISelections = { selections: [] }
+    const [selects, setSelects] = useState<ISelections>(s)
+    const [viewSelects, setViewSelects] = useState<ISelections>(s)
+    const [showViewCard, setShowViewCard] = useState<boolean>(false)
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -35,32 +36,42 @@ function AppHeader() {
 
 
     function handleSelect(e: string | null): void {
-        console.log(">>>> handle Select:", e, selects)
-        setSelections(selects)
-        console.log(">>>> handle Select123:", _selections)
+        if (e === 'view') {
+            setSelects(selects)
+            setShowViewCard(true)
+        }
     }
 
     return (
-        <Tabs
-            defaultActiveKey="eat"
-            id="uncontrolled-tab-example"
-            onSelect={(e) => handleSelect(e)}
-            className="mb-3"
-            justify
-        >
-            <Tab eventKey="eat" title="Ăn">
-                <DrinkCard catalogs={data?.blogs} selects={selects} />
-            </Tab>
-            <Tab eventKey="drink" title="Uống">
-                <FoodCard catalogs={data?.blogs} selects={selects} />
-            </Tab>
-            <Tab eventKey="view" title="Xem">
-                <ViewCard selections={selects} setSelections={setSelections} />
-            </Tab>
-            <Tab eventKey="admin" title="Admin">
-                <TableMeal catalogs={data?.blogs} />
-            </Tab>
-        </Tabs>
+        <>
+            <Tabs
+                defaultActiveKey="eat"
+                id="uncontrolled-tab-example"
+                onSelect={(e) => handleSelect(e)}
+                className="mb-3"
+                justify
+            >
+                <Tab eventKey="eat" title="Ăn">
+                    <DrinkCard catalogs={data?.blogs} selects={selects} setSelects={setSelects} />
+                </Tab>
+                <Tab eventKey="drink" title="Uống">
+                    <FoodCard catalogs={data?.blogs} selects={selects} setSelects={setSelects} />
+                </Tab>
+                <Tab eventKey="view" title={"Xem (" + selects.selections.length + ")"}>
+                    <ViewCard viewSelects={viewSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} />
+                </Tab>
+                <Tab eventKey="admin" title="Admin">
+                    <TableMeal catalogs={data?.blogs} />
+                </Tab>
+            </Tabs>
+
+            <ViewCard
+                showViewCard={showViewCard}
+                setShowViewCard={setShowViewCard}
+                viewSelects={viewSelects}
+            />
+
+        </>
     );
 }
 

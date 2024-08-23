@@ -8,11 +8,12 @@ import Row from 'react-bootstrap/Row';
 interface IProps {
     catalogs: ICatalog[];
     selects: ISelections
+    setSelects: (value: ISelections) => void
 }
 
 
 function GridCard(props: IProps) {
-    const { catalogs, selects } = props
+    const { catalogs, selects, setSelects } = props
 
     const [checked, setChecked] = useState(false);
 
@@ -22,19 +23,20 @@ function GridCard(props: IProps) {
         const select: ISelection = { item: cat, selected: ck }
 
         if (ck) {
-            selects.selections.push(select)
+            selects?.selections.push(select)
         } else {
             const newSelects = selects?.selections.filter(sel => !(sel.item.id === cat.id && sel.selected === true))
             selects.selections = [...newSelects]
         }
-        console.log(">>>>selects: ", selects.selections)
+        console.log(">>>>selects: ", selects?.selections)
+        setSelects(selects)
     }
 
     return (
         <Row xs={1} md={2} className="g-4">
             {Array.from({ length: catalogs?.length }).map((_, idx) => (
                 <Col key={idx}>
-                    <Card style={{ height: '18rem' }}>
+                    <Card style={{ height: '15rem' }}>
                         <Row>
                             <Col>
                                 <Card.Img variant="top" src={catalogs?.[idx].image} />

@@ -1,5 +1,5 @@
 'use client'
-import { Button } from 'react-bootstrap';
+import { Button, ButtonGroup } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
@@ -20,8 +20,8 @@ const TableMeal = (props: IProps) => {
         <>
             <div className='mb-3'
                 style={{ display: "flex", justifyContent: "space-between" }}>
-                <h3>Table Meal</h3>
-                <Button variant='secondary' onClick={() => setShowModalCreate(true)}>Add new</Button>
+                <h3>Danh sách món</h3>
+                <Button variant='secondary' onClick={() => setShowModalCreate(true)}>Thêm mới</Button>
             </div>
             <Table striped bordered hover responsive size="sm">
                 <thead>
@@ -45,15 +45,14 @@ const TableMeal = (props: IProps) => {
                                 <td>{catalog.image}</td>
                                 <td>{catalog.type}</td>
                                 <td>
-                                    <Button variant="outline-warning"
-                                        className='mx-3'
-                                        onClick={() => {
+                                    <ButtonGroup size="sm">
+                                        <Button variant="outline-warning" onClick={() => {
                                             setCatalog(catalog)
                                             setShowModalUpdate(true)
-                                        }}
-                                    >Sửa</Button>
-                                    <Button variant="outline-info" className='mx-3'>Xem</Button>
-                                    <Button variant="outline-danger">Xóa</Button>
+                                        }}>Sửa</Button>
+                                        <Button variant="outline-info">Xem</Button>
+                                        <Button variant="outline-danger">Xóa</Button>
+                                    </ButtonGroup>
                                 </td>
                             </tr>
                         )

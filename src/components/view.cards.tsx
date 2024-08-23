@@ -1,35 +1,59 @@
 'use client'
-import Card from 'react-bootstrap/Card';
-import WebcamCapture from './WebcamCapture';
+import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
 
 interface IProps {
-    selections: ISelections
-    setSelections: (value: ISelections) => void
+    showViewCard: boolean
+    setShowViewCard: (value: boolean) => void
+    viewSelects: ISelections
 }
 
 function ViewCard(props: IProps) {
-    const { selections, setSelections } = props
-    console.log(">>> Selections123: ", selections)
+    const { showViewCard, setShowViewCard, viewSelects } = props
+
     return (
         <>
-            <Card border="primary">
-                <Card.Header>Header</Card.Header>
-                <Card.Body>
-                    <Card.Title>Primary Card Title</Card.Title>
-                    <Card.Text>
-                        Some quick example text to build on the card title and make up the
-                        bulk of the card&apos;s content.
-                    </Card.Text>
-                </Card.Body>
-            </Card>
-
-            <br />
+            <Modal size="lg" centered
+                show={showViewCard}
+                onHide={() => setShowViewCard(false)}
+                backdrop="static"
+                keyboard={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Tạo thực đơn</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row xs={1} md={2} className="g-4">
+                        {Array.from({ length: viewSelects?.selections?.length }).map((_, idx) => (
+                            <Col key={idx}>
+                                <Card style={{ height: '10rem' }}>
+                                    <Row>
+                                        <Col>
+                                            <Card.Img variant="top" src={viewSelects?.selections?.[idx].item.image} />
+                                        </Col>
+                                        <Col>
+                                            <Card.Body>
+                                                <Card.Title>{viewSelects?.selections?.[idx].item.title}</Card.Title>
+                                                <Card.Text>
+                                                    {viewSelects?.selections?.[idx].item.content}
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowViewCard(false)}>Đồng ý</Button>
+                </Modal.Footer>
+            </Modal>
+            {/* <br />
             <div>
-                <h1>Take a Photo</h1>
+                <h1>Take a Photo </h1>
                 <WebcamCapture />
             </div>
 
-            <br />
+            <br /> */}
         </>
     );
 }

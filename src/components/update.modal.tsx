@@ -84,7 +84,7 @@ function UpdateModal(props: IProps) {
             backdrop="static"
             keyboard={false}>
             <Modal.Header closeButton>
-                <Modal.Title>Update meal</Modal.Title>
+                <Modal.Title>Chỉnh sửa món</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
@@ -136,8 +136,8 @@ function UpdateModal(props: IProps) {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={() => handleCloseModal()}>Close</Button>
-                <Button variant="warning" onClick={() => handleSubmit()}>Update</Button>
+                <Button variant="secondary" onClick={() => handleCloseModal()}>Đóng</Button>
+                <Button variant="warning" onClick={() => handleSubmit()}>Đồng ý</Button>
             </Modal.Footer>
         </Modal>
     );
