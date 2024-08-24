@@ -4,26 +4,35 @@ import Table from 'react-bootstrap/Table';
 import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
 import { useState } from 'react';
+import OrderList from './order.list';
 
 interface IProps {
     catalogs: ICatalog[];
+    viewSelects: ISelections
 }
 
-const TableMeal = (props: IProps) => {
-    const { catalogs } = props
+function TableMeal(props: IProps) {
+    const { catalogs, viewSelects } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
+    const [showOrderList, setShowOrderList] = useState<boolean>(false)
     const [catalog, setCatalog] = useState<ICatalog | null>(null)
+
+    function handleShowModalCreate() {
+        setShowModalCreate(true)
+        setShowOrderList(false)
+    }
 
     return (
         <>
             <div className='mb-3'
                 style={{ display: "flex", justifyContent: "space-between" }}>
-                <h3>Danh sách món</h3>
-                <Button variant='secondary' onClick={() => setShowModalCreate(true)}>Thêm mới</Button>
+                {/* <h3>Quản lý danh sách món</h3> */}
+                <Button variant='outline-primary' onClick={() => setShowOrderList(true)}>Danh sách đặt món</Button>
+                <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
             </div>
-            <Table striped bordered hover responsive size="sm">
+            <Table striped bordered hover responsive size="sm" hidden={showOrderList}>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -59,6 +68,7 @@ const TableMeal = (props: IProps) => {
                     })}
                 </tbody>
             </Table>
+            <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setShowOrderList={setShowOrderList} />
 
             <CreateModal
                 showModalCreate={showModalCreate}
@@ -71,6 +81,7 @@ const TableMeal = (props: IProps) => {
                 catalog={catalog}
                 setCatalog={setCatalog}
             />
+
         </>
     );
 }

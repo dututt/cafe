@@ -38,6 +38,8 @@ function AppHeader() {
         if (e === 'view') {
             setSelects(selects)
             setShowViewCard(true)
+        } else if (e === 'admin') {
+            setSelects(selects)
         }
     }
 
@@ -60,7 +62,7 @@ function AppHeader() {
                     {/* <ViewCard viewSelects={selects} setSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
                 </Tab>
                 <Tab eventKey="admin" title="Admin">
-                    <TableMeal catalogs={data?.blogs} />
+                    <TableMeal catalogs={data?.blogs} viewSelects={selects} />
                 </Tab>
             </Tabs>
 

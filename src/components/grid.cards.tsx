@@ -35,10 +35,10 @@ function GridCard(props: IProps) {
         <Row xs={1} md={2} className="g-4">
             {Array.from({ length: catalogs?.length }).map((_, idx) => (
                 <Col key={idx}>
-                    <Card style={{ height: '15rem' }}>
+                    <Card style={{ height: '14rem' }}>
                         <Row>
                             <Col>
-                                <Card.Img variant="top" src={catalogs?.[idx].image} />
+                                <Card.Img variant="top" className="card-img-top fixed-size" src={catalogs?.[idx].image} />
                             </Col>
                             <Col>
                                 <Card.Body>
@@ -47,13 +47,15 @@ function GridCard(props: IProps) {
                                         {catalogs?.[idx].content}
                                     </Card.Text>
                                 </Card.Body>
-                                <Form>
-                                    <Form.Group className="mb-3" controlId={"formBasicCheckbox" + catalogs?.[idx].id}>
-                                        {<Form.Check type="checkbox"
-                                            label="Chọn món" value={checked ? 1 : 0}
-                                            onChange={(e) => handleCheck(e.currentTarget.checked, catalogs?.[idx])} />}
-                                    </Form.Group>
-                                </Form>
+                                <Card.Footer>
+                                    <Form>
+                                        <Form.Group className="mb-3" controlId={"formBasicCheckbox" + catalogs?.[idx].id}>
+                                            {<Form.Check type="checkbox"
+                                                label="Chọn món" value={checked ? 1 : 0}
+                                                onChange={(e) => handleCheck(e.currentTarget.checked, catalogs?.[idx])} />}
+                                        </Form.Group>
+                                    </Form>
+                                </Card.Footer>
                             </Col>
                         </Row>
                     </Card>

@@ -66,7 +66,7 @@ const CreateModal = (props: IProps) => {
             backdrop="static"
             keyboard={false}>
             <Modal.Header closeButton>
-                <Modal.Title>Tạo thực đơn</Modal.Title>
+                <Modal.Title>Thêm thực đơn mới</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>

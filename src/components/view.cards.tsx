@@ -1,5 +1,7 @@
 'use client'
 import { Button, ButtonGroup, Card, Col, Modal, Row } from 'react-bootstrap';
+import OrderStatus from './order.status';
+import { useState } from 'react';
 
 interface IProps {
     showViewCard: boolean
@@ -11,6 +13,8 @@ interface IProps {
 function ViewCard(props: IProps) {
     const { showViewCard, setShowViewCard, viewSelects, setViewSelects } = props
 
+    const [status, setStatus] = useState<boolean>(false)
+
     function handleAcceptView(): void {
         viewSelects.selections.filter(ck => ck.selected === true).map(ck => {
             ck.selected = false
@@ -18,6 +22,7 @@ function ViewCard(props: IProps) {
         viewSelects.selections = []
         setViewSelects(viewSelects)
         setShowViewCard(false);
+        setStatus(true)
     }
 
     const increment = (value: ISelection) => {
@@ -48,15 +53,20 @@ function ViewCard(props: IProps) {
         return item.amount
     }
 
+    function handleClose() {
+        setStatus(false)
+        setShowViewCard(false)
+    }
+
     return (
         <>
             <Modal size="lg" centered
                 show={showViewCard}
-                onHide={() => setShowViewCard(false)}
+                onHide={() => handleClose()}
                 backdrop="static"
                 keyboard={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Tạo thực đơn</Modal.Title>
+                    <Modal.Title>Đặt món</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row xs={1} md={2} className="g-4">
@@ -65,7 +75,7 @@ function ViewCard(props: IProps) {
                                 <Card style={{ height: '10rem' }}>
                                     <Row>
                                         <Col>
-                                            <Card.Img variant="top" src={viewSelects?.selections?.[idx].item.image} />
+                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={viewSelects?.selections?.[idx].item.image} />
                                         </Col>
                                         <Col>
                                             <Card.Body>
@@ -86,9 +96,12 @@ function ViewCard(props: IProps) {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => handleAcceptView()}>Đồng ý</Button>
+                    <Button variant="secondary" disabled={!(viewSelects?.selections?.length > 0)} onClick={() => handleAcceptView()}>Đồng ý</Button>
                 </Modal.Footer>
             </Modal>
+            <Button variant="primary" size="lg" disabled hidden={!status}>
+                <OrderStatus />
+            </Button>
             {/* <br />
             <div>
                 <h1>Take a Photo </h1>
