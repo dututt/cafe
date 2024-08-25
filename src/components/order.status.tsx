@@ -1,10 +1,16 @@
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
-function OrderStatus() {
+interface IProps {
+    status: boolean
+}
+
+function OrderStatus(props: IProps) {
+    const { status } = props
+    console.log(">>>>status: ", status)
     return (
         <>
-            <Button variant="primary" disabled >
+            <Button variant="primary" disabled hidden={status}>
                 <Spinner
                     as="span"
                     animation="border"
@@ -14,7 +20,7 @@ function OrderStatus() {
                 />
                 <span className="visually-hidden">Đang tạo món...</span>
             </Button>{' '}
-            <Button variant="primary" disabled>
+            <Button variant="primary" disabled hidden={status}>
                 <Spinner
                     as="span"
                     animation="grow"

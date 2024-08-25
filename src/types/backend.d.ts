@@ -20,3 +20,12 @@ interface ISelection {
 interface ISelections {
     selections: ISelection[]
 }
+
+interface IOrderTable {
+    orderTableNumber: number
+    items: ISelections
+}
+
+interface IOrderTableList {
+    items: IOrderTable[]
+}

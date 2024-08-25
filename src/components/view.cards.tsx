@@ -14,15 +14,19 @@ function ViewCard(props: IProps) {
     const { showViewCard, setShowViewCard, viewSelects, setViewSelects } = props
 
     const [status, setStatus] = useState<boolean>(false)
+    const [orderTableNumber, setOrderTableNumber] = useState<number>(0)
 
     function handleAcceptView(): void {
         viewSelects.selections.filter(ck => ck.selected === true).map(ck => {
             ck.selected = false
         })
-        viewSelects.selections = []
-        setViewSelects(viewSelects)
         setShowViewCard(false);
         setStatus(true)
+    }
+
+    function handleClose() {
+        setStatus(false)
+        setShowViewCard(false)
     }
 
     const increment = (value: ISelection) => {
@@ -53,11 +57,6 @@ function ViewCard(props: IProps) {
         return item.amount
     }
 
-    function handleClose() {
-        setStatus(false)
-        setShowViewCard(false)
-    }
-
     return (
         <>
             <Modal size="lg" centered
@@ -66,7 +65,7 @@ function ViewCard(props: IProps) {
                 backdrop="static"
                 keyboard={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Đặt món</Modal.Title>
+                    <Modal.Title>Đặt món - Bàn {orderTableNumber}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row xs={1} md={2} className="g-4">
@@ -99,9 +98,7 @@ function ViewCard(props: IProps) {
                     <Button variant="secondary" disabled={!(viewSelects?.selections?.length > 0)} onClick={() => handleAcceptView()}>Đồng ý</Button>
                 </Modal.Footer>
             </Modal>
-            <Button variant="primary" size="lg" disabled hidden={!status}>
-                <OrderStatus />
-            </Button>
+            <OrderStatus status={!status} />
             {/* <br />
             <div>
                 <h1>Take a Photo </h1>

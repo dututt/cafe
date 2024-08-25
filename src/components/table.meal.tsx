@@ -23,6 +23,7 @@ function TableMeal(props: IProps) {
         setShowModalCreate(true)
         setShowOrderList(false)
     }
+    console.log(">>>>TableMeal ==>>OrderList: ", viewSelects)
 
     return (
         <>
@@ -68,7 +69,8 @@ function TableMeal(props: IProps) {
                     })}
                 </tbody>
             </Table>
-            <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setShowOrderList={setShowOrderList} />
+
+            {viewSelects.selections.length > 0 ? <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setShowOrderList={setShowOrderList} /> : []}
 
             <CreateModal
                 showModalCreate={showModalCreate}
