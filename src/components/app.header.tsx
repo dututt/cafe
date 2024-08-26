@@ -59,7 +59,7 @@ function AppHeader() {
                     <FoodCard catalogs={data?.blogs} selects={selects} setSelects={setSelects} />
                 </Tab>
                 <Tab eventKey="view" title={"Xem (" + selects.selections.length + ")"}>
-                    {/* <ViewCard viewSelects={selects} setSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
+                    <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} />
                 </Tab>
                 <Tab eventKey="admin" title="Admin">
                     <TableMeal catalogs={data?.blogs} viewSelects={selects} />
