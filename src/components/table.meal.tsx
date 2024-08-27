@@ -47,6 +47,10 @@ function TableMeal(props: IProps) {
                 <tbody>
                     {catalogs.map(catalog => {
 
+                        function handleDeleteItem(id: number): void {
+                            throw new Error('Function not implemented.');
+                        }
+
                         return (
                             <tr key={catalog.id}>
                                 <td>{catalog.id}</td>
