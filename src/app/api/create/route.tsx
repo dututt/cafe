@@ -1,7 +1,7 @@
 'use server'
 import { sql } from "@vercel/postgres"
 
-export default async function createItem(title: string, content: string, type: number, image: string) {
+export async function POST(title: string, content: string, type: number, image: string) {
 
     try {
         await sql`INSERT INTO Item(Title, Content, Type, Image) VALUES(
