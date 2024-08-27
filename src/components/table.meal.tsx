@@ -5,6 +5,7 @@ import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
 import { useState } from 'react';
 import OrderList from './order.list';
+import deleteItem from '@/app/api/delete/delete';
 
 interface IProps {
     catalogs: ICatalog[];
@@ -46,11 +47,6 @@ function TableMeal(props: IProps) {
                 </thead>
                 <tbody>
                     {catalogs.map(catalog => {
-
-                        function handleDeleteItem(id: number): void {
-                            throw new Error('Function not implemented.');
-                        }
-
                         return (
                             <tr key={catalog.id}>
                                 <td>{catalog.id}</td>
@@ -60,12 +56,12 @@ function TableMeal(props: IProps) {
                                 <td>{catalog.type}</td>
                                 <td>
                                     <ButtonGroup size="sm">
-                                        <Button variant="outline-warning" onClick={() => {
+                                        <Button disabled variant="outline-warning" onClick={() => {
                                             setCatalog(catalog)
                                             setShowModalUpdate(true)
                                         }}>Sửa</Button>
                                         <Button variant="outline-info">Xem</Button>
-                                        <Button variant="outline-danger" onClick={() => handleDeleteItem(catalog.id)}>Xóa</Button>
+                                        <Button disabled variant="outline-danger" onClick={() => deleteItem(catalog.id)}>Xóa</Button>
                                     </ButtonGroup>
                                 </td>
                             </tr>

@@ -1,5 +1,5 @@
 'use client'
-import { sql } from "@vercel/postgres";
+import createItem from "@/app/api/create/route";
 import { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -52,20 +52,6 @@ const CreateModal = (props: IProps) => {
         //     })
     }
 
-    async function createItem(title: string, content: string, type: number, image: string) {
-        console.log(">>>>....title...: ", { title, content, type, image })
-        const response = await fetch('/api/create', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ title, content, type, image })
-        });
-        const data = await response.json();
-        console.log(">>>>....data...: ", data)
-    }
-
     const handleCloseModal = () => {
         setTitle("")
         setContent("")
@@ -115,8 +101,8 @@ const CreateModal = (props: IProps) => {
                             Chọn ảnh
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="file"
-                                value={image} name="file"
+                            <Form.Control type="text"
+                                value={image}
                                 onChange={(e) => setImage(e.target.value)} />
                         </Col>
                     </Form.Group>
@@ -135,7 +121,7 @@ const CreateModal = (props: IProps) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => handleCloseModal()}>Đóng</Button>
-                    <Button variant="warning" onClick={() => handleAddItem()}>Thêm</Button>
+                    <Button disabled variant="warning" onClick={() => handleAddItem()}>Thêm</Button>
                 </Modal.Footer>
             </Modal>
         </Form>

@@ -1,10 +1,10 @@
 interface ICatalog {
     id: number
     content: string
-    author: string
     title: string
     type: number
     image: string
+    created_at: Date
 }
 
 interface IProps {

@@ -10,7 +10,9 @@ function NavBarApp() {
     const [showRegister, setShowRegister] = useState(false);
 
     const handleClose = () => setShowLogin(false);
-    const handleShowLogin = () => setShowLogin(true);
+    const handleShowLogin = () => {
+        setShowLogin(true);
+    }
 
     const handleCloseRegister = () => setShowRegister(false);
     const handleShowRegister = () => {
@@ -25,7 +27,7 @@ function NavBarApp() {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            Signed in as: <Navbar.Brand onClick={handleShowLogin} href="#">Login</Navbar.Brand>
+                            <Navbar.Brand onClick={handleShowLogin} href="#">Login</Navbar.Brand>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>

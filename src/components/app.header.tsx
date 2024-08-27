@@ -14,11 +14,13 @@ function AppHeader() {
     const s: ISelections = { selections: [] }
     const [selects, setSelects] = useState<ISelections>(s)
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
+    const [cats, setCats] = useState<any>([])
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data } = useSWR(
-        "https://dututt.github.io/backend-cafe/db.json",
+        "/api/fetch",
+        // "https://dututt.github.io/backend-cafe/db.json",
         // "http://localhost:8000/blogs",
         fetcher,
         {
@@ -28,11 +30,10 @@ function AppHeader() {
         }
     );
 
-    console.info(">>> data info: ", data)
+    console.info(">>> data info: ", data?.result?.rows)
     if (!data) {
         return <div>loading...</div>
     }
-
 
     function handleSelect(e: string | null): void {
         if (e === 'view') {
@@ -53,16 +54,16 @@ function AppHeader() {
                 justify
             >
                 <Tab eventKey="eat" title="Ăn">
-                    <DrinkCard catalogs={data?.blogs} selects={selects} setSelects={setSelects} />
+                    <DrinkCard catalogs={data?.result?.rows} selects={selects} setSelects={setSelects} />
                 </Tab>
                 <Tab eventKey="drink" title="Uống">
-                    <FoodCard catalogs={data?.blogs} selects={selects} setSelects={setSelects} />
+                    <FoodCard catalogs={data?.result?.rows} selects={selects} setSelects={setSelects} />
                 </Tab>
                 <Tab eventKey="view" title={"Xem (" + selects.selections.length + ")"}>
                     <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} />
                 </Tab>
                 <Tab eventKey="admin" title="Admin">
-                    <TableMeal catalogs={data?.blogs} viewSelects={selects} />
+                    <TableMeal catalogs={data?.result?.rows} viewSelects={selects} />
                 </Tab>
             </Tabs>
 
@@ -72,7 +73,6 @@ function AppHeader() {
                 viewSelects={selects}
                 setViewSelects={setSelects}
             />
-
         </>
     );
 }
