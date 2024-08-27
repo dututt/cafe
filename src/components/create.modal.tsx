@@ -1,4 +1,5 @@
 'use client'
+import { sql } from "@vercel/postgres";
 import { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -17,7 +18,8 @@ const CreateModal = (props: IProps) => {
     const [type, setType] = useState<number>(1)
     const [image, setImage] = useState<string>("")
 
-    const handleSubmit = () => {
+
+    const handleAddItem = () => {
 
         if (!title) {
             toast.error("Not empty title !")
@@ -32,22 +34,36 @@ const CreateModal = (props: IProps) => {
             return
         }
         console.log(">>> Handle submit data: ", title, content, type, image)
+        createItem(title, content, type, image)
+        // fetch('http://localhost:8000/blogs', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Accept': 'application/json, text/plain, */*',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({ title, content, image, type })
+        // }).then(res => res.json())
+        //     .then(res => {
+        //         if (res) {
+        //             toast.success("Create new meal succeed !")
+        //             // mutate("https://dututt.github.io/backend-cafe/db.json")
+        //             mutate("http://localhost:8000/blogs")
+        //         }
+        //     })
+    }
 
-        fetch('http://localhost:8000/blogs', {
+    async function createItem(title: string, content: string, type: number, image: string) {
+        console.log(">>>>....title...: ", { title, content, type, image })
+        const response = await fetch('/api/create', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, content, image, type })
-        }).then(res => res.json())
-            .then(res => {
-                if (res) {
-                    toast.success("Create new meal succeed !")
-                    // mutate("https://dututt.github.io/backend-cafe/db.json")
-                    mutate("http://localhost:8000/blogs")
-                }
-            })
+            body: JSON.stringify({ title, content, type, image })
+        });
+        const data = await response.json();
+        console.log(">>>>....data...: ", data)
     }
 
     const handleCloseModal = () => {
@@ -60,24 +76,24 @@ const CreateModal = (props: IProps) => {
 
     return (
 
-        <Modal
-            show={showModalCreate}
-            onHide={() => setShowModalCreate(false)}
-            backdrop="static"
-            keyboard={false}>
-            <Modal.Header closeButton>
-                <Modal.Title>Thêm thực đơn mới</Modal.Title>
-            </Modal.Header>
+        <Form>
+            <Modal
+                show={showModalCreate}
+                onHide={() => setShowModalCreate(false)}
+                backdrop="static"
+                keyboard={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Thêm thực đơn mới</Modal.Title>
+                </Modal.Header>
 
-            <Modal.Body>
-                <Form>
+                <Modal.Body>
                     <Form.Group as={Row} className="mb-3" controlId="formHorizontalTitle">
                         <Form.Label column sm={2}>
                             Tiêu đề
                         </Form.Label>
                         <Col sm={10}>
                             <Form.Control type="text" placeholder="Tiêu đề"
-                                value={title}
+                                value={title} name="title"
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                         </Col>
@@ -89,7 +105,7 @@ const CreateModal = (props: IProps) => {
                         </Form.Label>
                         <Col sm={10}>
                             <Form.Control as="textarea" rows={3} placeholder="Nội dung"
-                                value={content}
+                                value={content} name="content"
                                 onChange={(e) => setContent(e.target.value)} />
                         </Col>
                     </Form.Group>
@@ -100,7 +116,7 @@ const CreateModal = (props: IProps) => {
                         </Form.Label>
                         <Col sm={10}>
                             <Form.Control type="file"
-                                value={image}
+                                value={image} name="file"
                                 onChange={(e) => setImage(e.target.value)} />
                         </Col>
                     </Form.Group>
@@ -110,19 +126,19 @@ const CreateModal = (props: IProps) => {
                             Thể loại
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Select aria-label="Floating label select example" onChange={(e) => setType(Number.parseInt(e.target.value))}>
+                            <Form.Select aria-label="Floating label select example" onChange={(e) => setType(Number.parseInt(e.target.value))} name="type">
                                 <option value="1">Ăn</option>
                                 <option value="2">Uống</option>
                             </Form.Select>
                         </Col>
                     </Form.Group>
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={() => handleCloseModal()}>Đóng</Button>
-                <Button variant="warning" onClick={() => handleSubmit()}>Thêm</Button>
-            </Modal.Footer>
-        </Modal>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => handleCloseModal()}>Đóng</Button>
+                    <Button variant="warning" onClick={() => handleAddItem()}>Thêm</Button>
+                </Modal.Footer>
+            </Modal>
+        </Form>
     );
 }
 

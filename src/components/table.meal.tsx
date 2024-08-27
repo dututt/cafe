@@ -61,7 +61,7 @@ function TableMeal(props: IProps) {
                                             setShowModalUpdate(true)
                                         }}>Sửa</Button>
                                         <Button variant="outline-info">Xem</Button>
-                                        <Button variant="outline-danger">Xóa</Button>
+                                        <Button variant="outline-danger" onClick={() => handleDeleteItem(catalog.id)}>Xóa</Button>
                                     </ButtonGroup>
                                 </td>
                             </tr>
