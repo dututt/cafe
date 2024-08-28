@@ -1,5 +1,4 @@
 'use client'
-import createItem from "@/app/api/create/route";
 import { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -34,22 +33,23 @@ const CreateModal = (props: IProps) => {
             return
         }
         console.log(">>> Handle submit data: ", title, content, type, image)
-        createItem(title, content, type, image)
-        // fetch('http://localhost:8000/blogs', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Accept': 'application/json, text/plain, */*',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ title, content, image, type })
-        // }).then(res => res.json())
-        //     .then(res => {
-        //         if (res) {
-        //             toast.success("Create new meal succeed !")
-        //             // mutate("https://dututt.github.io/backend-cafe/db.json")
-        //             mutate("http://localhost:8000/blogs")
-        //         }
-        //     })
+        // createItem(title, content, type, image)
+        console.log(">>> Submit data1111: ", { title, content, type, image })
+        fetch('/api/create', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, content, image, type })
+        }).then(res => res.json())
+            .then(res => {
+                if (res) {
+                    toast.success("Create new meal succeed !")
+                    // mutate("https://dututt.github.io/backend-cafe/db.json")
+                    mutate("/")
+                }
+            })
     }
 
     const handleCloseModal = () => {
