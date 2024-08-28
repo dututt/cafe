@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react"
-import { Button, Col, Form, Modal, ModalBody, Row } from "react-bootstrap"
+import { Button, Col, Form, Modal, Row } from "react-bootstrap"
 import { toast } from "react-toastify"
 import { mutate } from "swr"
 
@@ -16,7 +16,6 @@ function UpdateModal(props: IProps) {
 
     const [id, setId] = useState<number>(0);
     const [content, setContent] = useState<string>("");
-    const [author, setAuthor] = useState<string>("");
     const [title, setTitle] = useState<string>("");
     const [type, setType] = useState<number>(0);
     const [image, setImage] = useState<string>("");
@@ -25,7 +24,6 @@ function UpdateModal(props: IProps) {
         if (catalog && catalog.id) {
             setId(catalog.id)
             setContent(catalog.content)
-            setAuthor(catalog.author)
             setTitle(catalog.title)
             setType(catalog.type)
             setImage(catalog.image)
