@@ -1,3 +1,4 @@
+'use server'
 import { sql } from "@vercel/postgres"
 import { error } from "console"
 import { NextApiRequest, NextApiResponse } from "next"
