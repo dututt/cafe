@@ -1,6 +1,6 @@
 'use client'
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, ButtonGroup, Form } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -29,11 +29,10 @@ function GridCard(props: IProps) {
             selects.selections = [...newSelects]
         }
         setSelects(selects)
-        console.log(">>>>>handleCheck for data: ", selects)
     }
 
     function handleAcceptStatus() {
-        console.log(">>>>>1111handleAcceptStatus data: ", selects)
+
     }
 
     return (
@@ -50,6 +49,13 @@ function GridCard(props: IProps) {
                                     <Card.Title>{catalogs?.[idx].title}</Card.Title>
                                     <Card.Text>
                                         {catalogs?.[idx].content}
+                                    </Card.Text>
+                                    <Card.Text>
+                                        <ButtonGroup size="sm">
+                                            <Button variant="outline-warning">Giá</Button>
+                                            <Button variant="outline-info">35.000</Button>
+                                            <Button variant="outline-danger">VND</Button>
+                                        </ButtonGroup>
                                     </Card.Text>
                                 </Card.Body>
                                 <Card.Footer>

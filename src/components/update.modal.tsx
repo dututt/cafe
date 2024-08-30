@@ -19,6 +19,7 @@ function UpdateModal(props: IProps) {
     const [title, setTitle] = useState<string>("");
     const [type, setType] = useState<number>(0);
     const [image, setImage] = useState<string>("");
+    const [price, setPrice] = useState<number>(0);
 
     useEffect(() => {
         if (catalog && catalog.id) {
@@ -45,7 +46,15 @@ function UpdateModal(props: IProps) {
             toast.error("Not empty image !")
             return
         }
-        console.log(">>> Handle submit data: ", { id, title, content, type, image })
+        if (!type) {
+            toast.error("Not empty type !")
+            return
+        }
+        if (!price) {
+            toast.error("Not empty price !")
+            return
+        }
+        console.log(">>> Handle submit data: ", { id, title, content, type, image, price })
 
         fetch(`/api/update`, {
             method: 'PUT',
@@ -53,7 +62,7 @@ function UpdateModal(props: IProps) {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id, title, content, image, type })
+            body: JSON.stringify({ id, title, content, image, type, price })
         }).then(res => res.json())
             .then(res => {
                 if (res) {
@@ -69,6 +78,7 @@ function UpdateModal(props: IProps) {
         setContent("")
         setImage("")
         setType(1)
+        setPrice(0)
         setCatalog(null)
         setShowModalUpdate(false)
     }
@@ -128,6 +138,16 @@ function UpdateModal(props: IProps) {
                                 <option value="1">Ăn</option>
                                 <option value="2">Uống</option>
                             </Form.Select>
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className="mb-3" controlId="formHorizontalPrice">
+                        <Form.Label column sm={2}>
+                            Giá
+                        </Form.Label>
+                        <Col sm={10}>
+                            <Form.Control type="number" value={price}
+                                onChange={(e) => setImage(e.target.value)} />
                         </Col>
                     </Form.Group>
                 </Form>

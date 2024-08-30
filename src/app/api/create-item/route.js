@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
+        // TABLE item--------------
+
         // const result = await sql`CREATE TABLE item (
         //     id SERIAL PRIMARY KEY,
         //     title varchar(30), 
@@ -14,6 +16,8 @@ export async function GET() {
 
         // const result = await sql`drop table if exists item`;
 
+
+        // TABLE users---------------
 
         // const result = await sql`CREATE TABLE users (
         //     id SERIAL PRIMARY KEY,
@@ -27,7 +31,18 @@ export async function GET() {
 
         // const result = await sql`INSERT INTO users(username,email,password) VALUES('dutu','tvdutt2024@gmail.com', '@12345@');`;
 
-        const result = await sql`UPDATE users SET password='@qweasd@' where id=1;`;
+
+        // TABLE Price------------------
+        const result = await sql`
+            CREATE TABLE Price (
+                id SERIAL PRIMARY KEY,
+                content TEXT NOT NULL,
+                price DECIMAL(10, 2) NOT NULL,
+                item_id INTEGER REFERENCES item(id),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
+        // const result = await sql`UPDATE users SET password='@qweasd@' where id=1;`;
         return NextResponse.json({ result }, { status: 200 })
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 })

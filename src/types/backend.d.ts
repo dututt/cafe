@@ -7,6 +7,11 @@ interface ICatalog {
     created_at: Date
 }
 
+interface IPrice {
+    item: ICatalog
+    price: number
+}
+
 interface IProps {
     catalogs: ICatalog[]
 }
