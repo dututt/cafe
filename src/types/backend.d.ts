@@ -24,8 +24,14 @@ interface ISelections {
 interface IOrderTable {
     orderTableNumber: number
     items: ISelections
+    status: boolean
 }
 
-interface IOrderTableList {
+interface ITrackingOrderTable {
+    item: IOrderTable
+    status: { 1: "Received", 2: "Created", 3: "Done" }
+}
+
+interface IOrderTables {
     items: IOrderTable[]
 }

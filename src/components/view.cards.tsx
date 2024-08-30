@@ -1,60 +1,48 @@
 'use client'
-import { Button, ButtonGroup, Card, Col, Modal, Row } from 'react-bootstrap';
+import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
 import OrderStatus from './order.status';
 import { useState } from 'react';
+import Count from './count';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 interface IProps {
     showViewCard: boolean
     setShowViewCard: (value: boolean) => void
     viewSelects: ISelections
     setViewSelects: (value: ISelections) => void
+    acceptStatus: boolean
+    setAcceptStatus: (value: boolean) => void
+    useCustom: {
+        orderTables: IOrderTables
+    }
 }
 
 function ViewCard(props: IProps) {
-    const { showViewCard, setShowViewCard, viewSelects, setViewSelects } = props
+    const { showViewCard, setShowViewCard, viewSelects, setViewSelects, acceptStatus, setAcceptStatus, useCustom } = props
 
-    const [status, setStatus] = useState<boolean>(false)
     const [orderTableNumber, setOrderTableNumber] = useState<number>(0)
+    const [orderTable, setOrderTable] = useState<IOrderTable>()
+    const [status, setStatus] = useState<boolean>(false)
+    const pathname = usePathname()
+    const searchParams = useSearchParams();
+    const hash = typeof window !== 'undefined' ? window.location.hash : '';
+
+    const fullUrl = `${window.location.origin}${pathname}${searchParams && searchParams.toString() ? '?' + searchParams.toString() : ''}${hash}`;
 
     function handleAcceptView(): void {
-        viewSelects.selections.filter(ck => ck.selected === true).map(ck => {
-            ck.selected = false
-        })
-        setShowViewCard(false);
         setStatus(true)
+        setAcceptStatus(acceptStatus === true)
+        useCustom?.orderTables.items.push(initOrderTable())
+        console.log(">>>>>>>>>>state: ", useCustom?.orderTables.items)
+    }
+
+    function initOrderTable(): IOrderTable {
+        const orderTable: IOrderTable = { orderTableNumber: Number.parseInt(fullUrl.split("#")[1]), items: viewSelects, status: status }
+        return orderTable
     }
 
     function handleClose() {
-        setStatus(false)
         setShowViewCard(false)
-    }
-
-    const increment = (value: ISelection) => {
-        value.amount += 1
-        viewSelects.selections.map(item => {
-            if (item.item.id === value.item.id) {
-                item.amount = value?.amount
-                updateCount(item)
-                return
-            }
-        })
-    }
-    const decrement = (value: ISelection) => {
-        if (value.amount <= 1) {
-            return
-        }
-        value.amount -= 1
-        viewSelects.selections.map(item => {
-            if (item.item.id === value.item.id) {
-                item.amount = value?.amount
-                updateCount(item)
-                return
-            }
-        })
-    }
-
-    function updateCount(item: ISelection): import("react").ReactNode {
-        return item.amount
     }
 
     return (
@@ -65,7 +53,7 @@ function ViewCard(props: IProps) {
                 backdrop="static"
                 keyboard={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Đặt món - Bàn {orderTableNumber}</Modal.Title>
+                    <Modal.Title>Đặt món - Bàn {Number.parseInt(fullUrl.split("#")[1])}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row xs={1} md={2} className="g-4">
@@ -81,11 +69,7 @@ function ViewCard(props: IProps) {
                                                 <Card.Title>{viewSelects?.selections?.[idx].item.title}</Card.Title>
                                             </Card.Body>
                                             <Card.Footer>
-                                                <ButtonGroup size="sm">
-                                                    <Button variant="outline-success">{updateCount(viewSelects?.selections?.[idx])}</Button>
-                                                    <Button variant="outline-info" onClick={() => increment(viewSelects?.selections?.[idx])}>Tăng</Button>
-                                                    <Button variant="outline-danger" onClick={() => decrement(viewSelects?.selections?.[idx])}>Giảm</Button>
-                                                </ButtonGroup>
+                                                <Count selection={viewSelects?.selections?.[idx]} status={status} />
                                             </Card.Footer>
                                         </Col>
                                     </Row>
@@ -95,17 +79,10 @@ function ViewCard(props: IProps) {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" disabled={!(viewSelects?.selections?.length > 0)} onClick={() => handleAcceptView()}>Đồng ý</Button>
+                    <OrderStatus status={status} />
+                    <Button variant="secondary" disabled={!(viewSelects?.selections?.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
                 </Modal.Footer>
             </Modal>
-            <OrderStatus status={!status} />
-            {/* <br />
-            <div>
-                <h1>Take a Photo </h1>
-                <WebcamCapture />
-            </div>
-
-            <br /> */}
         </>
     );
 }

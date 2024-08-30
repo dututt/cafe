@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -15,11 +15,11 @@ interface IProps {
 function GridCard(props: IProps) {
     const { catalogs, selects, setSelects } = props
 
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(0);
 
     const handleCheck = (ck: boolean, cat: ICatalog) => {
 
-        setChecked(checked)
+        setChecked(1)
         const select: ISelection = { item: cat, selected: ck, amount: 1 }
 
         if (ck) {
@@ -29,6 +29,11 @@ function GridCard(props: IProps) {
             selects.selections = [...newSelects]
         }
         setSelects(selects)
+        console.log(">>>>>handleCheck for data: ", selects)
+    }
+
+    function handleAcceptStatus() {
+        console.log(">>>>>1111handleAcceptStatus data: ", selects)
     }
 
     return (
@@ -51,7 +56,7 @@ function GridCard(props: IProps) {
                                     <Form>
                                         <Form.Group className="mb-3" controlId={"formBasicCheckbox" + catalogs?.[idx].id}>
                                             {<Form.Check type="checkbox"
-                                                label="Chọn món" value={checked ? 1 : 0}
+                                                label="Chọn món" value={checked}
                                                 onChange={(e) => handleCheck(e.currentTarget.checked, catalogs?.[idx])} />}
                                         </Form.Group>
                                     </Form>

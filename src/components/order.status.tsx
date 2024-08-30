@@ -7,10 +7,9 @@ interface IProps {
 
 function OrderStatus(props: IProps) {
     const { status } = props
-    console.log(">>>>status: ", status)
     return (
         <>
-            <Button variant="primary" disabled hidden={status}>
+            <Button variant="primary" disabled hidden={!status}>
                 <Spinner
                     as="span"
                     animation="border"
@@ -20,7 +19,7 @@ function OrderStatus(props: IProps) {
                 />
                 <span className="visually-hidden">Đang tạo món...</span>
             </Button>{' '}
-            <Button variant="primary" disabled hidden={status}>
+            <Button variant="primary" disabled hidden={!status}>
                 <Spinner
                     as="span"
                     animation="grow"
@@ -28,7 +27,7 @@ function OrderStatus(props: IProps) {
                     role="status"
                     aria-hidden="true"
                 />
-                Đang tạo món...
+                Đang tiếp nhận...
             </Button>
         </>
     );

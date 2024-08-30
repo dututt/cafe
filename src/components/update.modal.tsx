@@ -31,7 +31,7 @@ function UpdateModal(props: IProps) {
         }
     }, [catalog])
 
-    const handleSubmit = () => {
+    const handleUpdateSubmit = () => {
 
         if (!title) {
             toast.error("Not empty title !")
@@ -45,22 +45,21 @@ function UpdateModal(props: IProps) {
             toast.error("Not empty image !")
             return
         }
-        console.log(">>> Handle submit data: ", title, content, type, image)
+        console.log(">>> Handle submit data: ", { id, title, content, type, image })
 
-        fetch(`http://localhost:8000/blogs/${id}`, {
+        fetch(`/api/update`, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, content, image, type })
+            body: JSON.stringify({ id, title, content, image, type })
         }).then(res => res.json())
             .then(res => {
                 if (res) {
                     toast.warning("Update meal succeed !")
                     handleCloseModal()
-                    // mutate("https://dututt.github.io/backend-cafe/db.json")
-                    mutate("http://localhost:8000/blogs")
+                    mutate("/")
                 }
             })
     }
@@ -115,7 +114,7 @@ function UpdateModal(props: IProps) {
                             Chọn ảnh
                         </Form.Label>
                         <Col sm={10}>
-                            <Form.Control type="file"
+                            <Form.Control type="text" value={image}
                                 onChange={(e) => setImage(e.target.value)} />
                         </Col>
                     </Form.Group>
@@ -135,7 +134,7 @@ function UpdateModal(props: IProps) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={() => handleCloseModal()}>Đóng</Button>
-                <Button variant="warning" onClick={() => handleSubmit()}>Đồng ý</Button>
+                <Button variant="warning" onClick={() => handleUpdateSubmit()}>Đồng ý</Button>
             </Modal.Footer>
         </Modal>
     );

@@ -1,49 +1,90 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Badge, Button, ButtonGroup, ListGroup, Modal } from "react-bootstrap"
+import useCustomHook from "./useCustomHook"
+import ViewCardDetail from "./view.cards.detail"
 
 interface IProps {
     viewSelects: ISelections
     showOrderList: boolean
-    setShowOrderList: (value: boolean) => void
+    setAcceptStatus: (value: boolean) => void
+    useCustom: {
+        orderTables: IOrderTables
+    }
 }
 
 function OrderList(props: IProps) {
-    const { viewSelects, showOrderList, setShowOrderList } = props
+    const { viewSelects, showOrderList, setAcceptStatus, useCustom } = props
     console.log(">>>>OrderList: ", viewSelects)
 
-    const s: IOrderTableList = { items: [] }
-    const [orderTableNumber, setOrderTableNumber] = useState<number>(0)
-    const [orderTableList, setOrderTableList] = useState<IOrderTableList>(s)
+    const s: IOrderTables = { items: [] }
+    const [showViewCard, setShowViewCard] = useState<boolean>(false)
+    const [orderTable, setOrderTable] = useState<IOrderTable>()
 
-    const orderTable: IOrderTable = { orderTableNumber: orderTableNumber, items: viewSelects }
-    orderTableList.items = [...[orderTable]]
+    const [received, setReceived] = useState<boolean>(true)
+    const [created, setCreated] = useState<boolean>(true)
+    const [done, setDone] = useState<boolean>(true)
 
-    function handleShowOrderList() {
-        console.log(">>>>OrderList: ", viewSelects)
+    function handleReceived(): void {
+        setReceived(false)
+        setCreated(false)
+    }
+
+    function handleCreated(): void {
+        setReceived(false)
+        setCreated(true)
+        setDone(false)
+    }
+
+    function handleDone(): void {
+        setDone(true)
+        setAcceptStatus(false)
+    }
+
+
+    function handleAmountOfOrderTable(orderTable: IOrderTable): import("react").ReactNode {
+        let count = 0
+        orderTable.items.selections.map((k) => {
+            count += k.amount
+        })
+        return count
+    }
+
+    function handleShowOrderDetail(orderTable: IOrderTable): void {
+        setShowViewCard(true)
+        setOrderTable(orderTable)
     }
 
     return (
         <>
             <ListGroup as="ol" numbered hidden={!showOrderList}>
-                {Array.from({ length: orderTableList?.items.length }).map((_, idx) => (
+                {useCustom && Array.from({ length: useCustom?.orderTables.items.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
                         as="li"
                         className="d-flex justify-content-between align-items-start"
                     >
                         <div className="ms-2 me-auto">
-                            <div className="fw-bold">Bàn 1</div>
+                            <div className="fw-bold">Bàn {useCustom?.orderTables.items[idx].orderTableNumber}</div>
                             <ButtonGroup size="sm">
-                                <Button variant="outline-info">Đang tạo món</Button>
-                                <Button variant="outline-danger">Xong</Button>
+                                <Button disabled={!received} onClick={() => handleReceived()} variant="outline-primary">Đã nhận</Button>
+                                <Button disabled={created} onClick={() => handleCreated()} variant="outline-warning">Đang tạo món</Button>
+                                <Button disabled={done} onClick={() => handleDone()} variant="outline-success">Xong</Button>
                             </ButtonGroup>
                         </div>
-                        <Badge bg="primary" pill onClick={() => handleShowOrderList()}>
-                            Số lượng ({orderTableList?.items[orderTableNumber].items.selections.length})
+                        <Badge bg="primary" pill onClick={() => handleShowOrderDetail(useCustom?.orderTables.items[idx])}>
+                            Số lượng ({handleAmountOfOrderTable(useCustom?.orderTables.items[idx])})
                         </Badge>
                     </ListGroup.Item>
                 ))}
             </ListGroup>
+
+
+
+            {useCustom && <ViewCardDetail
+                showViewCard={showViewCard}
+                setShowViewCard={setShowViewCard}
+                orderTable={orderTable}
+            />}
         </>
     );
 }

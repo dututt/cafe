@@ -7,21 +7,21 @@ import DrinkCard from './drink.card';
 import FoodCard from './food.card';
 import TableMeal from './table.meal';
 import { useState } from 'react';
+import useCustomHook from './useCustomHook';
 
 
 function AppHeader() {
+    const useCustom = useCustomHook()
 
     const s: ISelections = { selections: [] }
     const [selects, setSelects] = useState<ISelections>(s)
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
-    const [cats, setCats] = useState<any>([])
+    const [acceptStatus, setAcceptStatus] = useState<boolean>(false)
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data } = useSWR(
         "/api/fetch",
-        // "https://dututt.github.io/backend-cafe/db.json",
-        // "http://localhost:8000/blogs",
         fetcher,
         {
             revalidateIfStale: false,
@@ -30,7 +30,6 @@ function AppHeader() {
         }
     );
 
-    console.info(">>> data info: ", data?.result?.rows)
     if (!data) {
         return <div>loading...</div>
     }
@@ -41,9 +40,18 @@ function AppHeader() {
             setShowViewCard(true)
         } else if (e === 'admin') {
             setSelects(selects)
+            setAcceptStatus(true)
+        } else if (e === 'eat') {
+            setSelects(selects)
+            setAcceptStatus(true)
+        } else if (e === 'drink') {
+            setSelects(selects)
+            setAcceptStatus(true)
         }
     }
-
+    function handleAcceptStatus() {
+        console.log(">>>>>1111handleAcceptStatus data: ", acceptStatus)
+    }
     return (
         <>
             <Tabs
@@ -60,19 +68,22 @@ function AppHeader() {
                     <FoodCard catalogs={data?.result?.rows} selects={selects} setSelects={setSelects} />
                 </Tab>
                 <Tab eventKey="view" title={"Xem (" + selects.selections.length + ")"}>
-                    <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} />
+                    {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
                 </Tab>
-                <Tab eventKey="admin" title="Admin">
-                    <TableMeal catalogs={data?.result?.rows} viewSelects={selects} />
-                </Tab>
+                {/* <Tab eventKey="admin" title="Admin">
+                    {useCustom && <TableMeal catalogs={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />}
+                </Tab> */}
             </Tabs>
 
-            <ViewCard
+            {useCustom && <ViewCard
                 showViewCard={showViewCard}
                 setShowViewCard={setShowViewCard}
                 viewSelects={selects}
                 setViewSelects={setSelects}
-            />
+                acceptStatus={acceptStatus}
+                setAcceptStatus={handleAcceptStatus}
+                useCustom={useCustom}
+            />}
         </>
     );
 }

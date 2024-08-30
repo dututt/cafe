@@ -10,10 +10,15 @@ import deleteItem from '@/app/api/delete/delete';
 interface IProps {
     catalogs: ICatalog[];
     viewSelects: ISelections
+    acceptStatus: boolean
+    setAcceptStatus: (value: boolean) => void
+    useCustom: {
+        orderTables: IOrderTables
+    }
 }
 
 function TableMeal(props: IProps) {
-    const { catalogs, viewSelects } = props
+    const { catalogs, viewSelects, acceptStatus, setAcceptStatus, useCustom } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
@@ -24,7 +29,6 @@ function TableMeal(props: IProps) {
         setShowModalCreate(true)
         setShowOrderList(false)
     }
-    console.log(">>>>TableMeal ==>>OrderList: ", viewSelects)
 
     return (
         <>
@@ -56,7 +60,7 @@ function TableMeal(props: IProps) {
                                 <td>{catalog.type}</td>
                                 <td>
                                     <ButtonGroup size="sm">
-                                        <Button disabled variant="outline-warning" onClick={() => {
+                                        <Button variant="outline-warning" onClick={() => {
                                             setCatalog(catalog)
                                             setShowModalUpdate(true)
                                         }}>Sửa</Button>
@@ -70,7 +74,7 @@ function TableMeal(props: IProps) {
                 </tbody>
             </Table>
 
-            {viewSelects.selections.length > 0 ? <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setShowOrderList={setShowOrderList} /> : []}
+            {useCustom && viewSelects.selections.length > 0 ? <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} useCustom={useCustom} /> : []}
 
             <CreateModal
                 showModalCreate={showModalCreate}

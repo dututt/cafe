@@ -35,7 +35,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/api/create/route.js",
-    "src/components/db.js"
+    "src/components/db.ts"
   ],
   "exclude": [
     "node_modules"

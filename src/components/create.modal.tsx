@@ -32,9 +32,6 @@ const CreateModal = (props: IProps) => {
             toast.error("Not empty image !")
             return
         }
-        console.log(">>> Handle submit data: ", title, content, type, image)
-        // createItem(title, content, type, image)
-        console.log(">>> Submit data1111: ", { title, content, type, image })
         fetch('/api/create', {
             method: 'POST',
             headers: {
@@ -46,7 +43,6 @@ const CreateModal = (props: IProps) => {
             .then(res => {
                 if (res) {
                     toast.success("Create new meal succeed !")
-                    // mutate("https://dututt.github.io/backend-cafe/db.json")
                     mutate("/")
                 }
             })
@@ -121,7 +117,7 @@ const CreateModal = (props: IProps) => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => handleCloseModal()}>Đóng</Button>
-                    <Button disabled variant="warning" onClick={() => handleAddItem()}>Thêm</Button>
+                    <Button variant="warning" onClick={() => handleAddItem()}>Thêm</Button>
                 </Modal.Footer>
             </Modal>
         </Form>
