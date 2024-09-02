@@ -11,6 +11,9 @@ interface IProps {
 function ViewCardDetail(props: IProps) {
     const { showViewCard, setShowViewCard, orderTable } = props
 
+    if (!showViewCard) {
+        return <></>
+    }
     const order_id = orderTable?.id
     if (!order_id) return <></>;
 
