@@ -19,7 +19,7 @@ function ViewCardDetail(props: IProps) {
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
-        `/api/order-items?id=${order_id}`,
+        "/api/order-items",
         fetcher,
         {
             revalidateIfStale: false,
