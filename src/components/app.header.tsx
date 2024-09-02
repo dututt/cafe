@@ -17,6 +17,8 @@ function AppHeader() {
     const [selects, setSelects] = useState<ISelections>(s)
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
     const [acceptStatus, setAcceptStatus] = useState<boolean>(false)
+    const [selectNum, setSelectNum] = useState<number>(0)
+    const [checkRole, setCheckRole] = useState<boolean>(false)
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -29,9 +31,12 @@ function AppHeader() {
             revalidateOnReconnect: false
         }
     );
-
     if (!data) {
         return <div>loading...</div>
+    }
+
+    function handleSelects(value: ISelections) {
+        setSelectNum(selects.selections.length)
     }
 
     function handleSelect(e: string | null): void {
@@ -50,7 +55,6 @@ function AppHeader() {
         }
     }
     function handleAcceptStatus() {
-        console.log(">>>>>1111handleAcceptStatus data: ", acceptStatus)
     }
     return (
         <>
@@ -62,17 +66,17 @@ function AppHeader() {
                 justify
             >
                 <Tab eventKey="eat" title="Ăn">
-                    <DrinkCard catalogs={data?.result?.rows} selects={selects} setSelects={setSelects} />
+                    <DrinkCard items={data?.result?.rows} selects={selects} setSelects={handleSelects} />
                 </Tab>
                 <Tab eventKey="drink" title="Uống">
-                    <FoodCard catalogs={data?.result?.rows} selects={selects} setSelects={setSelects} />
+                    <FoodCard items={data?.result?.rows} selects={selects} setSelects={handleSelects} />
                 </Tab>
-                <Tab eventKey="view" title={"Xem (" + selects.selections.length + ")"}>
+                <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
                     {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
                 </Tab>
-                {/* <Tab eventKey="admin" title="Admin">
-                    {useCustom && <TableMeal catalogs={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />}
-                </Tab> */}
+                <Tab eventKey="admin" title="Admin" hidden={checkRole}>
+                    {useCustom && <TableMeal items={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />}
+                </Tab>
             </Tabs>
 
             {useCustom && <ViewCard

@@ -1,9 +1,6 @@
 'use client'
-import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
-import OrderStatus from './order.status';
-import { useState } from 'react';
-import Count from './count';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { Card, Col, Modal, Row } from 'react-bootstrap';
+import useSWR from 'swr';
 
 interface IProps {
     showViewCard: boolean
@@ -14,7 +11,24 @@ interface IProps {
 function ViewCardDetail(props: IProps) {
     const { showViewCard, setShowViewCard, orderTable } = props
 
-    const [status, setStatus] = useState<boolean>(false)
+    const order_id = orderTable?.id
+    if (!order_id) return <></>;
+
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    const { data } = useSWR(
+        `/api/order-items?id=${order_id}`,
+        fetcher,
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+        }
+    );
+
+    if (!data) {
+        return <div>Order items loading...</div>
+    }
+    const order_items: IOrderItem[] = data
 
     function handleClose() {
         setShowViewCard(false)
@@ -28,23 +42,23 @@ function ViewCardDetail(props: IProps) {
                 backdrop="static"
                 keyboard={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Đặt món - Bàn {orderTable && orderTable.orderTableNumber}</Modal.Title>
+                    <Modal.Title>Đặt món - Bàn {orderTable?.table_num}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row xs={1} md={2} className="g-4">
-                        {orderTable && Array.from({ length: orderTable.items.selections.length }).map((_, idx) => (
+                        {Array.from({ length: order_items.length }).map((_, idx) => (
                             <Col key={idx}>
                                 <Card style={{ height: '10rem' }}>
                                     <Row>
                                         <Col>
-                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={orderTable.items.selections[idx].item.image} />
+                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={order_items[idx].image} />
                                         </Col>
                                         <Col>
                                             <Card.Body>
-                                                <Card.Title>{orderTable.items.selections[idx].item.title}</Card.Title>
+                                                <Card.Title>{order_items[idx].title}</Card.Title>
                                             </Card.Body>
                                             <Card.Footer>
-                                                <Count selection={orderTable.items.selections[idx]} status={status} />
+                                                {/* <Count selection={orderTable.items.selections[idx]} status={true} /> */}
                                             </Card.Footer>
                                         </Col>
                                     </Row>
@@ -53,10 +67,6 @@ function ViewCardDetail(props: IProps) {
                         ))}
                     </Row>
                 </Modal.Body>
-                <Modal.Footer>
-                    <OrderStatus status={status} />
-                    {/* <Button variant="secondary" disabled={!(viewSelects?.selections?.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button> */}
-                </Modal.Footer>
             </Modal>
         </>
     );

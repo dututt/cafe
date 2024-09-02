@@ -8,7 +8,7 @@ import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
 
 interface IProps {
-    catalogs: ICatalog[];
+    items: ICatalogPrice[]
     viewSelects: ISelections
     acceptStatus: boolean
     setAcceptStatus: (value: boolean) => void
@@ -18,12 +18,12 @@ interface IProps {
 }
 
 function TableMeal(props: IProps) {
-    const { catalogs, viewSelects, acceptStatus, setAcceptStatus, useCustom } = props
+    const { items, viewSelects, acceptStatus, setAcceptStatus, useCustom } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
     const [showOrderList, setShowOrderList] = useState<boolean>(false)
-    const [catalog, setCatalog] = useState<ICatalog | null>(null)
+    const [catalog, setCatalog] = useState<ICatalogPrice | null>(null)
 
     function handleShowModalCreate() {
         setShowModalCreate(true)
@@ -50,7 +50,7 @@ function TableMeal(props: IProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {catalogs.map(catalog => {
+                    {items?.map(catalog => {
                         return (
                             <tr key={catalog.id}>
                                 <td>{catalog.id}</td>
@@ -74,8 +74,8 @@ function TableMeal(props: IProps) {
                 </tbody>
             </Table>
 
-            {useCustom && viewSelects.selections.length > 0 ? <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} useCustom={useCustom} /> : []}
-
+            {/* {useCustom && viewSelects.selections.length > 0 ? <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} useCustom={useCustom} /> : []} */}
+            <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />
             <CreateModal
                 showModalCreate={showModalCreate}
                 setShowModalCreate={setShowModalCreate}

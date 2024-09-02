@@ -43,7 +43,7 @@ const CreateModal = (props: IProps) => {
             .then(res => {
                 if (res) {
                     toast.success("Create new meal succeed !")
-                    mutate("/")
+                    mutate("/api/fetch")
                 }
             })
     }

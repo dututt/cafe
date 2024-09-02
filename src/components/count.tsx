@@ -4,15 +4,22 @@ import { Button, ButtonGroup } from "react-bootstrap";
 interface IProps {
     selection: ISelection
     status: boolean
+    refreshPrice: () => void
 }
 
 function Count(props: IProps) {
-    const { selection, status } = props
+    const { selection, status, refreshPrice } = props
     const [count, setCount] = useState(selection.amount)
+    const [oldPrice] = useState(selection.item.price)
+    const [price, setPrice] = useState(selection.item.price)
+
+    selection.amount = count
+    selection.item.price = price
+    refreshPrice()
 
     const increment = () => {
         setCount(count + 1)
-        selection.amount = count + 1
+        setPrice(Number.parseInt(oldPrice.toString()) + Number.parseInt(price.toString()))
     }
 
     const decrement = () => {
@@ -20,7 +27,7 @@ function Count(props: IProps) {
             return
         }
         setCount(count - 1)
-        selection.amount = count - 1
+        setPrice(Number.parseInt(price.toString()) - Number.parseInt(oldPrice.toString()))
     }
     return (
         <>

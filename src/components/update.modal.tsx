@@ -7,8 +7,8 @@ import { mutate } from "swr"
 interface IProps {
     showModalUpdate: boolean
     setShowModalUpdate: (value: boolean) => void
-    catalog: ICatalog | null
-    setCatalog: (value: ICatalog | null) => void
+    catalog: ICatalogPrice | null
+    setCatalog: (value: ICatalogPrice | null) => void
 }
 
 function UpdateModal(props: IProps) {
@@ -28,6 +28,7 @@ function UpdateModal(props: IProps) {
             setTitle(catalog.title)
             setType(catalog.type)
             setImage(catalog.image)
+            setPrice(catalog.price)
             console.log(">>>> Update data:", catalog)
         }
     }, [catalog])
@@ -147,7 +148,9 @@ function UpdateModal(props: IProps) {
                         </Form.Label>
                         <Col sm={10}>
                             <Form.Control type="number" value={price}
-                                onChange={(e) => setImage(e.target.value)} />
+                                onChange={(e) => {
+                                    setPrice(Number.parseInt(e.target.value))
+                                }} />
                         </Col>
                     </Form.Group>
                 </Form>

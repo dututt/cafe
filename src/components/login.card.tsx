@@ -3,45 +3,31 @@ import { FormEvent, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
-import { mutate } from 'swr';
+import useSWR from 'swr';
 
 function LoginCard() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+    const { data } = useSWR(
+        "/api/login",
+        fetcher,
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+        }
+    );
+    if (!data) {
+        return <div>login failed...</div>
+    }
+    console.log(">>>>>>>>>>Data: ", data)
+    console.log(">>>>>>>>>>Login: ", email, password)
+
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        try {
-            // fetch('/api/login', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept': 'application/json, text/plain, */*',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({ email, password })
-            // }).then(res => res.json())
-            //     .then(res => {
-            //         if (res) {
-            //             toast.success("Login succeed !")
-            //         }
-            //     })
-
-            fetch('/api/login', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            }).then(res => {
-                console.log(">>>>>>>>>res: ", res.json())
-            })
-
-
-
-        } catch (error) {
-            toast.error("Login failed !")
-        }
     }
 
     return (

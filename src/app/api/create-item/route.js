@@ -33,16 +33,43 @@ export async function GET() {
 
 
         // TABLE Price------------------
+        // const result = await sql`
+        //     CREATE TABLE Price (
+        //         id SERIAL PRIMARY KEY,
+        //         content TEXT NOT NULL,
+        //         price DECIMAL(10, 2) NOT NULL,
+        //         item_id INTEGER REFERENCES item(id),
+        //         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        //     );
+        // `;
+        // const result = await sql`UPDATE users SET password='@qweasd@' where id=1;`;
+
+        // Insert All IDs into the price Table-----------
+        // const result = await sql`INSERT INTO Price(item_id, price, content)
+        //     SELECT id, 0.00, 'def' FROM Item;
+        // `;
+
+        // TABLE OrderItems
         const result = await sql`
-            CREATE TABLE Price (
+            CREATE TABLE order_items (
                 id SERIAL PRIMARY KEY,
-                content TEXT NOT NULL,
-                price DECIMAL(10, 2) NOT NULL,
-                item_id INTEGER REFERENCES item(id),
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                order_id INTEGER REFERENCES Orders(id),
+                item_id INTEGER REFERENCES item(id)
             );
         `;
-        // const result = await sql`UPDATE users SET password='@qweasd@' where id=1;`;
+
+        // TABLE Order
+        // const result = await sql`
+        //     CREATE TABLE Orders (
+        //         id SERIAL PRIMARY KEY,
+        //         table_num INTEGER,
+        //         price DECIMAL(10,2),
+        //         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        //     );
+        // `;
+
+        // const result = await sql`drop table if exists Orders`;
+
         return NextResponse.json({ result }, { status: 200 })
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 })

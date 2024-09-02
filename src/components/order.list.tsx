@@ -1,8 +1,8 @@
 'use client'
-import { useEffect, useState } from "react"
-import { Badge, Button, ButtonGroup, ListGroup, Modal } from "react-bootstrap"
-import useCustomHook from "./useCustomHook"
+import { useState } from "react"
+import { Badge, Button, ButtonGroup, ListGroup } from "react-bootstrap"
 import ViewCardDetail from "./view.cards.detail"
+import useSWR from "swr"
 
 interface IProps {
     viewSelects: ISelections
@@ -15,7 +15,6 @@ interface IProps {
 
 function OrderList(props: IProps) {
     const { viewSelects, showOrderList, setAcceptStatus, useCustom } = props
-    console.log(">>>>OrderList: ", viewSelects)
 
     const s: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
@@ -41,38 +40,44 @@ function OrderList(props: IProps) {
         setAcceptStatus(false)
     }
 
-
-    function handleAmountOfOrderTable(orderTable: IOrderTable): import("react").ReactNode {
-        let count = 0
-        orderTable.items.selections.map((k) => {
-            count += k.amount
-        })
-        return count
-    }
-
     function handleShowOrderDetail(orderTable: IOrderTable): void {
         setShowViewCard(true)
         setOrderTable(orderTable)
     }
 
+    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    const { data } = useSWR(
+        "/api/order-list",
+        fetcher,
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+        }
+    );
+    if (!data) {
+        return <div>Orders loading...</div>
+    }
+    const orders: IOrderTable[] = data
+
     return (
         <>
             <ListGroup as="ol" numbered hidden={!showOrderList}>
-                {useCustom && Array.from({ length: useCustom?.orderTables.items.length }).map((_, idx) => (
+                {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
                         as="li"
                         className="d-flex justify-content-between align-items-start"
                     >
                         <div className="ms-2 me-auto">
-                            <div className="fw-bold">Bàn {useCustom?.orderTables.items[idx].orderTableNumber}</div>
+                            <div className="fw-bold">Bàn {orders[idx].table_num} - ({orders[idx].created_at.toString()})</div>
                             <ButtonGroup size="sm">
                                 <Button disabled={!received} onClick={() => handleReceived()} variant="outline-primary">Đã nhận</Button>
                                 <Button disabled={created} onClick={() => handleCreated()} variant="outline-warning">Đang tạo món</Button>
                                 <Button disabled={done} onClick={() => handleDone()} variant="outline-success">Xong</Button>
                             </ButtonGroup>
                         </div>
-                        <Badge bg="primary" pill onClick={() => handleShowOrderDetail(useCustom?.orderTables.items[idx])}>
-                            Số lượng ({handleAmountOfOrderTable(useCustom?.orderTables.items[idx])})
+                        <Badge bg="primary" pill onClick={() => handleShowOrderDetail(orders[idx])}>
+                            Số lượng ({orders[idx].count_items})
                         </Badge>
                     </ListGroup.Item>
                 ))}
@@ -80,11 +85,11 @@ function OrderList(props: IProps) {
 
 
 
-            {useCustom && <ViewCardDetail
+            <ViewCardDetail
                 showViewCard={showViewCard}
                 setShowViewCard={setShowViewCard}
                 orderTable={orderTable}
-            />}
+            />
         </>
     );
 }

@@ -1,9 +1,10 @@
 'use client'
-import { Button, Card, Col, Modal, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Card, Col, Modal, Row } from 'react-bootstrap';
 import OrderStatus from './order.status';
 import { useState } from 'react';
 import Count from './count';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 interface IProps {
     showViewCard: boolean
@@ -20,29 +21,64 @@ interface IProps {
 function ViewCard(props: IProps) {
     const { showViewCard, setShowViewCard, viewSelects, setViewSelects, acceptStatus, setAcceptStatus, useCustom } = props
 
-    const [orderTableNumber, setOrderTableNumber] = useState<number>(0)
-    const [orderTable, setOrderTable] = useState<IOrderTable>()
     const [status, setStatus] = useState<boolean>(false)
+    const [total, setTotal] = useState<number>(0)
+
     const pathname = usePathname()
     const searchParams = useSearchParams();
     const hash = typeof window !== 'undefined' ? window.location.hash : '';
-
     const fullUrl = `${window.location.origin}${pathname}${searchParams && searchParams.toString() ? '?' + searchParams.toString() : ''}${hash}`;
+    let tableNum = fullUrl.split("#")[1]
+
 
     function handleAcceptView(): void {
         setStatus(true)
         setAcceptStatus(acceptStatus === true)
-        useCustom?.orderTables.items.push(initOrderTable())
-        console.log(">>>>>>>>>>state: ", useCustom?.orderTables.items)
+        // useCustom?.orderTables.items.push(initOrderTable())
+
+        let total: number = 0
+        // initOrderTable().items.selections.map((item) => {
+        //     total += Number.parseInt(item.item.price.toString())
+        // })
+
+        let numTable = !tableNum ? 0 : Number.parseInt(tableNum)
+        // const selects = initOrderTable().items.selections
+        const selects = viewSelects.selections
+
+        fetch('/api/create-order', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ numTable, total, selects })
+        }).then(res => res.json())
+            .then(res => {
+                if (res) {
+                    toast.success("Create new order succeed !")
+                }
+            })
     }
 
-    function initOrderTable(): IOrderTable {
-        const orderTable: IOrderTable = { orderTableNumber: Number.parseInt(fullUrl.split("#")[1]), items: viewSelects, status: status }
-        return orderTable
-    }
+    // function initOrderTable(): IOrderTable {
+    //     const orderTable: IOrderTable = { table_num: !tableNum ? 0 : Number.parseInt(tableNum), items: viewSelects, status: status }
+    //     return orderTable
+    // }
 
     function handleClose() {
         setShowViewCard(false)
+    }
+
+    function refreshPrice() {
+        TotalBill()
+    }
+
+    function TotalBill() {
+        let total: number = 0
+        viewSelects.selections.map((item) => {
+            total += Number.parseInt(item.item.price.toString())
+        })
+        setTotal(total)
     }
 
     return (
@@ -53,7 +89,7 @@ function ViewCard(props: IProps) {
                 backdrop="static"
                 keyboard={false}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Đặt món - Bàn {Number.parseInt(fullUrl.split("#")[1])}</Modal.Title>
+                    <Modal.Title>Đặt món - Bàn {!tableNum ? 0 : Number.parseInt(tableNum)}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row xs={1} md={2} className="g-4">
@@ -62,14 +98,14 @@ function ViewCard(props: IProps) {
                                 <Card style={{ height: '10rem' }}>
                                     <Row>
                                         <Col>
-                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={viewSelects?.selections?.[idx].item.image} />
+                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={viewSelects?.selections[idx].item?.image} />
                                         </Col>
                                         <Col>
                                             <Card.Body>
-                                                <Card.Title>{viewSelects?.selections?.[idx].item.title}</Card.Title>
+                                                <Card.Title>{viewSelects?.selections[idx].item?.title}</Card.Title>
                                             </Card.Body>
                                             <Card.Footer>
-                                                <Count selection={viewSelects?.selections?.[idx]} status={status} />
+                                                <Count selection={viewSelects?.selections[idx]} status={status} refreshPrice={refreshPrice} />
                                             </Card.Footer>
                                         </Col>
                                     </Row>
@@ -80,6 +116,11 @@ function ViewCard(props: IProps) {
                 </Modal.Body>
                 <Modal.Footer>
                     <OrderStatus status={status} />
+                    <ButtonGroup size="sm">
+                        <Button variant="outline-warning">Tổng Giá</Button>
+                        <Button variant="outline-info">{total}</Button>
+                        <Button variant="outline-danger">VND</Button>
+                    </ButtonGroup>
                     <Button variant="secondary" disabled={!(viewSelects?.selections?.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
                 </Modal.Footer>
             </Modal>
@@ -88,3 +129,4 @@ function ViewCard(props: IProps) {
 }
 
 export default ViewCard;
+

@@ -6,18 +6,18 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 interface IProps {
-    catalogs: ICatalog[];
+    items: ICatalogPrice[]
     selects: ISelections
     setSelects: (value: ISelections) => void
 }
 
 
 function GridCard(props: IProps) {
-    const { catalogs, selects, setSelects } = props
+    const { items, selects, setSelects } = props
 
     const [checked, setChecked] = useState(0);
 
-    const handleCheck = (ck: boolean, cat: ICatalog) => {
+    const handleCheck = (ck: boolean, cat: ICatalogPrice) => {
 
         setChecked(1)
         const select: ISelection = { item: cat, selected: ck, amount: 1 }
@@ -37,33 +37,33 @@ function GridCard(props: IProps) {
 
     return (
         <Row xs={1} md={2} className="g-4">
-            {Array.from({ length: catalogs?.length }).map((_, idx) => (
+            {Array.from({ length: items?.length }).map((_, idx) => (
                 <Col key={idx}>
                     <Card style={{ height: '14rem' }}>
                         <Row>
                             <Col>
-                                <Card.Img variant="top" className="card-img-top fixed-size" src={catalogs?.[idx].image} />
+                                <Card.Img variant="top" className="card-img-top fixed-size" src={items[idx].image} />
                             </Col>
                             <Col>
                                 <Card.Body>
-                                    <Card.Title>{catalogs?.[idx].title}</Card.Title>
+                                    <Card.Title>{items?.[idx].title}</Card.Title>
                                     <Card.Text>
-                                        {catalogs?.[idx].content}
+                                        {items?.[idx].content}
                                     </Card.Text>
                                     <Card.Text>
                                         <ButtonGroup size="sm">
                                             <Button variant="outline-warning">Giá</Button>
-                                            <Button variant="outline-info">35.000</Button>
+                                            <Button variant="outline-info">{items[idx].price}</Button>
                                             <Button variant="outline-danger">VND</Button>
                                         </ButtonGroup>
                                     </Card.Text>
                                 </Card.Body>
                                 <Card.Footer>
                                     <Form>
-                                        <Form.Group className="mb-3" controlId={"formBasicCheckbox" + catalogs?.[idx].id}>
+                                        <Form.Group className="mb-3" controlId={"formBasicCheckbox" + items[idx].id}>
                                             {<Form.Check type="checkbox"
                                                 label="Chọn món" value={checked}
-                                                onChange={(e) => handleCheck(e.currentTarget.checked, catalogs?.[idx])} />}
+                                                onChange={(e) => handleCheck(e.currentTarget.checked, items[idx])} />}
                                         </Form.Group>
                                     </Form>
                                 </Card.Footer>
