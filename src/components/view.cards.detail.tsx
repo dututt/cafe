@@ -14,8 +14,6 @@ function ViewCardDetail(props: IProps) {
     if (!showViewCard) {
         return <></>
     }
-    const order_id = orderTable?.id
-    if (!order_id) return <></>;
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
@@ -27,6 +25,8 @@ function ViewCardDetail(props: IProps) {
             revalidateOnReconnect: false
         }
     );
+    const order_id = orderTable?.id
+    if (!order_id) return <></>;
 
     if (!data) {
         return <div>Order items loading...</div>
