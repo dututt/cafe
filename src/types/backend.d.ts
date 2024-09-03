@@ -49,3 +49,9 @@ interface ITrackingOrderTable {
 interface IOrderTables {
     items: IOrderTable[]
 }
+
+interface IUser {
+    email: string
+    password: string
+    checkRole: boolean
+}

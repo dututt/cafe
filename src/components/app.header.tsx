@@ -7,19 +7,23 @@ import DrinkCard from './drink.card';
 import FoodCard from './food.card';
 import TableMeal from './table.meal';
 import { useState } from 'react';
-import useCustomHook from './useCustomHook';
 
+interface IProps {
+    refreshRole: () => boolean
+    useCustom: {
+        user: IUser
+    }
+}
 
-function AppHeader() {
-    const useCustom = useCustomHook()
+function AppHeader(props: IProps) {
+    const { useCustom, refreshRole } = props
 
     const s: ISelections = { selections: [] }
     const [selects, setSelects] = useState<ISelections>(s)
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
     const [acceptStatus, setAcceptStatus] = useState<boolean>(false)
     const [selectNum, setSelectNum] = useState<number>(0)
-    const [checkRole, setCheckRole] = useState<boolean>(false)
-
+    const [role, setRole] = useState<boolean>(false)
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data } = useSWR(
@@ -56,6 +60,7 @@ function AppHeader() {
     }
     function handleAcceptStatus() {
     }
+
     return (
         <>
             <Tabs
@@ -74,20 +79,19 @@ function AppHeader() {
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
                     {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
                 </Tab>
-                {checkRole &&
+                {refreshRole() &&
                     (<Tab eventKey="admin" title="Admin">
-                        {useCustom && <TableMeal items={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />}
+                        {<TableMeal items={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} />}
                     </Tab>)}
             </Tabs>
 
-            {useCustom && <ViewCard
+            {<ViewCard
                 showViewCard={showViewCard}
                 setShowViewCard={setShowViewCard}
                 viewSelects={selects}
                 setViewSelects={setSelects}
                 acceptStatus={acceptStatus}
                 setAcceptStatus={handleAcceptStatus}
-                useCustom={useCustom}
             />}
         </>
     );

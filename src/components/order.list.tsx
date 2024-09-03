@@ -8,13 +8,10 @@ interface IProps {
     viewSelects: ISelections
     showOrderList: boolean
     setAcceptStatus: (value: boolean) => void
-    useCustom: {
-        orderTables: IOrderTables
-    }
 }
 
 function OrderList(props: IProps) {
-    const { viewSelects, showOrderList, setAcceptStatus, useCustom } = props
+    const { viewSelects, showOrderList, setAcceptStatus } = props
 
     const s: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)

@@ -12,13 +12,10 @@ interface IProps {
     viewSelects: ISelections
     acceptStatus: boolean
     setAcceptStatus: (value: boolean) => void
-    useCustom: {
-        orderTables: IOrderTables
-    }
 }
 
 function TableMeal(props: IProps) {
-    const { items, viewSelects, acceptStatus, setAcceptStatus, useCustom } = props
+    const { items, viewSelects, acceptStatus, setAcceptStatus } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
@@ -75,7 +72,7 @@ function TableMeal(props: IProps) {
             </Table>
 
             {/* {useCustom && viewSelects.selections.length > 0 ? <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} useCustom={useCustom} /> : []} */}
-            <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />
+            <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} />
             <CreateModal
                 showModalCreate={showModalCreate}
                 setShowModalCreate={setShowModalCreate}

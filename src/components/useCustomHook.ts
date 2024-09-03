@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 
 interface Data {
-    orderTables: IOrderTables
+    user: IUser
 }
 
-const useCustomHook = (): Data | null => {
-    const [data, setData] = useState<Data | null>(null);
+const useCustomHook = (): Data => {
+    const init = { user: { email: '', password: '', checkRole: false } }
+    const [data, setData] = useState<Data>(init);
 
-    useEffect(() => {
-        // Fetch or compute data
-        setData({ orderTables: { items: [] } });
-    }, []);
-
+    // useEffect(() => {
+    //     setData(init)
+    // })
     return data;
 };
 

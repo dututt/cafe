@@ -3,8 +3,18 @@ import { FormEvent, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useSWR from 'swr';
+import useCustomHook from './useCustomHook';
 
-function LoginCard() {
+interface IProps {
+    refreshChangeText: () => void
+    useCustom: {
+        user: IUser
+    }
+}
+
+function LoginCard(props: IProps) {
+    const { useCustom, refreshChangeText } = props
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -22,13 +32,13 @@ function LoginCard() {
     if (!data) {
         return <div>login failed...</div>
     }
-    console.log(">>>>>>>>>>Data: ", data)
-    console.log(">>>>>>>>>>Login: ", email, password)
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (data[0].email === email && data[0].password === password) {
-
+            useCustom.user.checkRole = true
+            useCustom.user.email = email
+            refreshChangeText()
         }
     }
 

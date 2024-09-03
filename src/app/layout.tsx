@@ -8,6 +8,8 @@ import AppFooter from '../components/app.footer'
 import NavBarApp from '../components/navbar';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import useCustomHook from '@/components/useCustomHook';
+import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,11 +18,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const useCustom = useCustomHook()
+  const [, handleActiveTab] = useState<boolean>(false)
+
+  function refreshRole() {
+    return useCustom.user.checkRole
+  }
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavBarApp />
-        <AppHeader />
+        <NavBarApp useCustom={useCustom} refreshRole={refreshRole} />
+        <AppHeader useCustom={useCustom} refreshRole={refreshRole} />
         <Container>
           {children}
         </Container>

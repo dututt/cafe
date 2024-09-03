@@ -4,14 +4,41 @@ import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LoginCard from './login.card';
 import Register from './register';
+import { text } from 'stream/consumers';
 
-function NavBarApp() {
+interface IProps {
+    refreshRole: () => boolean
+    useCustom: {
+        user: IUser
+    }
+}
+
+function NavBarApp(props: IProps) {
+    const { useCustom, refreshRole } = props
+
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
+    const [changeText, setChangeText] = useState<string>("Login")
 
     const handleClose = () => setShowLogin(false);
+
     const handleShowLogin = () => {
-        setShowLogin(true);
+        if (useCustom.user.checkRole) {
+            useCustom.user.checkRole = false
+            refreshChangeText()
+        } else {
+            setShowLogin(true);
+        }
+        refreshRole()
+    }
+
+    function refreshChangeText(): void {
+        if (useCustom.user.checkRole) {
+            setChangeText(useCustom.user.email)
+            setShowLogin(false);
+        } else {
+            setChangeText("Login")
+        }
     }
 
     const handleCloseRegister = () => setShowRegister(false);
@@ -19,6 +46,7 @@ function NavBarApp() {
         setShowLogin(false);
         setShowRegister(true);
     }
+
     return (
         <div>
             <Navbar className="bg-body-tertiary">
@@ -27,7 +55,7 @@ function NavBarApp() {
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
-                            <Navbar.Brand onClick={handleShowLogin} href="#">Login</Navbar.Brand>
+                            <Navbar.Brand onClick={handleShowLogin} href="#">{changeText}</Navbar.Brand>
                         </Navbar.Text>
                     </Navbar.Collapse>
                 </Container>
@@ -39,7 +67,7 @@ function NavBarApp() {
                     <Modal.Title>Đăng Nhập</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <LoginCard />
+                    <LoginCard useCustom={useCustom} refreshChangeText={refreshChangeText} />
                     <Navbar.Brand onClick={handleShowRegister} href="#">Đăng Ký</Navbar.Brand>
                 </Modal.Body>
             </Modal>
