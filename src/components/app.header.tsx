@@ -74,9 +74,10 @@ function AppHeader() {
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
                     {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
                 </Tab>
-                <Tab eventKey="admin" title="Admin" hidden={checkRole}>
-                    {useCustom && <TableMeal items={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />}
-                </Tab>
+                {checkRole &&
+                    (<Tab eventKey="admin" title="Admin">
+                        {useCustom && <TableMeal items={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} useCustom={useCustom} />}
+                    </Tab>)}
             </Tabs>
 
             {useCustom && <ViewCard

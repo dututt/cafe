@@ -11,15 +11,9 @@ interface IProps {
 function ViewCardDetail(props: IProps) {
     const { showViewCard, setShowViewCard, orderTable } = props
 
-    if (!showViewCard) {
-        return <></>
-    }
-
-    const order_id = orderTable?.id
-    if (!order_id) return <></>;
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
-        `/api/order-items?id=${order_id}`,
+        `/api/order-items?id=${orderTable?.id}`,
         fetcher,
         {
             revalidateIfStale: false,
@@ -31,8 +25,11 @@ function ViewCardDetail(props: IProps) {
     if (!data) {
         return <div>Order items loading...</div>
     }
-    const order_items: IOrderItem[] = data
 
+    if (!showViewCard) {
+        return <></>
+    }
+    const order_items: IOrderItem[] = data
     function handleClose() {
         setShowViewCard(false)
     }

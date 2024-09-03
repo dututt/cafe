@@ -34,15 +34,10 @@ function ViewCard(props: IProps) {
     function handleAcceptView(): void {
         setStatus(true)
         setAcceptStatus(acceptStatus === true)
-        // useCustom?.orderTables.items.push(initOrderTable())
 
         let total: number = 0
-        // initOrderTable().items.selections.map((item) => {
-        //     total += Number.parseInt(item.item.price.toString())
-        // })
 
         let numTable = !tableNum ? 0 : Number.parseInt(tableNum)
-        // const selects = initOrderTable().items.selections
         const selects = viewSelects.selections
 
         fetch('/api/create-order', {
@@ -60,10 +55,6 @@ function ViewCard(props: IProps) {
             })
     }
 
-    // function initOrderTable(): IOrderTable {
-    //     const orderTable: IOrderTable = { table_num: !tableNum ? 0 : Number.parseInt(tableNum), items: viewSelects, status: status }
-    //     return orderTable
-    // }
 
     function handleClose() {
         setShowViewCard(false)
