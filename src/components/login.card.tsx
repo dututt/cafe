@@ -2,7 +2,6 @@
 import { FormEvent, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { toast } from 'react-toastify';
 import useSWR from 'swr';
 
 function LoginCard() {
@@ -28,6 +27,9 @@ function LoginCard() {
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
+        if (data[0].email === email && data[0].password === password) {
+
+        }
     }
 
     return (
