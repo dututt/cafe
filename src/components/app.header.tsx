@@ -59,7 +59,6 @@ function AppHeader(props: IProps) {
     }
 
     function handleAcceptStatus(value: boolean) {
-        console.log(">>>>>>>>>>>>handleAcceptStatus: ", acceptStatus)
         setAcceptStatus(value)
     }
 
@@ -94,7 +93,7 @@ function AppHeader(props: IProps) {
                 </Tab>
                 {refreshRole() &&
                     (<Tab eventKey="admin" title="Admin">
-                        {<TableMeal iSelects={iSelects} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} />}
+                        {<TableMeal iSelects={iSelects} viewSelects={selects} setAcceptStatus={setAcceptStatus} />}
                     </Tab>)}
             </Tabs>
 

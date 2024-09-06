@@ -1,4 +1,3 @@
-import { useState } from "react";
 import GridCard from "./grid.cards";
 
 interface IProps {
@@ -13,20 +12,19 @@ const FoodCard = (props: IProps) => {
 
     const foodItems: ISelections = { selections: iSelects.selections.filter(item => item.item.type === 1) }
 
-    console.log(">>>>>>>>FoodCard un-check-acceptStatus: ", acceptStatus)
     if (acceptStatus) {
         selects.selections.map(item => {
-            const newItem = iSelects.selections.find(cat => cat.item.id === item.item.id)
-            if (newItem) {
-                // item.selected = false
-                console.log(">>>>>>>>un-check: ", newItem)
-                handleValueCheck()
-            }
+            iSelects.selections.find(cat => {
+                if (cat.item.id === item.item.id) {
+                    cat.selected = false
+                    handleValueCheck()
+                }
+            })
+
         })
     }
 
     function handleValueCheck() {
-        console.log(">>>>>>>>handleValueCheck: ")
         return 0
     }
 

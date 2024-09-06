@@ -1,5 +1,4 @@
 'use client'
-import { useState } from "react";
 import GridCard from "./grid.cards";
 
 interface IProps {
@@ -14,21 +13,17 @@ const DrinkCard = (props: IProps) => {
 
     const drinkItems: ISelections = { selections: iSelects.selections.filter(item => item.item.type === 2) }
 
-    console.log(">>>>>>>>DrinkCard un-check-acceptStatus: ", acceptStatus)
     if (acceptStatus) {
         selects.selections.map(item => {
             const newItem = iSelects.selections.find(cat => cat.item.id === item.item.id)
             if (newItem) {
-                // item.selected = false
-                console.log(">>>>>>>>un-check: ", newItem)
-                handleValueCheck()
+                handleValueCheck(newItem)
             }
         })
     }
 
-    function handleValueCheck() {
-        console.log(">>>>>>>>handleValueCheck: ")
-        return 1
+    function handleValueCheck(value: ISelection) {
+        return 0
     }
 
     return (

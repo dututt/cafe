@@ -10,12 +10,11 @@ import deleteItem from '@/app/api/delete/delete';
 interface IProps {
     iSelects: ISelections
     viewSelects: ISelections
-    acceptStatus: boolean
     setAcceptStatus: (value: boolean) => void
 }
 
 function TableMeal(props: IProps) {
-    const { iSelects, viewSelects, acceptStatus, setAcceptStatus } = props
+    const { iSelects, viewSelects, setAcceptStatus } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
