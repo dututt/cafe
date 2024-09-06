@@ -80,9 +80,10 @@ function OrderList(props: IProps) {
                             </ButtonGroup>
 
                         </div>
-                        <Badge bg="primary" pill onClick={() => handleShowOrderDetail(orders[idx])}>
-                            Số lượng ({orders[idx].count_items})
-                        </Badge>
+                        <Button variant="primary" onClick={() => handleShowOrderDetail(orders[idx])}>
+                            <Badge bg="secondary">{orders[idx].count_items}</Badge> Món
+                            <span className="visually-hidden">unread messages</span>
+                        </Button>
                     </ListGroup.Item>
                 ))}
             </ListGroup>

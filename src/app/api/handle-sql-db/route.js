@@ -50,13 +50,19 @@ export async function GET() {
         // `;
 
         // TABLE OrderItems
+        // const result = await sql`
+        //     CREATE TABLE order_items (
+        //         id SERIAL PRIMARY KEY,
+        //         order_id INTEGER REFERENCES Orders(id),
+        //         item_id INTEGER REFERENCES item(id)
+        //     );
+        // `;
+
+        // ALTER Table OrderItems
         const result = await sql`
-            CREATE TABLE order_items (
-                id SERIAL PRIMARY KEY,
-                order_id INTEGER REFERENCES Orders(id),
-                item_id INTEGER REFERENCES item(id)
-            );
-        `;
+            ALTER TABLE order_items
+            ADD COLUMN item_num INTEGER
+        `
 
         // TABLE Order
         // const result = await sql`

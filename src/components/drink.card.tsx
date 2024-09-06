@@ -15,14 +15,17 @@ const DrinkCard = (props: IProps) => {
 
     if (acceptStatus) {
         selects.selections.map(item => {
-            const newItem = iSelects.selections.find(cat => cat.item.id === item.item.id)
-            if (newItem) {
-                handleValueCheck(newItem)
-            }
+            drinkItems.selections.find(cat => {
+                if (cat.item.id === item.item.id) {
+                    cat.selected = false
+                    handleValueCheck()
+                }
+            })
+
         })
     }
 
-    function handleValueCheck(value: ISelection) {
+    function handleValueCheck() {
         return 0
     }
 

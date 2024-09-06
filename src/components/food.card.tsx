@@ -14,7 +14,7 @@ const FoodCard = (props: IProps) => {
 
     if (acceptStatus) {
         selects.selections.map(item => {
-            iSelects.selections.find(cat => {
+            foodItems.selections.find(cat => {
                 if (cat.item.id === item.item.id) {
                     cat.selected = false
                     handleValueCheck()

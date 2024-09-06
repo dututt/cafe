@@ -39,6 +39,7 @@ interface IOrderItem {
     id: number
     title: string
     image: string
+    item_num: number
 }
 
 interface ITrackingOrderTable {

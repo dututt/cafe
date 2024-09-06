@@ -14,9 +14,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const orderResult = await client.query(insertOrderText, insertOrderValues);
         const orderId = orderResult.rows[0].id;
 
-        const insertOrderItemText = `INSERT INTO order_items(order_id, item_id) VALUES($1, $2)`;
+        const insertOrderItemText = `INSERT INTO order_items(order_id, item_id, item_num) VALUES($1, $2, $3)`;
         for (const item of selects) {
-            const insertOrderItemValues = [orderId, item.item.id];
+            const insertOrderItemValues = [orderId, item.item.id, item.amount];
             await client.query(insertOrderItemText, insertOrderItemValues);
         }
 

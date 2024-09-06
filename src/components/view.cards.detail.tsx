@@ -58,7 +58,7 @@ function ViewCardDetail(props: IProps) {
                                                 <Card.Title>{order_items[idx].title}</Card.Title>
                                             </Card.Body>
                                             <Card.Footer>
-                                                {/* <Count selection={orderTable.items.selections[idx]} status={true} /> */}
+                                                {order_items[idx].item_num} Phần
                                             </Card.Footer>
                                         </Col>
                                     </Row>

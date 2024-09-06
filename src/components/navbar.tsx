@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LoginCard from './login.card';
 import Register from './register';
-import { text } from 'stream/consumers';
 
 interface IProps {
     refreshRole: () => boolean

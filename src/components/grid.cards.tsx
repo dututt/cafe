@@ -50,8 +50,6 @@ function GridCard(props: IProps) {
                                                 <Button variant="outline-danger">VND</Button>
                                             </ButtonGroup>
                                         </Card.Text>
-                                    </Card.Body>
-                                    <Card.Footer>
                                         <Form>
                                             <Form.Group className="mb-3" controlId={"formBasicCheckbox" + iSelects?.selections[idx].item.id}>
                                                 {<Form.Check type="checkbox"
@@ -59,7 +57,7 @@ function GridCard(props: IProps) {
                                                     onChange={(e) => handleCheck(e.currentTarget.checked, iSelects?.selections[idx])} />}
                                             </Form.Group>
                                         </Form>
-                                    </Card.Footer>
+                                    </Card.Body>
                                 </Col>
                             </Row>
                         </Card>
