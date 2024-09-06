@@ -5,7 +5,7 @@ import useSWR from 'swr';
 interface IProps {
     showViewCard: boolean
     setShowViewCard: (value: boolean) => void
-    orderTable: IOrderTable | undefined
+    orderTable: IOrderTable
 }
 
 function ViewCardDetail(props: IProps) {

@@ -15,26 +15,32 @@ function OrderList(props: IProps) {
 
     const s: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
-    const [orderTable, setOrderTable] = useState<IOrderTable>()
+    const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: false, table_num: 0, created_at: new Date })
 
     const [received, setReceived] = useState<boolean>(true)
     const [created, setCreated] = useState<boolean>(true)
     const [done, setDone] = useState<boolean>(true)
+    const [trackingStatus, setTrackingStatus] = useState<ITrackingOrderTable>()
 
-    function handleReceived(): void {
+    function handleReceived(orderTable: IOrderTable): void {
         setReceived(false)
         setCreated(false)
+        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }] })
+        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }, { key: "Done", value: done }] })
     }
 
-    function handleCreated(): void {
+    function handleCreated(orderTable: IOrderTable): void {
         setReceived(false)
         setCreated(true)
         setDone(false)
+        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }, { key: "Done", value: done }] })
     }
 
-    function handleDone(): void {
+    function handleDone(orderTable: IOrderTable): void {
         setDone(true)
-        setAcceptStatus(false)
+        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }, { key: "Done", value: done }] })
+
+        setAcceptStatus(orderTable.status === false)
     }
 
     function handleShowOrderDetail(orderTable: IOrderTable): void {
@@ -68,10 +74,11 @@ function OrderList(props: IProps) {
                         <div className="ms-2 me-auto">
                             <div className="fw-bold">Bàn {orders[idx].table_num} - ({orders[idx].created_at.toString()})</div>
                             <ButtonGroup size="sm">
-                                <Button disabled={!received} onClick={() => handleReceived()} variant="outline-primary">Đã nhận</Button>
-                                <Button disabled={created} onClick={() => handleCreated()} variant="outline-warning">Đang tạo món</Button>
-                                <Button disabled={done} onClick={() => handleDone()} variant="outline-success">Xong</Button>
+                                <Button disabled={!trackingStatus?.status[0].value} onClick={() => handleReceived(orders[idx])} variant="outline-primary">Đã nhận</Button>
+                                <Button disabled={trackingStatus?.status[1].value} onClick={() => handleCreated(orders[idx])} variant="outline-warning">Đang tạo món</Button>
+                                <Button disabled={trackingStatus?.status[2].value} onClick={() => handleDone(orders[idx])} variant="outline-success">Xong</Button>
                             </ButtonGroup>
+
                         </div>
                         <Badge bg="primary" pill onClick={() => handleShowOrderDetail(orders[idx])}>
                             Số lượng ({orders[idx].count_items})

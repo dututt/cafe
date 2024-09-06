@@ -43,8 +43,15 @@ interface IOrderItem {
 
 interface ITrackingOrderTable {
     item: IOrderTable
-    status: { 1: "Received", 2: "Created", 3: "Done" }
+    // status: { "Accepted": false, "Received": false, "Created": false, "Done": false }
+    status: IKeyValue[]
 }
+
+interface IKeyValue {
+    key: string
+    value: boolean
+}
+
 
 interface IOrderTables {
     items: IOrderTable[]

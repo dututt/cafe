@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest, res: NextResponse) {
 
-    const { title, content, type, image } = await req.json()
+    const { title, content, type, image, price } = await req.json()
     const client = await pool.connect();
 
     try {
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const itemId = itemResult.rows[0].id;
 
         const insertPriceText = `INSERT INTO price(content, price, item_id) VALUES($1, $2, $3)`;
-        const insertPriceValues = ["def", 0.00, itemId];
+        const insertPriceValues = ["def", price, itemId];
         await client.query(insertPriceText, insertPriceValues);
 
         await client.query('COMMIT');

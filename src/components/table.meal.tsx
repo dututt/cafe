@@ -8,14 +8,14 @@ import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
 
 interface IProps {
-    items: ICatalogPrice[]
+    iSelects: ISelections
     viewSelects: ISelections
     acceptStatus: boolean
     setAcceptStatus: (value: boolean) => void
 }
 
 function TableMeal(props: IProps) {
-    const { items, viewSelects, acceptStatus, setAcceptStatus } = props
+    const { iSelects, viewSelects, acceptStatus, setAcceptStatus } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
@@ -47,22 +47,22 @@ function TableMeal(props: IProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {items?.map(catalog => {
+                    {iSelects.selections?.map(catalog => {
                         return (
-                            <tr key={catalog.id}>
-                                <td>{catalog.id}</td>
-                                <td>{catalog.title}</td>
-                                <td>{catalog.content}</td>
-                                <td>{catalog.image}</td>
-                                <td>{catalog.type}</td>
+                            <tr key={catalog.item.id}>
+                                <td>{catalog.item.id}</td>
+                                <td>{catalog.item.title}</td>
+                                <td>{catalog.item.content}</td>
+                                <td>{catalog.item.image}</td>
+                                <td>{catalog.item.type}</td>
                                 <td>
                                     <ButtonGroup size="sm">
                                         <Button variant="outline-warning" onClick={() => {
-                                            setCatalog(catalog)
+                                            setCatalog(catalog.item)
                                             setShowModalUpdate(true)
                                         }}>Sửa</Button>
                                         <Button variant="outline-info">Xem</Button>
-                                        <Button disabled variant="outline-danger" onClick={() => deleteItem(catalog.id)}>Xóa</Button>
+                                        <Button variant="outline-danger" onClick={() => deleteItem(catalog.item.id)}>Xóa</Button>
                                     </ButtonGroup>
                                 </td>
                             </tr>
@@ -71,7 +71,6 @@ function TableMeal(props: IProps) {
                 </tbody>
             </Table>
 
-            {/* {useCustom && viewSelects.selections.length > 0 ? <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} useCustom={useCustom} /> : []} */}
             <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} />
             <CreateModal
                 showModalCreate={showModalCreate}

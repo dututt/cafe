@@ -16,6 +16,7 @@ const CreateModal = (props: IProps) => {
     const [content, setContent] = useState<string>("")
     const [type, setType] = useState<number>(1)
     const [image, setImage] = useState<string>("")
+    const [price, setPrice] = useState<number>(0)
 
 
     const handleAddItem = () => {
@@ -32,13 +33,17 @@ const CreateModal = (props: IProps) => {
             toast.error("Not empty image !")
             return
         }
+        if (!price) {
+            toast.error("Not empty price !")
+            return
+        }
         fetch('/api/create', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title, content, image, type })
+            body: JSON.stringify({ title, content, image, type, price })
         }).then(res => res.json())
             .then(res => {
                 if (res) {
@@ -100,6 +105,17 @@ const CreateModal = (props: IProps) => {
                             <Form.Control type="text"
                                 value={image}
                                 onChange={(e) => setImage(e.target.value)} />
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row} className="mb-3" controlId="formHorizontalPrice">
+                        <Form.Label column sm={2}>
+                            Giá
+                        </Form.Label>
+                        <Col sm={10}>
+                            <Form.Control type="number"
+                                value={price}
+                                onChange={(e) => setPrice(Number.parseInt(e.target.value))} />
                         </Col>
                     </Form.Group>
 

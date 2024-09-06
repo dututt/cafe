@@ -10,16 +10,16 @@ interface IProps {
     showViewCard: boolean
     setShowViewCard: (value: boolean) => void
     viewSelects: ISelections
-    setViewSelects: (value: ISelections) => void
-    acceptStatus: boolean
     setAcceptStatus: (value: boolean) => void
 }
 
 function ViewCard(props: IProps) {
-    const { showViewCard, setShowViewCard, viewSelects, setViewSelects, acceptStatus, setAcceptStatus } = props
+    const { showViewCard, setShowViewCard, viewSelects, setAcceptStatus } = props
 
     const [status, setStatus] = useState<boolean>(false)
     const [total, setTotal] = useState<number>(0)
+
+    const [changeTextStatus, setChangeTextStatus] = useState<string>('')
 
     const pathname = usePathname()
     const searchParams = useSearchParams();
@@ -27,12 +27,14 @@ function ViewCard(props: IProps) {
     const fullUrl = `${window.location.origin}${pathname}${searchParams && searchParams.toString() ? '?' + searchParams.toString() : ''}${hash}`;
     let tableNum = fullUrl.split("#")[1]
 
+    function handleChangeTextStatus() {
+        setChangeTextStatus('Đang tiếp nhận...')
+    }
 
     function handleAcceptView(): void {
         setStatus(true)
-        setAcceptStatus(acceptStatus === true)
-
-        let total: number = 0
+        setAcceptStatus(true)
+        handleChangeTextStatus()
 
         let numTable = !tableNum ? 0 : Number.parseInt(tableNum)
         const selects = viewSelects.selections
@@ -103,7 +105,7 @@ function ViewCard(props: IProps) {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <OrderStatus status={status} />
+                    <OrderStatus status={status} changeTextStatus={changeTextStatus} />
                     <ButtonGroup size="sm">
                         <Button variant="outline-warning">Tổng Giá</Button>
                         <Button variant="outline-info">{total}</Button>

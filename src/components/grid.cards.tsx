@@ -6,73 +6,67 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 interface IProps {
-    items: ICatalogPrice[]
+    iSelects: ISelections
     selects: ISelections
     setSelects: (value: ISelections) => void
+    valueCheck: () => number
 }
 
 
 function GridCard(props: IProps) {
-    const { items, selects, setSelects } = props
+    const { iSelects, selects, setSelects, valueCheck } = props
 
-    const [checked, setChecked] = useState(0);
-
-    const handleCheck = (ck: boolean, cat: ICatalogPrice) => {
-
-        setChecked(1)
-        const select: ISelection = { item: cat, selected: ck, amount: 1 }
-
+    const handleCheck = (ck: boolean, cat: ISelection) => {
+        cat.selected = ck
         if (ck) {
-            selects?.selections.push(select)
+            selects?.selections.push(cat)
         } else {
-            const newSelects = selects?.selections.filter(sel => !(sel.item.id === cat.id && sel.selected === true))
+            const newSelects = selects?.selections.filter(sel => !(sel.item.id === cat.item.id))
             selects.selections = [...newSelects]
         }
         setSelects(selects)
     }
 
-    function handleAcceptStatus() {
-
-    }
-
     return (
-        <Row xs={1} md={2} className="g-4">
-            {Array.from({ length: items?.length }).map((_, idx) => (
-                <Col key={idx}>
-                    <Card style={{ height: '14rem' }}>
-                        <Row>
-                            <Col>
-                                <Card.Img variant="top" className="card-img-top fixed-size" src={items[idx].image} />
-                            </Col>
-                            <Col>
-                                <Card.Body>
-                                    <Card.Title>{items?.[idx].title}</Card.Title>
-                                    <Card.Text>
-                                        {items?.[idx].content}
-                                    </Card.Text>
-                                    <Card.Text>
-                                        <ButtonGroup size="sm">
-                                            <Button variant="outline-warning">Giá</Button>
-                                            <Button variant="outline-info">{items[idx].price}</Button>
-                                            <Button variant="outline-danger">VND</Button>
-                                        </ButtonGroup>
-                                    </Card.Text>
-                                </Card.Body>
-                                <Card.Footer>
-                                    <Form>
-                                        <Form.Group className="mb-3" controlId={"formBasicCheckbox" + items[idx].id}>
-                                            {<Form.Check type="checkbox"
-                                                label="Chọn món" value={checked}
-                                                onChange={(e) => handleCheck(e.currentTarget.checked, items[idx])} />}
-                                        </Form.Group>
-                                    </Form>
-                                </Card.Footer>
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
-            ))}
-        </Row>
+        <>
+            <Row xs={1} md={2} className="g-4">
+                {Array.from({ length: iSelects?.selections?.length }).map((_, idx) => (
+                    <Col key={idx}>
+                        <Card style={{ height: '14rem' }}>
+                            <Row>
+                                <Col>
+                                    <Card.Img variant="top" className="card-img-top fixed-size" src={iSelects?.selections[idx].item.image} />
+                                </Col>
+                                <Col>
+                                    <Card.Body>
+                                        <Card.Title>{iSelects?.selections[idx].item.title}</Card.Title>
+                                        <Card.Text>
+                                            {iSelects?.selections[idx].item.content}
+                                        </Card.Text>
+                                        <Card.Text>
+                                            <ButtonGroup size="sm">
+                                                <Button variant="outline-warning">Giá</Button>
+                                                <Button variant="outline-info">{iSelects?.selections[idx].item.price}</Button>
+                                                <Button variant="outline-danger">VND</Button>
+                                            </ButtonGroup>
+                                        </Card.Text>
+                                    </Card.Body>
+                                    <Card.Footer>
+                                        <Form>
+                                            <Form.Group className="mb-3" controlId={"formBasicCheckbox" + iSelects?.selections[idx].item.id}>
+                                                {<Form.Check type="checkbox"
+                                                    label="Chọn món" value={valueCheck()}
+                                                    onChange={(e) => handleCheck(e.currentTarget.checked, iSelects?.selections[idx])} />}
+                                            </Form.Group>
+                                        </Form>
+                                    </Card.Footer>
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+        </>
     );
 }
 

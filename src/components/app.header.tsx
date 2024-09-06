@@ -24,6 +24,8 @@ function AppHeader(props: IProps) {
     const [acceptStatus, setAcceptStatus] = useState<boolean>(false)
     const [selectNum, setSelectNum] = useState<number>(0)
     const [role, setRole] = useState<boolean>(false)
+    const [iSelects, setISelects] = useState<ISelections>({ selections: [] })
+
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
     const { data } = useSWR(
@@ -49,17 +51,28 @@ function AppHeader(props: IProps) {
             setShowViewCard(true)
         } else if (e === 'admin') {
             setSelects(selects)
-            setAcceptStatus(true)
         } else if (e === 'eat') {
             setSelects(selects)
-            setAcceptStatus(true)
         } else if (e === 'drink') {
             setSelects(selects)
-            setAcceptStatus(true)
         }
     }
-    function handleAcceptStatus() {
+
+    function handleAcceptStatus(value: boolean) {
+        console.log(">>>>>>>>>>>>handleAcceptStatus: ", acceptStatus)
+        setAcceptStatus(value)
     }
+
+    const items: ICatalogPrice[] = data?.result?.rows
+
+    items && items.map(val => {
+        const iS: ISelection = {
+            item: val,
+            amount: 1,
+            selected: false
+        }
+        iSelects?.selections.push(iS)
+    })
 
     return (
         <>
@@ -71,17 +84,17 @@ function AppHeader(props: IProps) {
                 justify
             >
                 <Tab eventKey="eat" title="Ăn">
-                    <DrinkCard items={data?.result?.rows} selects={selects} setSelects={handleSelects} />
+                    <FoodCard iSelects={iSelects} selects={selects} setSelects={handleSelects} acceptStatus={acceptStatus} />
                 </Tab>
                 <Tab eventKey="drink" title="Uống">
-                    <FoodCard items={data?.result?.rows} selects={selects} setSelects={handleSelects} />
+                    <DrinkCard iSelects={iSelects} selects={selects} setSelects={handleSelects} acceptStatus={acceptStatus} />
                 </Tab>
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
                     {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
                 </Tab>
                 {refreshRole() &&
                     (<Tab eventKey="admin" title="Admin">
-                        {<TableMeal items={data?.result?.rows} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} />}
+                        {<TableMeal iSelects={iSelects} viewSelects={selects} acceptStatus={acceptStatus} setAcceptStatus={setAcceptStatus} />}
                     </Tab>)}
             </Tabs>
 
@@ -89,8 +102,6 @@ function AppHeader(props: IProps) {
                 showViewCard={showViewCard}
                 setShowViewCard={setShowViewCard}
                 viewSelects={selects}
-                setViewSelects={setSelects}
-                acceptStatus={acceptStatus}
                 setAcceptStatus={handleAcceptStatus}
             />}
         </>

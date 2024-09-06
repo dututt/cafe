@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 
 interface IProps {
     status: boolean
+    changeTextStatus: string
 }
 
 function OrderStatus(props: IProps) {
-    const { status } = props
+    const { status, changeTextStatus } = props
+
     return (
         <>
             <Button variant="primary" disabled hidden={!status}>
@@ -27,7 +30,7 @@ function OrderStatus(props: IProps) {
                     role="status"
                     aria-hidden="true"
                 />
-                Đang tiếp nhận...
+                {changeTextStatus}
             </Button>
         </>
     );
