@@ -9,7 +9,7 @@ interface IProps {
 
 function Count(props: IProps) {
     const { selection, status, refreshPrice } = props
-    const [count, setCount] = useState(selection.amount)
+    const [count, setCount] = useState(selection.amount + 1)
     const [oldPrice] = useState(selection.item.price)
     const [price, setPrice] = useState(selection.item.price)
 

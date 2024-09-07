@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import DrinkCard from './drink.card';
 import FoodCard from './food.card';
 import TableMeal from './table.meal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface IProps {
     refreshRole: () => boolean
@@ -41,10 +41,6 @@ function AppHeader(props: IProps) {
         return <div>loading...</div>
     }
 
-    function handleSelects(value: ISelections) {
-        setSelectNum(selects.selections.length)
-    }
-
     function handleSelect(e: string | null): void {
         if (e === 'view') {
             setSelects(selects)
@@ -64,14 +60,24 @@ function AppHeader(props: IProps) {
 
     const items: ICatalogPrice[] = data?.result?.rows
 
-    items && items.map(val => {
-        const iS: ISelection = {
-            item: val,
-            amount: 1,
-            selected: false
-        }
-        iSelects?.selections.push(iS)
-    })
+    if (iSelects?.selections.length === 0) {
+        items && items.map(val => {
+            const iS: ISelection = {
+                item: val,
+                amount: 0,
+                selected: false
+            }
+            iSelects?.selections.push(iS)
+        })
+    }
+
+    function handleValueCheck(value: ISelection): number {
+        setSelectNum((): number => {
+            return iSelects?.selections.filter(item => item.selected === true).length
+        })
+        setAcceptStatus(value.selected)
+        return value.item.id
+    }
 
     return (
         <>
@@ -83,10 +89,10 @@ function AppHeader(props: IProps) {
                 justify
             >
                 <Tab eventKey="eat" title="Ăn">
-                    <FoodCard iSelects={iSelects} selects={selects} setSelects={handleSelects} acceptStatus={acceptStatus} />
+                    <FoodCard iSelects={iSelects} handleValueCheck={handleValueCheck} />
                 </Tab>
                 <Tab eventKey="drink" title="Uống">
-                    <DrinkCard iSelects={iSelects} selects={selects} setSelects={handleSelects} acceptStatus={acceptStatus} />
+                    <DrinkCard iSelects={iSelects} handleValueCheck={handleValueCheck} />
                 </Tab>
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
                     {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
@@ -100,7 +106,7 @@ function AppHeader(props: IProps) {
             {<ViewCard
                 showViewCard={showViewCard}
                 setShowViewCard={setShowViewCard}
-                viewSelects={selects}
+                viewSelects={iSelects}
                 setAcceptStatus={handleAcceptStatus}
             />}
         </>

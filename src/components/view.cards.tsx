@@ -32,13 +32,13 @@ function ViewCard(props: IProps) {
         setChangeTextStatus('Đang tiếp nhận...')
     }
 
+    const selects = viewSelects.selections.filter(item => item.selected === true)
     function handleAcceptView(): void {
         setStatus(true)
         setAcceptStatus(true)
         handleChangeTextStatus()
 
         let numTable = !tableNum ? 0 : Number.parseInt(tableNum)
-        const selects = viewSelects.selections
 
         fetch('/api/create-order', {
             method: 'POST',
@@ -67,7 +67,7 @@ function ViewCard(props: IProps) {
 
     function TotalBill() {
         let total: number = 0
-        viewSelects.selections.map((item) => {
+        selects.map((item) => {
             total += Number.parseInt(item.item.price.toString())
         })
         setTotal(total)
@@ -85,19 +85,19 @@ function ViewCard(props: IProps) {
                 </Modal.Header>
                 <Modal.Body>
                     <Row xs={1} md={2} className="g-4">
-                        {Array.from({ length: viewSelects?.selections?.length }).map((_, idx) => (
+                        {Array.from({ length: selects?.length }).map((_, idx) => (
                             <Col key={idx}>
                                 <Card style={{ height: '10rem' }}>
                                     <Row>
                                         <Col>
-                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={viewSelects?.selections[idx].item?.image} />
+                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={selects[idx].item?.image} />
                                         </Col>
                                         <Col>
                                             <Card.Body>
-                                                <Card.Title>{viewSelects?.selections[idx].item?.title}</Card.Title>
+                                                <Card.Title>{selects[idx].item?.title}</Card.Title>
                                             </Card.Body>
                                             <Card.Footer>
-                                                <Count selection={viewSelects?.selections[idx]} status={status} refreshPrice={refreshPrice} />
+                                                <Count selection={selects[idx]} status={status} refreshPrice={refreshPrice} />
                                             </Card.Footer>
                                         </Col>
                                     </Row>
@@ -110,10 +110,10 @@ function ViewCard(props: IProps) {
                     <OrderStatus status={status} changeTextStatus={changeTextStatus} />
                     <ButtonGroup size="sm">
                         <Button variant="outline-warning">Tổng Giá</Button>
-                        <Button variant="outline-info">{total}</Button>
+                        <Button variant="outline-info">{selects.length > 0 ? total : 0}</Button>
                         <Button variant="outline-danger">VND</Button>
                     </ButtonGroup>
-                    <Button variant="secondary" disabled={!(viewSelects?.selections?.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
+                    <Button variant="secondary" disabled={!(selects.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
                 </Modal.Footer>
             </Modal>
         </>

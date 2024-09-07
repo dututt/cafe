@@ -1,5 +1,4 @@
 'use client'
-import { useState } from 'react';
 import { Button, ButtonGroup, Form } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
@@ -7,24 +6,16 @@ import Row from 'react-bootstrap/Row';
 
 interface IProps {
     iSelects: ISelections
-    selects: ISelections
-    setSelects: (value: ISelections) => void
     valueCheck: (value: ISelection) => number
 }
 
 
 function GridCard(props: IProps) {
-    const { iSelects, selects, setSelects, valueCheck } = props
+    const { iSelects, valueCheck } = props
 
     const handleCheck = (ck: boolean, cat: ISelection) => {
         cat.selected = ck
-        if (ck) {
-            selects?.selections.push(cat)
-        } else {
-            const newSelects = selects?.selections.filter(sel => !(sel.item.id === cat.item.id))
-            selects.selections = [...newSelects]
-        }
-        setSelects(selects)
+        valueCheck(cat)
     }
 
     return (

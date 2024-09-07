@@ -48,6 +48,7 @@ function OrderList(props: IProps) {
         setOrderTable(orderTable)
     }
 
+
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
         "/api/order-list",
@@ -58,6 +59,7 @@ function OrderList(props: IProps) {
             revalidateOnReconnect: false
         }
     );
+
     if (!data) {
         return <div>Orders loading...</div>
     }
