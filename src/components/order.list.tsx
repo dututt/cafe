@@ -54,7 +54,7 @@ function OrderList(props: IProps) {
         "/api/order-list",
         fetcher,
         {
-            revalidateIfStale: false,
+            revalidateIfStale: true,
             revalidateOnFocus: false,
             revalidateOnReconnect: false
         }
@@ -89,8 +89,6 @@ function OrderList(props: IProps) {
                     </ListGroup.Item>
                 ))}
             </ListGroup>
-
-
 
             <ViewCardDetail
                 showViewCard={showViewCard}

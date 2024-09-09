@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
 
 interface IProps {
@@ -13,9 +13,11 @@ function Count(props: IProps) {
     const [oldPrice] = useState(selection.item.price)
     const [price, setPrice] = useState(selection.item.price)
 
-    selection.amount = count
-    selection.item.price = price
-    refreshPrice()
+    console.log(">>>>>>>>>>count=selection: ", selection)
+
+    useEffect(() => {
+        refreshPrice()
+    }, [price])
 
     const increment = () => {
         setCount(count + 1)
@@ -32,9 +34,9 @@ function Count(props: IProps) {
     return (
         <>
             <ButtonGroup size="sm">
+                <Button disabled={status} variant="outline-info" onClick={() => increment()}>+</Button>
                 <Button disabled variant="outline-success">{count}</Button>
-                <Button disabled={status} variant="outline-info" onClick={() => increment()}>Tăng</Button>
-                <Button disabled={status} variant="outline-danger" onClick={() => decrement()}>Giảm</Button>
+                <Button disabled={status} variant="outline-danger" onClick={() => decrement()}>-</Button>
             </ButtonGroup>
         </>
     );

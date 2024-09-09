@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import DrinkCard from './drink.card';
 import FoodCard from './food.card';
 import TableMeal from './table.meal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface IProps {
     refreshRole: () => boolean

@@ -82,7 +82,6 @@ function TableMeal(props: IProps) {
                 catalog={catalog}
                 setCatalog={setCatalog}
             />
-
         </>
     );
 }
