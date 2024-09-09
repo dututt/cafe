@@ -55,8 +55,8 @@ function OrderList(props: IProps) {
         fetcher,
         {
             revalidateIfStale: true,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true
         }
     );
 
