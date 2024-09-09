@@ -13,7 +13,6 @@ function Count(props: IProps) {
     const [oldPrice] = useState(selection.item.price)
     const [price, setPrice] = useState(selection.item.price)
 
-    console.log(">>>>>>>>>>count=selection: ", selection)
 
     useEffect(() => {
         refreshPrice()

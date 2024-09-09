@@ -59,7 +59,7 @@ function OrderList(props: IProps) {
             revalidateOnReconnect: true
         }
     );
-
+    console.log(">>>>>>>>>>>>>>>revalidateIfStale")
     if (!data) {
         return <div>Orders loading...</div>
     }

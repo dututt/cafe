@@ -28,7 +28,7 @@ function TableMeal(props: IProps) {
     }
 
     function handleShowOrderList() {
-        mutate("")
+        mutate("/api/order-list")
         setShowOrderList(true)
     }
 
