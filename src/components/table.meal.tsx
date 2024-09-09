@@ -6,6 +6,7 @@ import CreateModal from './create.modal';
 import { useState } from 'react';
 import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
+import { mutate } from 'swr';
 
 interface IProps {
     iSelects: ISelections
@@ -26,12 +27,17 @@ function TableMeal(props: IProps) {
         setShowOrderList(false)
     }
 
+    function handleShowOrderList() {
+        mutate("")
+        setShowOrderList(true)
+    }
+
     return (
         <>
             <div className='mb-3'
                 style={{ display: "flex", justifyContent: "space-between" }}>
                 {/* <h3>Quản lý danh sách món</h3> */}
-                <Button variant='outline-primary' onClick={() => setShowOrderList(true)}>Danh sách đặt món</Button>
+                <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Danh sách đặt món</Button>
                 <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
             </div>
             <Table striped bordered hover responsive size="sm" hidden={showOrderList}>
