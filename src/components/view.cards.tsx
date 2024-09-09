@@ -51,7 +51,7 @@ function ViewCard(props: IProps) {
             .then(res => {
                 if (res) {
                     toast.success("Create new order succeed !")
-                    mutate("/api/order-list")
+                    mutate(fullUrl.split("#")[0] + "/api/order-list")
                 }
             })
     }
