@@ -27,7 +27,7 @@ interface ISelections {
 }
 
 interface IOrderTable {
-    id: number
+    id: number = 0
     table_num: number
     status: boolean
     price: number
