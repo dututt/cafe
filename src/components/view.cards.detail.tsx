@@ -11,9 +11,11 @@ interface IProps {
 function ViewCardDetail(props: IProps) {
     const { showViewCard, setShowViewCard, orderTable } = props
 
+    const id = orderTable ? orderTable.id : 0
+
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
-        `/api/order-items?id=${orderTable?.id}`,
+        `/api/order-items?id=${id}`,
         fetcher,
         {
             revalidateIfStale: false,
