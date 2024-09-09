@@ -52,12 +52,7 @@ function OrderList(props: IProps) {
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
         "/api/order-list",
-        fetcher,
-        {
-            revalidateIfStale: true,
-            revalidateOnFocus: true,
-            revalidateOnReconnect: true
-        }
+        fetcher
     );
     console.log(">>>>>>>>>>>>>>>revalidateIfStale")
     if (!data) {
