@@ -32,13 +32,15 @@ function AppHeader(props: IProps) {
         "/api/fetch",
         fetcher,
         {
-            revalidateIfStale: false,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false
+            revalidateIfStale: true,
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true
         }
     );
     if (!data) {
         return <div>loading...</div>
+    } else {
+        console.log(">>>>>>>>>>>>>>>>loading after update...", data)
     }
 
     function handleSelect(e: string | null): void {

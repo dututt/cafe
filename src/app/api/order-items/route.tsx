@@ -2,7 +2,7 @@ import { sql } from "@vercel/postgres";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(res: NextRequest) {
-    const { searchParams } = new URL(res.url);
+    const { searchParams } = res.nextUrl
     const order_id = searchParams.get('id');
     try {
         const result = await sql`SELECT i.title, i.image, oi.item_num FROM order_items as oi INNER JOIN item as i ON oi.item_id = i.id WHERE oi.order_id = ${order_id}`;

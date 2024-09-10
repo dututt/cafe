@@ -6,7 +6,8 @@ import CreateModal from './create.modal';
 import { useState } from 'react';
 import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
-import { mutate } from 'swr';
+import Admin from './admin';
+
 
 interface IProps {
     iSelects: ISelections
@@ -15,7 +16,7 @@ interface IProps {
 }
 
 function TableMeal(props: IProps) {
-    const { iSelects, viewSelects, setAcceptStatus } = props
+    const { iSelects, setAcceptStatus } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
@@ -28,7 +29,6 @@ function TableMeal(props: IProps) {
     }
 
     function handleShowOrderList() {
-        mutate("/api/order-list")
         setShowOrderList(true)
     }
 
@@ -39,6 +39,8 @@ function TableMeal(props: IProps) {
                 {/* <h3>Quản lý danh sách món</h3> */}
                 <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Danh sách đặt món</Button>
                 <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
+
+                <Admin />
             </div>
             <Table striped bordered hover responsive size="sm" hidden={showOrderList}>
                 <thead>
@@ -76,7 +78,7 @@ function TableMeal(props: IProps) {
                 </tbody>
             </Table>
 
-            <OrderList viewSelects={viewSelects} showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} />
+            <OrderList showOrderList={showOrderList} setAcceptStatus={setAcceptStatus} />
             <CreateModal
                 showModalCreate={showModalCreate}
                 setShowModalCreate={setShowModalCreate}

@@ -69,7 +69,7 @@ function UpdateModal(props: IProps) {
                 if (res) {
                     toast.warning("Update meal succeed !")
                     handleCloseModal()
-                    mutate("/")
+                    mutate("/api/fetch")
                 }
             })
     }

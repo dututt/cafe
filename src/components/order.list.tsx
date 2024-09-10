@@ -5,13 +5,14 @@ import ViewCardDetail from "./view.cards.detail"
 import useSWR from "swr"
 
 interface IProps {
-    viewSelects: ISelections
     showOrderList: boolean
     setAcceptStatus: (value: boolean) => void
 }
 
 function OrderList(props: IProps) {
-    const { viewSelects, showOrderList, setAcceptStatus } = props
+    const { showOrderList, setAcceptStatus } = props
+
+    console.log(">>>>>>>>>>>>first loading....")
 
     const s: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
@@ -54,7 +55,7 @@ function OrderList(props: IProps) {
         "/api/order-list",
         fetcher
     );
-    console.log(">>>>>>>>>>>>>>>revalidateIfStale")
+
     if (!data) {
         return <div>Orders loading...</div>
     }
