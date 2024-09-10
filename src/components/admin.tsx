@@ -1,8 +1,9 @@
+'use client'
 import { Button, ButtonGroup } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export async function getStaticProps() {
-    const response = await fetch('/api/order-list');
+export async function getInitialProps() {
+    const response = await fetch('/api/order-list', { cache: 'no-store' });
     const data = await response.json();
     console.log(">>>>>>>>>>>>1111 fetchData: ", data)
     return {
@@ -11,12 +12,11 @@ export async function getStaticProps() {
     };
 }
 
-
-function Admin() {
+const Admin = () => {
     const [status, setStatus] = useState(false)
 
     function handleShowOrderList(): void {
-        setStatus(true)
+        getInitialProps()
     }
 
     // console.log(">>>>>>>>>>>>0000 fetchData: ", status)
@@ -31,10 +31,10 @@ function Admin() {
     // };
 
 
-    useEffect(() => {
-        console.log(">>>>>>>>>>>>22222 fetchData- status: ", status)
-        getStaticProps()
-    })
+    // useEffect(() => {
+    //     console.log(">>>>>>>>>>>>22222 fetchData- status: ", status)
+    //     getStaticProps()
+    // })
 
 
     return (
@@ -46,4 +46,5 @@ function Admin() {
         </>
     );
 }
+
 export default Admin;
