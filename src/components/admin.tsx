@@ -15,6 +15,7 @@ function Admin() {
         });
         const data = await response.json();
         console.log(">>>>>>>>>>>>1111 fetchData: ", data)
+        setStatus(false)
         return data;
     };
 
