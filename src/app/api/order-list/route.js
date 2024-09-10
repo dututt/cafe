@@ -1,6 +1,6 @@
 'use server'
 import { sql } from "@vercel/postgres";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 
 export async function GET() {
