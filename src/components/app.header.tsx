@@ -101,7 +101,7 @@ function AppHeader(props: IProps) {
                 </Tab>
                 {refreshRole() &&
                     (<Tab eventKey="admin" title="Admin">
-                        {<TableMeal iSelects={iSelects} viewSelects={selects} setAcceptStatus={setAcceptStatus} />}
+                        {<TableMeal setAcceptStatus={setAcceptStatus} />}
                     </Tab>)}
             </Tabs>
 

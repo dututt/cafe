@@ -33,6 +33,18 @@ function UpdateModal(props: IProps) {
         }
     }, [catalog])
 
+    function updateCatalog() {
+        let value: ICatalogPrice = {
+            content: content,
+            id: id,
+            image: image,
+            price: price,
+            title: title,
+            type: type
+        }
+        setCatalog(value)
+    }
+
     const handleUpdateSubmit = () => {
 
         if (!title) {
@@ -56,6 +68,7 @@ function UpdateModal(props: IProps) {
             return
         }
         console.log(">>> Handle submit data: ", { id, title, content, type, image, price })
+        updateCatalog()
 
         fetch(`/api/update`, {
             method: 'PUT',

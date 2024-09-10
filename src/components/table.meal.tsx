@@ -3,25 +3,25 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
 import Admin from './admin';
 
 
 interface IProps {
-    iSelects: ISelections
-    viewSelects: ISelections
     setAcceptStatus: (value: boolean) => void
 }
 
 function TableMeal(props: IProps) {
-    const { iSelects, setAcceptStatus } = props
+    const { setAcceptStatus } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
     const [showOrderList, setShowOrderList] = useState<boolean>(false)
     const [catalog, setCatalog] = useState<ICatalogPrice | null>(null)
+    const [iSelects, setISelects] = useState<ISelections>({ selections: [] })
+    const [data, setData] = useState<ICatalogPrice[]>([])
 
     function handleShowModalCreate() {
         setShowModalCreate(true)
@@ -31,6 +31,17 @@ function TableMeal(props: IProps) {
     function handleShowOrderList() {
         setShowOrderList(true)
     }
+
+    useEffect(() => {
+        fetch('/api/fetch')
+            .then(async (response) => {
+                const data = await response.json();
+
+                setData(data?.result?.rows)
+            })
+    }, [catalog])
+
+    const items: ICatalogPrice[] = data
 
     return (
         <>
@@ -54,22 +65,22 @@ function TableMeal(props: IProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {iSelects.selections?.map(catalog => {
+                    {items?.map(item => {
                         return (
-                            <tr key={catalog.item.id}>
-                                <td>{catalog.item.id}</td>
-                                <td>{catalog.item.title}</td>
-                                <td>{catalog.item.content}</td>
-                                <td>{catalog.item.image}</td>
-                                <td>{catalog.item.type}</td>
+                            <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.title}</td>
+                                <td>{item.content}</td>
+                                <td>{item.image}</td>
+                                <td>{item.type}</td>
                                 <td>
                                     <ButtonGroup size="sm">
                                         <Button variant="outline-warning" onClick={() => {
-                                            setCatalog(catalog.item)
+                                            setCatalog(item)
                                             setShowModalUpdate(true)
                                         }}>Sửa</Button>
                                         <Button variant="outline-info">Xem</Button>
-                                        <Button variant="outline-danger" onClick={() => deleteItem(catalog.item.id)}>Xóa</Button>
+                                        <Button variant="outline-danger" onClick={() => deleteItem(item.id)}>Xóa</Button>
                                     </ButtonGroup>
                                 </td>
                             </tr>
