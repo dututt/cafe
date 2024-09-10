@@ -36,12 +36,10 @@ function TableMeal(props: IProps) {
         fetch('/api/fetch')
             .then(async (response) => {
                 const data = await response.json();
-
+                console.log(">>>>>>>>>>>>>>>7777 load....", data)
                 setData(data?.result?.rows)
             })
     }, [catalog])
-
-    const items: ICatalogPrice[] = data
 
     return (
         <>
@@ -65,7 +63,7 @@ function TableMeal(props: IProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {items?.map(item => {
+                    {data?.map(item => {
                         return (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
