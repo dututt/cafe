@@ -1,6 +1,5 @@
 import { Button, ButtonGroup } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
 
 function Admin() {
     const [status, setStatus] = useState(false)
@@ -9,10 +8,19 @@ function Admin() {
         setStatus(true)
     }
 
+    console.log(">>>>>>>>>>>>0000 fetchData: ", status)
+    const fetchData = async () => {
+        const response = await fetch('/api/order-list', {
+            next: { revalidate: 10 } // Revalidate every 10 seconds
+        });
+        const data = await response.json();
+        console.log(">>>>>>>>>>>>1111 fetchData: ", data)
+        return data;
+    };
+
     useEffect(() => {
-        fetch('/api/order-list')
-            .then(res => { return res.json() })
-            .then(data => console.log(">>>>>>>>>>>>>>>useEffect-data: ", data))
+        console.log(">>>>>>>>>>>>22222 fetchData- status: ", status)
+        fetchData()
     }, [status])
 
 
