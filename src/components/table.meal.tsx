@@ -6,6 +6,7 @@ import CreateModal from './create.modal';
 import { useState } from 'react';
 import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
+import Admin from './admin';
 
 
 interface IProps {
@@ -36,6 +37,7 @@ function TableMeal(props: IProps) {
                 style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Danh sách đặt món</Button>
                 <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
+                <Admin />
             </div>
             <Table striped bordered hover responsive size="sm" hidden={showOrderList}>
                 <thead>
