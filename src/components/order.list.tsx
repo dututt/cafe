@@ -62,6 +62,9 @@ function OrderList(props: IProps) {
 
     return (
         <>
+            <div className='mb-3'>
+                <OrderItems />
+            </div>
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
@@ -90,7 +93,6 @@ function OrderList(props: IProps) {
                 setShowViewCard={setShowViewCard}
                 orderTable={orderTable}
             />
-            <OrderItems order_items={undefined} />
         </>
     );
 }
