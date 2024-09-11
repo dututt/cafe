@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Badge, Button, ButtonGroup, ListGroup } from "react-bootstrap"
 import ViewCardDetail from "./view.cards.detail"
 import useSWR from "swr"
+import OrderItems from "./get.order.list"
 
 interface IProps {
     showOrderList: boolean
@@ -89,6 +90,7 @@ function OrderList(props: IProps) {
                 setShowViewCard={setShowViewCard}
                 orderTable={orderTable}
             />
+            <OrderItems order_items={undefined} />
         </>
     );
 }

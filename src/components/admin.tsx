@@ -18,7 +18,7 @@ const Admin = () => {
                 <Button variant="outline-warning" onClick={() => handleShowOrderList()}>Quản lý đặt món</Button>
             </ButtonGroup>
 
-            {status && <OrderItems />}
+            {status && <OrderItems order_items={undefined} />}
         </>
     );
 }

@@ -1,8 +1,18 @@
+import { GetServerSideProps } from "next";
 
-function OrderItems() {
+export default function OrderItems({ order_items }: { order_items: any }) {
     return (
-        <>Hello: </>
+        <>Hello: {order_items.result.rows}</>
     );
 }
 
-export default OrderItems;
+
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const res = await fetch('/api/order-list');
+    const order_items = await res.json();
+    console.log(">>>>>>>>>>>>>>>>getServerSideProps: ", order_items)
+    return {
+        props: { order_items },
+    };
+};

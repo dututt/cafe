@@ -3,10 +3,9 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
-import Admin from './admin';
 
 
 interface IProps {
