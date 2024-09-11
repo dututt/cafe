@@ -1,6 +1,5 @@
 'use server'
 import pool from '@/components/db';
-import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -22,7 +21,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
 
         await client.query('COMMIT');
-        revalidatePath("/")
         return NextResponse.json({ res }, { status: 200 })
     } catch (error) {
         await client.query('ROLLBACK');
