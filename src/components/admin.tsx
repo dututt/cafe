@@ -1,22 +1,15 @@
 'use client'
 import { Button, ButtonGroup } from "react-bootstrap";
 import { useState } from "react";
+import OrderItems from "./get.order.list";
 
-export async function getInitialProps() {
-    const response = await fetch('/api/order-list');
-    const data = await response.json();
-    console.log(">>>>>>>>>>>>1111 fetchData: ", data)
-    return {
-        props: { data },
-        revalidate: 4, // Revalidate every 10 seconds
-    };
-}
 
 const Admin = () => {
     const [status, setStatus] = useState(false)
 
     function handleShowOrderList(): void {
-        getInitialProps()
+        setStatus(!status)
+        console.log(">>>>>>>>>>>>>>>status: ", status)
     }
 
     return (
@@ -25,6 +18,7 @@ const Admin = () => {
                 <Button variant="outline-warning" onClick={() => handleShowOrderList()}>Quản lý đặt món</Button>
             </ButtonGroup>
 
+            {status && <OrderItems />}
         </>
     );
 }
