@@ -20,7 +20,6 @@ function TableMeal(props: IProps) {
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
     const [showOrderList, setShowOrderList] = useState<boolean>(false)
     const [catalog, setCatalog] = useState<ICatalogPrice | null>(null)
-    const [iSelects, setISelects] = useState<ISelections>({ selections: [] })
     const [data, setData] = useState<ICatalogPrice[]>([])
 
     function handleShowModalCreate() {
@@ -32,24 +31,12 @@ function TableMeal(props: IProps) {
         setShowOrderList(true)
     }
 
-    useEffect(() => {
-        fetch('/api/fetch')
-            .then(async (response) => {
-                const data = await response.json();
-                console.log(">>>>>>>>>>>>>>>7777 load....", data)
-                setData(data?.result?.rows)
-            })
-    }, [catalog])
-
     return (
         <>
             <div className='mb-3'
                 style={{ display: "flex", justifyContent: "space-between" }}>
-                {/* <h3>Quản lý danh sách món</h3> */}
                 <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Danh sách đặt món</Button>
                 <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
-
-                <Admin />
             </div>
             <Table striped bordered hover responsive size="sm" hidden={showOrderList}>
                 <thead>

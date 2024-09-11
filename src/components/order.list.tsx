@@ -12,8 +12,6 @@ interface IProps {
 function OrderList(props: IProps) {
     const { showOrderList, setAcceptStatus } = props
 
-    console.log(">>>>>>>>>>>>first loading....")
-
     const s: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
     const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: false, table_num: 0, created_at: new Date })

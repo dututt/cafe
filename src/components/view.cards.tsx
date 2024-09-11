@@ -47,7 +47,10 @@ function ViewCard(props: IProps) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ numTable, total, selects })
-        }).then(res => res.json())
+        }).then(res => {
+            console.log(">>>>>>>>>>>>>server log create order: ", res)
+            return res.json()
+        })
             .then(res => {
                 if (res) {
                     toast.success("Create new order succeed !")
