@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import pool from '@/components/db';
 import { NextRequest, NextResponse } from 'next/server';
 
