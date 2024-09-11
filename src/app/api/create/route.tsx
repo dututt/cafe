@@ -1,6 +1,5 @@
 'use server'
 import pool from "@/components/db"
-import { sql } from "@vercel/postgres"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest, res: NextResponse) {
