@@ -1,11 +1,12 @@
-'use server'
+export const dynamic = 'force-dynamic';
 import pool from '@/components/db';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest, res: NextResponse) {
+
+    console.log(">>>>>>>>>>>>>>>>>>>>>>{ numTable, total, selects }: ")
     const { numTable, total, selects } = await req.json()
     const client = await pool.connect();
-
     try {
         await client.query('BEGIN');
 
@@ -19,7 +20,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
             const insertOrderItemValues = [orderId, item.item.id, item.amount];
             await client.query(insertOrderItemText, insertOrderItemValues);
         }
-
         await client.query('COMMIT');
         return NextResponse.json({ res }, { status: 200 })
     } catch (error) {

@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Count from './count';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { mutate } from 'swr';
 
 interface IProps {
     showViewCard: boolean
@@ -54,7 +53,6 @@ function ViewCard(props: IProps) {
             .then(res => {
                 if (res) {
                     toast.success("Create new order succeed !")
-                    mutate(fullUrl.split("#")[0] + "/api/order-list")
                 }
             })
     }
