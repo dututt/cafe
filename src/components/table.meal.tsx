@@ -6,7 +6,6 @@ import CreateModal from './create.modal';
 import { useState } from 'react';
 import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
-import Admin from './admin';
 import OrderItems from './get.order.list';
 
 
