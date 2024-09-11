@@ -2,7 +2,7 @@ import { GetServerSideProps } from "next";
 
 export default function OrderItems({ order_items }: { order_items: any }) {
     return (
-        <>Hello: {order_items.result.rows}</>
+        <>Hello: {order_items}</>
     );
 }
 
