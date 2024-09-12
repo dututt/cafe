@@ -3,7 +3,6 @@ import { FormEvent, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import useSWR from 'swr';
-import useCustomHook from './useCustomHook';
 
 interface IProps {
     refreshChangeText: () => void
@@ -31,6 +30,7 @@ function LoginCard(props: IProps) {
     );
     if (!data) {
         return <div>login failed...</div>
+    } else {
     }
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -43,26 +43,29 @@ function LoginCard(props: IProps) {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="Nhập email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <Form.Text className="text-muted">
-                    Yêu cầu nhập email!
-                </Form.Text>
-            </Form.Group>
+        <>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                <Form.Check type="checkbox" label="Nhớ đăng nhập" />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-                Đăng Nhập
-            </Button>
-        </Form>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" placeholder="Nhập email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    <Form.Text className="text-muted">
+                        Yêu cầu nhập email!
+                    </Form.Text>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                    <Form.Check type="checkbox" label="Nhớ đăng nhập" />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                    Đăng Nhập
+                </Button>
+            </Form>
+        </>
     );
 }
 

@@ -3,7 +3,7 @@ import { Button, ButtonGroup } from 'react-bootstrap';
 import Table from 'react-bootstrap/Table';
 import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OrderList from './order.list';
 import deleteItem from '@/app/api/delete/delete';
 import OrderItems from './get.order.list';
@@ -22,6 +22,12 @@ function TableMeal(props: IProps) {
     const [catalog, setCatalog] = useState<ICatalogPrice | null>(null)
     const [data, setData] = useState<ICatalogPrice[]>([])
 
+    useEffect(() => {
+        fetch('/api/food-beverage')
+            .then(response => response.json())
+            .then(data => setData(data));
+    }, []);
+
     function handleShowModalCreate() {
         setShowModalCreate(true)
         setShowOrderList(false)
@@ -37,7 +43,7 @@ function TableMeal(props: IProps) {
                 style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Danh sách đặt món</Button>
                 <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
-                <Button variant="outline-warning" onClick={() => setShowOrderList(!showOrderList)}>Quản lý đặt món</Button>
+                {/* <Button variant="outline-warning" onClick={() => setShowOrderList(!showOrderList)}>Quản lý đặt món</Button> */}
             </div>
             <Table striped bordered hover responsive size="sm" hidden={showOrderList}>
                 <thead>
@@ -90,7 +96,7 @@ function TableMeal(props: IProps) {
 
 
 
-            {showOrderList && <OrderItems />}
+            {/* {showOrderList && <OrderItems />} */}
         </>
     );
 }

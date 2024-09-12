@@ -39,8 +39,6 @@ function AppHeader(props: IProps) {
     );
     if (!data) {
         return <div>loading...</div>
-    } else {
-        console.log(">>>>>>>>>>>>>>>>loading after update...", data)
     }
 
     function handleSelect(e: string | null): void {

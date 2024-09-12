@@ -48,7 +48,6 @@ function OrderList(props: IProps) {
         setOrderTable(orderTable)
     }
 
-
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
         "/api/order-list",
