@@ -20,16 +20,13 @@ export default function RootLayout({
 }) {
   const useCustom = useCustomHook()
   const [, handleActiveTab] = useState<boolean>(false)
-
-  function refreshRole() {
-    return useCustom.user.checkRole
-  }
+  const [role, setRole] = useState<boolean>(false)
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavBarApp useCustom={useCustom} refreshRole={refreshRole} />
-        <AppHeader useCustom={useCustom} refreshRole={refreshRole} />
+        <NavBarApp useCustom={useCustom} setRole={setRole} />
+        <AppHeader useCustom={useCustom} role={role} />
         <Container>
           {children}
         </Container>

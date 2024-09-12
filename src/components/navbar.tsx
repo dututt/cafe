@@ -6,14 +6,14 @@ import LoginCard from './login.card';
 import Register from './register';
 
 interface IProps {
-    refreshRole: () => boolean
+    setRole: (value: boolean) => void
     useCustom: {
         user: IUser
     }
 }
 
 function NavBarApp(props: IProps) {
-    const { useCustom, refreshRole } = props
+    const { useCustom, setRole } = props
 
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
@@ -28,7 +28,7 @@ function NavBarApp(props: IProps) {
         } else {
             setShowLogin(true);
         }
-        refreshRole()
+        setRole(useCustom.user.checkRole)
     }
 
     function refreshChangeText(): void {
@@ -38,6 +38,7 @@ function NavBarApp(props: IProps) {
         } else {
             setChangeText("Login")
         }
+        setRole(useCustom.user.checkRole)
     }
 
     const handleCloseRegister = () => setShowRegister(false);

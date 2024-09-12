@@ -6,25 +6,25 @@ import useSWR from 'swr';
 import DrinkCard from './drink.card';
 import FoodCard from './food.card';
 import TableMeal from './table.meal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface IProps {
-    refreshRole: () => boolean
+    role: boolean
     useCustom: {
         user: IUser
     }
 }
 
 function AppHeader(props: IProps) {
-    const { useCustom, refreshRole } = props
+    const { useCustom, role } = props
 
     const s: ISelections = { selections: [] }
     const [selects, setSelects] = useState<ISelections>(s)
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
     const [acceptStatus, setAcceptStatus] = useState<boolean>(false)
     const [selectNum, setSelectNum] = useState<number>(0)
-    const [role, setRole] = useState<boolean>(false)
     const [iSelects, setISelects] = useState<ISelections>({ selections: [] })
+
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -97,7 +97,7 @@ function AppHeader(props: IProps) {
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
                     {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
                 </Tab>
-                {refreshRole() &&
+                {role &&
                     (<Tab eventKey="admin" title="Admin">
                         {<TableMeal setAcceptStatus={setAcceptStatus} />}
                     </Tab>)}
