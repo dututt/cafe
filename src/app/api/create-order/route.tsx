@@ -6,7 +6,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const { numTable, total, selects } = await req.json()
     console.log(">>>>>>>>>>>>>>>>>>>>>>{ 222numTable, total, selects }: ", { numTable, total, selects })
-    const result = await fetch('http://localhost:3001/api/create-order', {
+    const result = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/create-order', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
