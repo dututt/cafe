@@ -1,10 +1,13 @@
+export const dynamic = 'force-dynamic';
 import pool from '@/components/db';
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest, res: NextResponse) {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>{ 111numTable, total, selects }: ")
 
-    console.log(">>>>>>>>>>>>>>>>>>>>>>{ numTable, total, selects }: ")
     const { numTable, total, selects } = await req.json()
+    console.log(">>>>>>>>>>>>>>>>>>>>>>{ 222numTable, total, selects }: ")
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
@@ -20,6 +23,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             await client.query(insertOrderItemText, insertOrderItemValues);
         }
         await client.query('COMMIT');
+        revalidatePath("/")
         return NextResponse.json({ res }, { status: 200 })
     } catch (error) {
         await client.query('ROLLBACK');

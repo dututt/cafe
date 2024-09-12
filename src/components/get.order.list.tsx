@@ -9,9 +9,8 @@ export default function OrderItems() {
 
     if (!data) {
         return <div>Orders loading...</div>
-    } else {
-        console.log(">>>>>>>>1111server load orders: ", data)
     }
+
     return (
         <>
 
