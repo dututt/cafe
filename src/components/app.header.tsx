@@ -103,12 +103,12 @@ function AppHeader(props: IProps) {
                     </Tab>)}
             </Tabs>
 
-            {<ViewCard
+            {/* {<ViewCard
                 showViewCard={showViewCard}
                 setShowViewCard={setShowViewCard}
                 viewSelects={iSelects}
                 setAcceptStatus={handleAcceptStatus}
-            />}
+            />} */}
         </>
     );
 }
