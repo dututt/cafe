@@ -31,11 +31,14 @@ function LoginCard(props: IProps) {
     if (!data) {
         return <div>login failed...</div>
     } else {
+        console.log(">>>>>>>>>>>>>>>>user info: ", data)
     }
+    const users: IUser[] = data
+
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (data[0].email === email && data[0].password === password) {
+        if (users[0].email === email && users[0].password === password) {
             useCustom.user.checkRole = true
             useCustom.user.email = email
             refreshChangeText()
