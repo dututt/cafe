@@ -27,7 +27,6 @@ function AppHeader(props: IProps) {
 
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
     const { data } = useSWR(
         "/api/fetch",
         fetcher,

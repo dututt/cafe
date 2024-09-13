@@ -1,14 +1,12 @@
-'use server'
-import { sql } from "@vercel/postgres";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const response = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/login');
+        const response = await fetch('https://api-cafe-three.vercel.app/api/login');
         const data = await response.json();
 
         return NextResponse.json(data, { status: 200 })
     } catch (error) {
-        return NextResponse.json({ error: 'Database error' }, { status: 500 })
+        return NextResponse.json({ error }, { status: 500 })
     }
 }

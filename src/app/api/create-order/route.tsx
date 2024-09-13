@@ -5,7 +5,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const { numTable, total, selects } = await req.json()
     console.log(">>>>>>>>>>>>>>>>>>>>>>{ numTable, total, selects }: ", { numTable, total, selects })
-    const result = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/create-order', {
+    const result = await fetch('https://api-cafe-three.vercel.app/api/create-order', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
