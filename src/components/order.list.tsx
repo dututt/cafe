@@ -51,7 +51,8 @@ function OrderList(props: IProps) {
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
         "/api/order-list",
-        fetcher
+        fetcher,
+        { refreshInterval: 60000 }
     );
 
     if (!data) {
