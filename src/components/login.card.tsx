@@ -30,8 +30,6 @@ function LoginCard(props: IProps) {
     );
     if (!data) {
         return <div>login failed...</div>
-    } else {
-        console.log(">>>>>>>>>>>>>>>>user info: ", data)
     }
     const users: IUser[] = data
 
@@ -41,6 +39,7 @@ function LoginCard(props: IProps) {
         if (users[0].email === email && users[0].password === password) {
             useCustom.user.checkRole = true
             useCustom.user.email = email
+            useCustom.user.username = users[0].username
             refreshChangeText()
         }
     }

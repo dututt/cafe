@@ -14,12 +14,13 @@ interface ICatalogPrice {
     type: number
     image: string
     price: number
+    price_order: number
 }
 
 interface ISelection {
     item: ICatalogPrice
     selected: boolean
-    amount: number = 1
+    amount: number
 }
 
 interface ISelections {

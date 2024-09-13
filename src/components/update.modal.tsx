@@ -39,6 +39,7 @@ function UpdateModal(props: IProps) {
             id: id,
             image: image,
             price: price,
+            price_order: price,
             title: title,
             type: type
         }

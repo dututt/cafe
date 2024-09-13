@@ -27,7 +27,6 @@ function ViewCardDetail(props: IProps) {
     if (!data) {
         return <div>Order items loading...</div>
     }
-    console.log(">>>>>>>>>>>>>>>>>>>ViewCardDetail: ", data)
 
     if (!showViewCard) {
         return <></>

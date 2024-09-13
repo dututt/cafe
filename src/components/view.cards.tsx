@@ -1,20 +1,18 @@
 'use client'
 import { Button, ButtonGroup, Card, Col, Modal, Row } from 'react-bootstrap';
 import OrderStatus from './order.status';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Count from './count';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 interface IProps {
-    showViewCard: boolean
-    setShowViewCard: (value: boolean) => void
     viewSelects: ISelections
     setAcceptStatus: (value: boolean) => void
 }
 
 function ViewCard(props: IProps) {
-    const { showViewCard, setShowViewCard, viewSelects, setAcceptStatus } = props
+    const { viewSelects, setAcceptStatus } = props
 
     const [status, setStatus] = useState<boolean>(false)
     const [total, setTotal] = useState<number>(0)
@@ -27,11 +25,16 @@ function ViewCard(props: IProps) {
     const fullUrl = `${window.location.origin}${pathname}${searchParams && searchParams.toString() ? '?' + searchParams.toString() : ''}${hash}`;
     let tableNum = fullUrl.split("#")[1]
 
+
     function handleChangeTextStatus() {
         setChangeTextStatus('Đang tiếp nhận...')
     }
 
     const selects = viewSelects.selections.filter(item => item.selected === true)
+    useEffect(() => {
+        refreshPrice()
+    }, [selects.length])
+
     function handleAcceptView(): void {
         setStatus(true)
         setAcceptStatus(true)
@@ -56,11 +59,6 @@ function ViewCard(props: IProps) {
             })
     }
 
-
-    function handleClose() {
-        setShowViewCard(false)
-    }
-
     function refreshPrice() {
         TotalBill()
     }
@@ -68,26 +66,20 @@ function ViewCard(props: IProps) {
     function TotalBill() {
         let total: number = 0
         selects.map((item) => {
-            total += Number.parseInt(item.item.price.toString())
+            total += Number.parseInt(item.item.price_order?.toString())
         })
         setTotal(total)
     }
 
     return (
         <>
-            <Modal size="lg" centered
-                show={showViewCard}
-                onHide={() => handleClose()}
-                backdrop="static"
-                keyboard={false}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Đặt món - Bàn {!tableNum ? 0 : Number.parseInt(tableNum)}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+            <Card className="text-center">
+                <Card.Header>Danh sách món đã chọn</Card.Header>
+                <Card.Body>
                     <Row xs={1} md={2} className="g-4">
                         {Array.from({ length: selects?.length }).map((_, idx) => (
                             <Col key={idx}>
-                                <Card style={{ height: '10rem' }}>
+                                <Card>
                                     <Row>
                                         <Col>
                                             <Card.Img variant="top" className="card-img-top fixed-size-m" src={selects[idx].item?.image} />
@@ -95,6 +87,7 @@ function ViewCard(props: IProps) {
                                         <Col>
                                             <Card.Body>
                                                 <Card.Title>{selects[idx].item?.title}</Card.Title>
+                                                <Card.Text>{selects[idx].item?.price_order}</Card.Text>
                                             </Card.Body>
                                             <Card.Footer>
                                                 <Count selection={selects[idx]} status={status} refreshPrice={refreshPrice} />
@@ -105,17 +98,17 @@ function ViewCard(props: IProps) {
                             </Col>
                         ))}
                     </Row>
-                </Modal.Body>
-                <Modal.Footer>
+                </Card.Body>
+                <Card.Footer className="text-muted">
                     <OrderStatus status={status} changeTextStatus={changeTextStatus} />
                     <ButtonGroup size="sm">
                         <Button variant="outline-warning">Tổng Giá</Button>
                         <Button variant="outline-info">{selects.length > 0 ? total : 0}</Button>
                         <Button variant="outline-danger">VND</Button>
-                    </ButtonGroup>
+                    </ButtonGroup>{' '}
                     <Button variant="secondary" disabled={!(selects.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
-                </Modal.Footer>
-            </Modal>
+                </Card.Footer>
+            </Card>
         </>
     );
 }

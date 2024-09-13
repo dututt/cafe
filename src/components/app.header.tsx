@@ -94,20 +94,13 @@ function AppHeader(props: IProps) {
                     <DrinkCard iSelects={iSelects} handleValueCheck={handleValueCheck} />
                 </Tab>
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
-                    {/* <ViewCard viewSelects={selects} setViewSelects={setSelects} showViewCard={showViewCard} setShowViewCard={setShowViewCard} /> */}
+                    <ViewCard viewSelects={iSelects} setAcceptStatus={handleAcceptStatus} />
                 </Tab>
                 {role &&
                     (<Tab eventKey="admin" title="Admin">
                         {<TableMeal setAcceptStatus={setAcceptStatus} />}
                     </Tab>)}
             </Tabs>
-
-            {<ViewCard
-                showViewCard={showViewCard}
-                setShowViewCard={setShowViewCard}
-                viewSelects={iSelects}
-                setAcceptStatus={handleAcceptStatus}
-            />}
         </>
     );
 }

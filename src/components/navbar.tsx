@@ -33,7 +33,7 @@ function NavBarApp(props: IProps) {
 
     function refreshChangeText(): void {
         if (useCustom.user.checkRole) {
-            setChangeText(useCustom.user.email)
+            setChangeText(useCustom.user.username)
             setShowLogin(false);
         } else {
             setChangeText("Login")

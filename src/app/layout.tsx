@@ -19,7 +19,6 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const useCustom = useCustomHook()
-  const [, handleActiveTab] = useState<boolean>(false)
   const [role, setRole] = useState<boolean>(false)
 
   return (
