@@ -16,8 +16,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     } catch (error) {
         return NextResponse.json(error, { status: 500 })
     } finally {
-        console.log(">>>>>>>>>>>>>>>>000revalidatePath")
         revalidatePath("/api/order-list")
-        console.log(">>>>>>>>>>>>>>>>000revalidatePath")
     }
 }

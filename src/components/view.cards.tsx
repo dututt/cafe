@@ -5,7 +5,6 @@ import { useState } from 'react';
 import Count from './count';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
-import { revalidatePath } from 'next/cache';
 
 interface IProps {
     showViewCard: boolean
@@ -48,8 +47,6 @@ function ViewCard(props: IProps) {
             },
             body: JSON.stringify({ numTable, total, selects })
         }).then(res => {
-            console.log(">>>>>>>>>>>>>server log create order: ", res)
-            console.log(">>>>>>>>>>>>>revalidatePath")
             return res.json()
         })
             .then(res => {
