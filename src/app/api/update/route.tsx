@@ -1,17 +1,26 @@
 import pool from "@/components/db";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
-    const { id, title, content, type, image, price } = await req.json()
     try {
-        let result = await pool.query('UPDATE Item SET title=$1, content=$2, type=$3, image=$4 WHERE id=$5 RETURNING *',
-            [title, content, type, image, id]
+        const { id, title, content, type, image, price } = await req.json()
+        console.log(">>>>>>>>>>>>>>PUT: ", id, title, content, type, image, price)
+
+        const result = await fetch('https://api-cafe-three.vercel.app/api/update-food-beverage',
+            {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id, title, content, type, image, price })
+            }
         )
-        result = await pool.query('UPDATE price SET price=$1 WHERE item_id=$2 RETURNING *',
-            [price, id]
-        )
-        return NextResponse.json(result.rows[0], { status: 200 })
+        return NextResponse.json(result, { status: 200 })
     } catch (error) {
         return NextResponse.json({ error: 'Database error' }, { status: 500 })
+    } finally {
+        revalidatePath("/api/food-beverage")
     }
+
 }
