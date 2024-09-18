@@ -30,7 +30,7 @@ interface ISelections {
 interface IOrderTable {
     id: number = 0
     table_num: number
-    status: boolean
+    status: string
     price: number
     count_items: number
     created_at: Date
@@ -43,13 +43,13 @@ interface IOrderItem {
     item_num: number
 }
 
+// status: { "Accepted": false, "Received": false, "Created": false, "Done": false }
 interface ITrackingOrderTable {
-    item: IOrderTable
-    // status: { "Accepted": false, "Received": false, "Created": false, "Done": false }
-    status: IKeyValue[]
+    table_id: number
+    status: ITrackingState
 }
 
-interface IKeyValue {
+interface ITrackingState {
     key: string
     value: boolean
 }

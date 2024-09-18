@@ -1,52 +1,33 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Badge, Button, ButtonGroup, ListGroup } from "react-bootstrap"
 import ViewCardDetail from "./view.cards.detail"
 import useSWR from "swr"
 import OrderItems from "./get.order.list"
+import OrderListButtons from "./order.list.buttons"
 
 interface IProps {
     showOrderList: boolean
-    setAcceptStatus: (value: boolean) => void
 }
 
 function OrderList(props: IProps) {
-    const { showOrderList, setAcceptStatus } = props
+    const { showOrderList } = props
 
     const s: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
-    const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: false, table_num: 0, created_at: new Date })
+    const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: '', table_num: 0, created_at: new Date })
 
-    const [received, setReceived] = useState<boolean>(true)
-    const [created, setCreated] = useState<boolean>(true)
-    const [done, setDone] = useState<boolean>(true)
-    const [trackingStatus, setTrackingStatus] = useState<ITrackingOrderTable>()
+    const [refresh, setRefresh] = useState<boolean>(true)
 
-    function handleReceived(orderTable: IOrderTable): void {
-        setReceived(false)
-        setCreated(false)
-        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }] })
-        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }, { key: "Done", value: done }] })
+    const refreshButtons = (order: IOrderTable) => {
+        return <>
+            <OrderListButtons order={order} handleReceived={handleReceived} handleCreated={handleCreated} handleDone={handleDone} />
+        </>
     }
 
-    function handleCreated(orderTable: IOrderTable): void {
-        setReceived(false)
-        setCreated(true)
-        setDone(false)
-        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }, { key: "Done", value: done }] })
-    }
-
-    function handleDone(orderTable: IOrderTable): void {
-        setDone(true)
-        setTrackingStatus({ item: orderTable, status: [{ key: "Received", value: received }, { key: "Created", value: created }, { key: "Done", value: done }] })
-
-        setAcceptStatus(orderTable.status === false)
-    }
-
-    function handleShowOrderDetail(orderTable: IOrderTable): void {
-        setShowViewCard(true)
-        setOrderTable(orderTable)
-    }
+    useEffect(() => {
+        refreshButtons
+    }, [refresh])
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
@@ -59,6 +40,44 @@ function OrderList(props: IProps) {
         return <div>Orders loading...</div>
     }
     const orders: IOrderTable[] = data
+
+    function handleReceived(orderTable: IOrderTable): void {
+        orders.map((item) => {
+            if (orderTable.id === item.id) {
+                item.status = "Received"
+                refreshButtons(item)
+                return
+            }
+        })
+        setRefresh(!refresh)
+    }
+
+    function handleCreated(orderTable: IOrderTable): void {
+        orders.map((item) => {
+            if (orderTable.id === item.id) {
+                item.status = "Created";
+                refreshButtons(item)
+                return
+            }
+        })
+        setRefresh(!refresh)
+    }
+
+    function handleDone(orderTable: IOrderTable): void {
+        orders.map((item) => {
+            if (orderTable.id === item.id) {
+                item.status = "Done";
+                refreshButtons(item)
+                return
+            }
+        })
+        setRefresh(!refresh)
+    }
+
+    function handleShowOrderDetail(orderTable: IOrderTable): void {
+        setShowViewCard(true)
+        setOrderTable(orderTable)
+    }
 
     return (
         <>
@@ -74,9 +93,7 @@ function OrderList(props: IProps) {
                         <div className="ms-2 me-auto">
                             <div className="fw-bold">Bàn {orders[idx].table_num} - ({orders[idx].created_at.toString()})</div>
                             <ButtonGroup size="sm">
-                                <Button disabled={!trackingStatus?.status[0].value} onClick={() => handleReceived(orders[idx])} variant="outline-primary">Đã nhận</Button>
-                                <Button disabled={trackingStatus?.status[1].value} onClick={() => handleCreated(orders[idx])} variant="outline-warning">Đang tạo món</Button>
-                                <Button disabled={trackingStatus?.status[2].value} onClick={() => handleDone(orders[idx])} variant="outline-success">Xong</Button>
+                                <>{refreshButtons(orders[idx])}</>
                             </ButtonGroup>
 
                         </div>

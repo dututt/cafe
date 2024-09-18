@@ -59,10 +59,10 @@ export async function GET() {
         // `;
 
         // ALTER Table OrderItems
-        const result = await sql`
-            ALTER TABLE order_items
-            ADD COLUMN item_num INTEGER
-        `
+        // const result = await sql`
+        //     ALTER TABLE order_items
+        //     ADD COLUMN item_num INTEGER
+        // `
 
         // TABLE Order
         // const result = await sql`
@@ -73,6 +73,12 @@ export async function GET() {
         //         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         //     );
         // `;
+
+        // ALTER Table OrderItems
+        const result = await sql`
+        ALTER TABLE orders
+        ADD COLUMN status VARCHAR(15)
+        `
 
         // const result = await sql`drop table if exists Orders`;
 

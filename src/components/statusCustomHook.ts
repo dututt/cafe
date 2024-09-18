@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface Data {
-    status: string[]
+    trackingOrderTable: ITrackingOrderTable
 }
 
-const StatusCustomHook = (): Data => {
+const StatusCustomHook = (): void => {
     const init = ["Received", "Created", "Done"]
-    const [data, setData] = useState<Data>({ status: [] });
+    const [data, setData] = useState<ITrackingOrderTable>();
 
-    return data;
 };
 
 export default StatusCustomHook;

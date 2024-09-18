@@ -6,7 +6,7 @@ import useSWR from 'swr';
 import DrinkCard from './drink.card';
 import FoodCard from './food.card';
 import TableMeal from './table.meal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface IProps {
     role: boolean
@@ -22,8 +22,14 @@ function AppHeader(props: IProps) {
     const [selects, setSelects] = useState<ISelections>(s)
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
     const [acceptStatus, setAcceptStatus] = useState<boolean>(false)
+    const [trackingOrderTable, setTrackingOrderTable] = useState<ITrackingOrderTable>({ table_id: 0, status: { key: '', value: false } })
     const [selectNum, setSelectNum] = useState<number>(0)
     const [iSelects, setISelects] = useState<ISelections>({ selections: [] })
+
+    useEffect(() => {
+        console.log(">>>>>>>>>>AppHeader - trackingOrderTable: ", trackingOrderTable)
+        setTrackingOrderTable(trackingOrderTable)
+    }, [trackingOrderTable])
 
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -88,17 +94,17 @@ function AppHeader(props: IProps) {
                 justify
             >
                 <Tab eventKey="eat" title="Ăn">
-                    <FoodCard iSelects={iSelects} handleValueCheck={handleValueCheck} />
+                    <FoodCard iSelects={iSelects} handleValueCheck={handleValueCheck} trackingOrderTable={trackingOrderTable} />
                 </Tab>
                 <Tab eventKey="drink" title="Uống">
                     <DrinkCard iSelects={iSelects} handleValueCheck={handleValueCheck} />
                 </Tab>
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
-                    <ViewCard viewSelects={iSelects} setAcceptStatus={handleAcceptStatus} />
+                    <ViewCard viewSelects={iSelects} handleValueCheck={handleValueCheck} setAcceptStatus={handleAcceptStatus} trackingOrderTable={trackingOrderTable} setTrackingOrderTable={setTrackingOrderTable} />
                 </Tab>
                 {role &&
                     (<Tab eventKey="admin" title="Admin">
-                        {<TableMeal setAcceptStatus={setAcceptStatus} />}
+                        <TableMeal setAcceptStatus={setAcceptStatus} acceptStatus={acceptStatus} trackingOrderTable={trackingOrderTable} setTrackingOrderTable={setTrackingOrderTable} />
                     </Tab>)}
             </Tabs>
         </>
