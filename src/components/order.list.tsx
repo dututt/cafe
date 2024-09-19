@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react"
 import { Badge, Button, ButtonGroup, ListGroup } from "react-bootstrap"
 import ViewCardDetail from "./view.cards.detail"
-import useSWR from "swr"
+import useSWR, { mutate } from "swr"
 import OrderItems from "./get.order.list"
 import OrderListButtons from "./order.list.buttons"
+import { toast } from "react-toastify"
 
 interface IProps {
     showOrderList: boolean
@@ -28,6 +29,23 @@ function OrderList(props: IProps) {
 
     useEffect(() => {
         refreshButtons(orderStatus)
+        const id = orderStatus.id
+        const status = orderStatus.status
+
+        fetch(`/api/update-order-status`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id, status })
+        }).then(res => res.json())
+            .then(res => {
+                if (res) {
+                    toast.warning("Update meal succeed !")
+                    mutate("/api/order-list")
+                }
+            })
     }, [refresh])
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
