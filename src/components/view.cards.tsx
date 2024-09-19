@@ -4,6 +4,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import OrderView from './order.view';
 import { mutate } from 'swr';
+import { revalidatePath } from 'next/cache';
 
 interface IProps {
     viewSelects: ISelections
@@ -56,7 +57,8 @@ function ViewCard(props: IProps) {
             .then(res => {
                 if (res) {
                     toast.success("Create new order succeed !")
-                    mutate("/api/order-list")
+                    // mutate("/api/order-list")
+                    revalidatePath("/api/order-list")
                 }
             })
     }

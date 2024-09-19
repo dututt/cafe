@@ -10,7 +10,5 @@ export async function GET() {
         return NextResponse.json(data, { status: 200 })
     } catch (error) {
         return NextResponse.json({ error }, { status: 500 })
-    } finally {
-        revalidatePath("/api/order-list")
     }
 }
