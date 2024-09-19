@@ -15,8 +15,8 @@ function OrderList(props: IProps) {
 
     const inits: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
-    const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: '', table_num: 0, created_at: new Date })
-
+    // const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: '', table_num: 0, created_at: new Date })
+    const [orderTable, setOrderTable] = useState<IOrderTable>(inits.items[0])
     const refreshButtons = (order: IOrderTable) => {
         return <>
             <OrderListButtons order={order} handleStatus={handleStatus} />
