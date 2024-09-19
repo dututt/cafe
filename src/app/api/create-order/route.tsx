@@ -13,13 +13,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
             },
             body: JSON.stringify({ numTable, total, selects, status })
         });
+        revalidatePath("/api/order-list")
         return NextResponse.json({ result }, { status: 200 })
     } catch (error) {
         return NextResponse.json(error, { status: 500 })
     } finally {
         console.log(">>>>>>>>>>>>>revalidate order list")
         // revalidatePath("http://localhost:3001/api/order-list")
-        revalidatePath("/api/order-list")
+        // revalidatePath("/api/order-list")
         // await res.revalidate("/api/order-list")
     }
 }
