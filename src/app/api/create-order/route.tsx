@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     } finally {
         console.log(">>>>>>>>>>>>>revalidate order list")
         // revalidatePath("http://localhost:3001/api/order-list")
-        revalidatePath("/api/orders")
+        revalidatePath("/api/order-list")
         // await res.revalidate("/api/order-list")
     }
 }

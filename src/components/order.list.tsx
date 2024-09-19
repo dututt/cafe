@@ -5,6 +5,7 @@ import ViewCardDetail from "./view.cards.detail"
 import useSWR, { mutate } from "swr"
 import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
+import RevalidateButton from "./RevalidateButton"
 
 interface IProps {
     showOrderList: boolean
@@ -23,7 +24,6 @@ function OrderList(props: IProps) {
         </>
     }
 
-
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
         "/api/order-list",
@@ -35,7 +35,9 @@ function OrderList(props: IProps) {
         return <div>Orders loading...</div>
     }
     const orders: IOrderTable[] = data
-    console.log(">>>>>>>>>>>>>>>UI revalidate order list: ", orders)
+    useEffect(() => {
+        console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
+    }, [orders])
 
     function handleStatus(orderTable: IOrderTable, status: string): void {
         orders.map((item) => {
@@ -75,6 +77,7 @@ function OrderList(props: IProps) {
 
     return (
         <>
+            <RevalidateButton />
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
