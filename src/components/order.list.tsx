@@ -1,11 +1,10 @@
 'use client'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Badge, Button, ButtonGroup, ListGroup } from "react-bootstrap"
 import ViewCardDetail from "./view.cards.detail"
 import useSWR, { mutate } from "swr"
 import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
-import RevalidateButton from "./RevalidateButton"
 
 interface IProps {
     showOrderList: boolean
@@ -75,7 +74,6 @@ function OrderList(props: IProps) {
 
     return (
         <>
-            <RevalidateButton />
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
