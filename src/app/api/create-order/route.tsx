@@ -1,11 +1,13 @@
+import { NextApiResponse } from 'next';
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest, res: NextApiResponse) {
     try {
         const { numTable, total, selects, status } = await req.json()
         const result = await fetch('https://api-cafe-three.vercel.app/api/create-order', {
+            // const result = await fetch('http://localhost:3001/api/create-order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
