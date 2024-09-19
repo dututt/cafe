@@ -29,8 +29,8 @@ function OrderList(props: IProps) {
 
     useEffect(() => {
         refreshButtons(orderStatus)
-        const id = orderStatus.id
-        const status = orderStatus.status
+        const id = orderStatus?.id
+        const status = orderStatus?.status
 
         fetch(`/api/update-order-status`, {
             method: 'PUT',
