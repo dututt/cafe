@@ -17,18 +17,11 @@ function OrderList(props: IProps) {
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
     const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: '', table_num: 0, created_at: new Date })
 
-    const [refresh, setRefresh] = useState<boolean>(true)
-    const [orderStatus, setOrderStatus] = useState<IOrderTable>(inits.items[0])
-
     const refreshButtons = (order: IOrderTable) => {
         return <>
             <OrderListButtons order={order} handleStatus={handleStatus} />
         </>
     }
-
-    useEffect(() => {
-        refreshButtons(orderStatus)
-    }, [refresh])
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
@@ -46,12 +39,11 @@ function OrderList(props: IProps) {
         orders.map((item) => {
             if (orderTable.id === item.id) {
                 item.status = status;
-                setOrderStatus(item)
+                refreshButtons(item)
                 updateOrderStatus(item)
                 return
             }
         })
-        setRefresh(!refresh)
     }
 
     function handleShowOrderDetail(orderTable: IOrderTable): void {
