@@ -1,6 +1,7 @@
 import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
 import OrderStatus from "./order.status";
 import Count from "./count";
+import CurrencyDisplay from "@/app/utils/currency.display";
 
 interface IProps {
     selects: ISelection[]
@@ -31,7 +32,7 @@ function OrderView(props: IProps) {
                                         <Col>
                                             <Card.Body>
                                                 <Card.Title>{selects[idx].item?.title}</Card.Title>
-                                                <Card.Text>{selects[idx].item?.price_order}</Card.Text>
+                                                <Card.Text><CurrencyDisplay amount={selects[idx].item?.price_order} /></Card.Text>
                                             </Card.Body>
                                             <Card.Footer>
                                                 <Count selects={selects} selection={selects[idx]} status={status} refreshPrice={TotalBill} deSelect={deSelect} />

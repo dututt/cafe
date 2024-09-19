@@ -1,3 +1,4 @@
+import CurrencyDisplay from "@/app/utils/currency.display";
 import { Button, ButtonGroup, Card, Col, Form, Row } from "react-bootstrap";
 
 interface IProps {
@@ -28,8 +29,7 @@ function MenuView(props: IProps) {
                                         <Card.Text>
                                             <ButtonGroup size="sm">
                                                 <Button variant="outline-warning">Giá</Button>
-                                                <Button variant="outline-info">{iSelects?.selections[idx].item.price}</Button>
-                                                <Button variant="outline-danger">VND</Button>
+                                                <Button variant="outline-danger"><CurrencyDisplay amount={iSelects?.selections[idx].item.price} /></Button>
                                             </ButtonGroup>
                                         </Card.Text>
                                         <Form>

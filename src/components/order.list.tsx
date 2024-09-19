@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { Badge, Button, ButtonGroup, ListGroup } from "react-bootstrap"
 import ViewCardDetail from "./view.cards.detail"
 import useSWR, { mutate } from "swr"
-import OrderItems from "./get.order.list"
 import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
 
@@ -23,7 +22,7 @@ function OrderList(props: IProps) {
 
     const refreshButtons = (order: IOrderTable) => {
         return <>
-            <OrderListButtons order={order} handleReceived={handleReceived} handleCreated={handleCreated} handleDone={handleDone} />
+            <OrderListButtons order={order} handleStatus={handleStatus} />
         </>
     }
 
@@ -43,34 +42,10 @@ function OrderList(props: IProps) {
     }
     const orders: IOrderTable[] = data
 
-    function handleReceived(orderTable: IOrderTable): void {
+    function handleStatus(orderTable: IOrderTable, status: string): void {
         orders.map((item) => {
             if (orderTable.id === item.id) {
-                item.status = "Received"
-                setOrderStatus(item)
-                updateOrderStatus(item)
-                return
-            }
-        })
-        setRefresh(!refresh)
-    }
-
-    function handleCreated(orderTable: IOrderTable): void {
-        orders.map((item) => {
-            if (orderTable.id === item.id) {
-                item.status = "Created";
-                setOrderStatus(item)
-                updateOrderStatus(item)
-                return
-            }
-        })
-        setRefresh(!refresh)
-    }
-
-    function handleDone(orderTable: IOrderTable): void {
-        orders.map((item) => {
-            if (orderTable.id === item.id) {
-                item.status = "Done";
+                item.status = status;
                 setOrderStatus(item)
                 updateOrderStatus(item)
                 return
@@ -87,7 +62,7 @@ function OrderList(props: IProps) {
     function updateOrderStatus(item: IOrderTable) {
         const id = item?.id
         const status = item?.status
-
+        console.log(">>>>>>>>>>>>>>{id,status}", { id, status })
         fetch(`/api/update-order-status`, {
             method: 'PUT',
             headers: {
@@ -99,16 +74,13 @@ function OrderList(props: IProps) {
             .then(res => {
                 if (res) {
                     toast.warning("Update meal succeed !")
-                    mutate("/api/order-list")
+                    // mutate("/api/order-list")
                 }
             })
     }
 
     return (
         <>
-            <div className='mb-3'>
-                <OrderItems />
-            </div>
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}

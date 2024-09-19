@@ -2,19 +2,17 @@ import { Button } from "react-bootstrap"
 
 interface IProps {
     order: IOrderTable
-    handleReceived: (value: IOrderTable) => void
-    handleCreated: (value: IOrderTable) => void
-    handleDone: (value: IOrderTable) => void
+    handleStatus: (value: IOrderTable, status: string) => void
 }
 
 function OrderListButtons(props: IProps) {
-    const { order, handleReceived, handleCreated, handleDone } = props
+    const { order, handleStatus } = props
 
     return (
         <>
-            <Button disabled={!(order.status === "Accepted")} onClick={() => handleReceived(order)} variant="outline-primary">Đã nhận</Button>
-            <Button disabled={!(order.status === "Received")} onClick={() => handleCreated(order)} variant="outline-warning">Đang tạo món</Button>
-            <Button disabled={!(order.status === "Created")} onClick={() => handleDone(order)} variant="outline-success">Xong</Button>
+            <Button disabled={!(order.status === "Accepted")} onClick={() => handleStatus(order, "Received")} variant="outline-primary">Đã nhận</Button>
+            <Button disabled={!(order.status === "Received")} onClick={() => handleStatus(order, "Created")} variant="outline-warning">Đang tạo món</Button>
+            <Button disabled={!(order.status === "Created")} onClick={() => handleStatus(order, "Done")} variant="outline-success">Xong</Button>
         </>
     )
 }
