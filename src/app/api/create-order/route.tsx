@@ -1,9 +1,8 @@
-import { NextApiResponse } from 'next';
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 
-export async function POST(req: NextRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
     try {
         const { numTable, total, selects, status } = await req.json()
         const result = await fetch('https://api-cafe-three.vercel.app/api/create-order', {
@@ -18,7 +17,9 @@ export async function POST(req: NextRequest, res: NextApiResponse) {
     } catch (error) {
         return NextResponse.json(error, { status: 500 })
     } finally {
-        revalidatePath("/api/order-list")
+        console.log(">>>>>>>>>>>>>revalidate order list")
+        // revalidatePath("http://localhost:3001/api/order-list")
+        revalidatePath("https://api-cafe-three.vercel.app/api/order-list")
         // await res.revalidate("/api/order-list")
     }
 }

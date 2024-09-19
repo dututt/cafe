@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import OrderView from './order.view';
+import { mutate } from 'swr';
 
 interface IProps {
     viewSelects: ISelections
@@ -55,6 +56,7 @@ function ViewCard(props: IProps) {
             .then(res => {
                 if (res) {
                     toast.success("Create new order succeed !")
+                    mutate("/api/order-list")
                 }
             })
     }

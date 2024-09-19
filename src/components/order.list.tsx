@@ -23,6 +23,7 @@ function OrderList(props: IProps) {
         </>
     }
 
+
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
         "/api/order-list",
@@ -34,6 +35,7 @@ function OrderList(props: IProps) {
         return <div>Orders loading...</div>
     }
     const orders: IOrderTable[] = data
+    console.log(">>>>>>>>>>>>>>>UI revalidate order list: ", orders)
 
     function handleStatus(orderTable: IOrderTable, status: string): void {
         orders.map((item) => {
