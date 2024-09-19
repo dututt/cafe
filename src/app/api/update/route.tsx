@@ -1,4 +1,3 @@
-import pool from "@/components/db";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -18,7 +17,6 @@ export async function PUT(req: NextRequest) {
     } catch (error) {
         return NextResponse.json({ error: 'Database error' }, { status: 500 })
     } finally {
-        console.log(">>>>>>>>>>revalidatePath after update action")
         revalidatePath("/api/food-beverage")
     }
 
