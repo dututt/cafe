@@ -8,12 +8,10 @@ interface IProps {
     viewSelects: ISelections
     handleValueCheck: (value: ISelection) => number
     setAcceptStatus: (value: boolean) => void
-    trackingOrderTable: ITrackingOrderTable
-    setTrackingOrderTable: (value: ITrackingOrderTable) => void
 }
 
 function ViewCard(props: IProps) {
-    const { viewSelects, handleValueCheck, setAcceptStatus, trackingOrderTable, setTrackingOrderTable } = props
+    const { viewSelects, handleValueCheck, setAcceptStatus } = props
 
     const [status, setStatus] = useState<boolean>(false)
     const [total, setTotal] = useState<number>(0)
@@ -56,7 +54,6 @@ function ViewCard(props: IProps) {
         })
             .then(res => {
                 if (res) {
-                    setTrackingOrderTable({ table_id: numTable, status: { key: "Accepted", value: true } })
                     toast.success("Create new order succeed !")
                 }
             })

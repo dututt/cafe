@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function PUT(req: NextRequest) {
     try {
         const { id, title, content, type, image, price } = await req.json()
-        console.log(">>>>>>>>>>>>>>PUT: ", id, title, content, type, image, price)
-
         const result = await fetch('https://api-cafe-three.vercel.app/api/update-food-beverage',
             {
                 method: 'PUT',
@@ -20,6 +18,7 @@ export async function PUT(req: NextRequest) {
     } catch (error) {
         return NextResponse.json({ error: 'Database error' }, { status: 500 })
     } finally {
+        console.log(">>>>>>>>>>revalidatePath after update action")
         revalidatePath("/api/food-beverage")
     }
 

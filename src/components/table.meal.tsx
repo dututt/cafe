@@ -11,12 +11,10 @@ import deleteItem from '@/app/api/delete/delete';
 interface IProps {
     setAcceptStatus: (value: boolean) => void
     acceptStatus: boolean
-    trackingOrderTable: ITrackingOrderTable
-    setTrackingOrderTable: (value: ITrackingOrderTable) => void
 }
 
 function TableMeal(props: IProps) {
-    const { setAcceptStatus, acceptStatus, trackingOrderTable, setTrackingOrderTable } = props
+    const { setAcceptStatus, acceptStatus } = props
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
@@ -28,7 +26,7 @@ function TableMeal(props: IProps) {
         fetch('/api/food-beverage')
             .then(response => response.json())
             .then(data => setData(data));
-    }, []);
+    }, [catalog]);
 
     function handleShowModalCreate() {
         setShowModalCreate(true)
@@ -62,10 +60,6 @@ function TableMeal(props: IProps) {
                         return (
                             <tr key={item.id}>
                                 <td>{item.id}</td>
-                                <td>{item.title}</td>
-                                <td>{item.content}</td>
-                                <td>{item.image}</td>
-                                <td>{item.type}</td>
                                 <td>
                                     <ButtonGroup size="sm">
                                         <Button variant="outline-warning" onClick={() => {
@@ -76,6 +70,10 @@ function TableMeal(props: IProps) {
                                         <Button variant="outline-danger" onClick={() => deleteItem(item.id)}>Xóa</Button>
                                     </ButtonGroup>
                                 </td>
+                                <td>{item.title}</td>
+                                <td>{item.content}</td>
+                                <td>{item.image}</td>
+                                <td>{item.type}</td>
                             </tr>
                         )
                     })}

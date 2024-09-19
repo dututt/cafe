@@ -68,7 +68,6 @@ function UpdateModal(props: IProps) {
             toast.error("Not empty price !")
             return
         }
-        console.log(">>> Handle submit data: ", { id, title, content, type, image, price })
         updateCatalog()
 
         fetch(`/api/update`, {
