@@ -1,12 +1,7 @@
-import { useEffect, useState } from "react";
+import { revalidatePath } from "next/cache";
 import { Button } from "react-bootstrap";
 
 export default function OrderItems() {
-    const [refresh, setRefresh] = useState(false)
-
-    useEffect(() => {
-        handleRefresh
-    }, [refresh])
 
     function handleRefresh() {
         const data = fetch("/api/order-list")
@@ -18,6 +13,7 @@ export default function OrderItems() {
         if (!data) {
             return <div>Orders loading...</div>
         }
+        revalidatePath("/api/order-list")
     }
 
     return (
