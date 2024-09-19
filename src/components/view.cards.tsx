@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import OrderView from './order.view';
-import { mutate } from 'swr';
 import { revalidatePath } from 'next/cache';
 
 interface IProps {
@@ -56,10 +55,11 @@ function ViewCard(props: IProps) {
         })
             .then(res => {
                 if (res) {
+                    revalidatePath("/api/order-list")
                     toast.success("Create new order succeed !")
                     console.log(">>>>>>>>>>>>>>>Create new order succeed")
                     // mutate("/api/order-list")
-                    revalidatePath("/api/order-list")
+                    // revalidatePath("/api/order-list")
                 }
             })
     }
