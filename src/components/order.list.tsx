@@ -35,9 +35,7 @@ function OrderList(props: IProps) {
         return <div>Orders loading...</div>
     }
     const orders: IOrderTable[] = data
-    useEffect(() => {
-        console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
-    }, [orders])
+    console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
 
     function handleStatus(orderTable: IOrderTable, status: string): void {
         orders.map((item) => {
