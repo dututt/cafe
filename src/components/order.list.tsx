@@ -68,7 +68,7 @@ function OrderList(props: IProps) {
             .then(res => {
                 if (res) {
                     toast.warning("Update meal succeed !")
-                    // mutate("/api/order-list")
+                    mutate("/api/order-list")
                 }
             })
     }
