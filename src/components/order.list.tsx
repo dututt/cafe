@@ -29,23 +29,6 @@ function OrderList(props: IProps) {
 
     useEffect(() => {
         refreshButtons(orderStatus)
-        const id = orderStatus?.id
-        const status = orderStatus?.status
-
-        fetch(`/api/update-order-status`, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id, status })
-        }).then(res => res.json())
-            .then(res => {
-                if (res) {
-                    toast.warning("Update meal succeed !")
-                    mutate("/api/order-list")
-                }
-            })
     }, [refresh])
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -65,6 +48,7 @@ function OrderList(props: IProps) {
             if (orderTable.id === item.id) {
                 item.status = "Received"
                 setOrderStatus(item)
+                updateOrderStatus(item)
                 return
             }
         })
@@ -76,6 +60,7 @@ function OrderList(props: IProps) {
             if (orderTable.id === item.id) {
                 item.status = "Created";
                 setOrderStatus(item)
+                updateOrderStatus(item)
                 return
             }
         })
@@ -87,6 +72,7 @@ function OrderList(props: IProps) {
             if (orderTable.id === item.id) {
                 item.status = "Done";
                 setOrderStatus(item)
+                updateOrderStatus(item)
                 return
             }
         })
@@ -96,6 +82,26 @@ function OrderList(props: IProps) {
     function handleShowOrderDetail(orderTable: IOrderTable): void {
         setShowViewCard(true)
         setOrderTable(orderTable)
+    }
+
+    function updateOrderStatus(item: IOrderTable) {
+        const id = item?.id
+        const status = item?.status
+
+        fetch(`/api/update-order-status`, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id, status })
+        }).then(res => res.json())
+            .then(res => {
+                if (res) {
+                    toast.warning("Update meal succeed !")
+                    mutate("/api/order-list")
+                }
+            })
     }
 
     return (
