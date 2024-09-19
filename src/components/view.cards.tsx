@@ -55,7 +55,6 @@ function ViewCard(props: IProps) {
         })
             .then(res => {
                 if (res) {
-                    revalidatePath("/api/order-list")
                     toast.success("Create new order succeed !")
                     console.log(">>>>>>>>>>>>>>>Create new order succeed")
                     // mutate("/api/order-list")
