@@ -17,11 +17,6 @@ function OrderList(props: IProps) {
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
     // const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: '', table_num: 0, created_at: new Date })
     const [orderTable, setOrderTable] = useState<IOrderTable>(inits.items[0])
-    const refreshButtons = (order: IOrderTable) => {
-        return <>
-            <OrderListButtons order={order} handleStatus={handleStatus} />
-        </>
-    }
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
@@ -35,6 +30,12 @@ function OrderList(props: IProps) {
     }
     const orders: IOrderTable[] = data
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
+
+    const refreshButtons = (order: IOrderTable) => {
+        return <>
+            <OrderListButtons order={order} handleStatus={handleStatus} />
+        </>
+    }
 
     function handleStatus(orderTable: IOrderTable, status: string): void {
         orders.map((item) => {
