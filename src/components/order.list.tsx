@@ -41,7 +41,8 @@ function OrderList(props: IProps) {
 
     const refreshData = async () => {
         const newData2 = fetchData('https://api-cafe-three.vercel.app/api/orders')
-        console.log(">>>>>>>>>>>>>>>newData2 revalidate order list: ", newData2)
+        newData2.then((res) => console.log(">>>>>>>>>>>>>>>newData2 revalidate order list: ", res.json()))
+
         const newData = await fetcher('/api/order-list');
         mutate('/api/order-list', newData, true); // false means do not revalidate after updating the cache
         console.log(">>>>>>>>>>>>>>>refreshData revalidate order list: ", newData, orders, data)
