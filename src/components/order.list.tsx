@@ -5,6 +5,7 @@ import ViewCardDetail from "./view.cards.detail"
 import useSWR, { mutate } from "swr"
 import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
+import { fetchData } from "@/app/utils/fetchData"
 
 interface IProps {
     showOrderList: boolean
@@ -39,9 +40,11 @@ function OrderList(props: IProps) {
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
 
     const refreshData = async () => {
+        const newData2 = fetchData('https://api-cafe-three.vercel.app/api/orders')
+        console.log(">>>>>>>>>>>>>>>newData2 revalidate order list: ", newData2)
         const newData = await fetcher('/api/order-list');
         mutate('/api/order-list', newData, true); // false means do not revalidate after updating the cache
-        console.log(">>>>>>>>>>>>>>>refreshData revalidate order list: ", orders, data)
+        console.log(">>>>>>>>>>>>>>>refreshData revalidate order list: ", newData, orders, data)
     };
 
     const refreshButtons = (order: IOrderTable) => {
