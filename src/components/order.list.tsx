@@ -11,7 +11,7 @@ interface IProps {
     showOrderList: boolean
 }
 interface IOrderTableProps {
-    data: IOrderTable[]
+    refreshOrderTableProps: IOrderTable[]
 }
 
 export async function fetchData() {
@@ -22,24 +22,25 @@ export async function fetchData() {
 }
 
 export const getStaticProps: GetStaticProps<IOrderTableProps> = async () => {
-    const data = await fetchData();
+    const refreshOrderTableProps = await fetchData();
     return {
         props: {
-            data,
+            refreshOrderTableProps,
         },
         revalidate: 60, // Revalidate every 60 seconds
     };
 };
-export const HomePage: React.FC<IOrderTableProps> = ({ data }) => {
-    return (
-        <div>
-            <h1>My Data</h1>
-            <div>{data[0].id}</div>
-        </div>
-    );
-};
+// export const HomePage: React.FC<IOrderTableProps> = ({ data }) => {
+//     console.log(">>>>>>>>>>>>>>>>HomePage: ", data)
+//     return (
+//         <div>
+//             <h1>My Data</h1>
+//             <div>{data[0].id}</div>
+//         </div>
+//     );
+// };
 
-function OrderList(props: IProps) {
+function OrderList(props: IProps, { refreshOrderTableProps }: IOrderTableProps) {
     const { showOrderList } = props
 
     const inits: IOrderTables = { items: [] }
@@ -58,6 +59,7 @@ function OrderList(props: IProps) {
 
     const orders: IOrderTable[] = data
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
+    console.log(">>>>>>>>>>>>>>>revalidate order list: ", refreshOrderTableProps)
 
     const refreshButtons = (order: IOrderTable) => {
         return <>
@@ -103,7 +105,6 @@ function OrderList(props: IProps) {
 
     return (
         <>
-            <HomePage data={data} />
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
