@@ -18,15 +18,15 @@ function OrderList(props: IProps) {
     const [orderTable, setOrderTable] = useState<IOrderTable>(inits.items[0])
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    const { data } = useSWR(
+    const { data, error } = useSWR(
         "/api/order-list",
         fetcher,
         { refreshInterval: 60000, revalidateIfStale: true, refreshWhenHidden: true, refreshWhenOffline: true, revalidateOnFocus: true, revalidateOnMount: true, revalidateOnReconnect: true }
     );
 
-    if (!data) {
-        return <div>Orders loading...</div>
-    }
+    if (error) return <div>Failed to load</div>;
+    if (!data) return <div>Orders loading...</div>
+
     const orders: IOrderTable[] = data
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
 
