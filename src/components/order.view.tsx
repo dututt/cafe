@@ -48,8 +48,7 @@ function OrderView(props: IProps) {
                     <OrderStatus status={status} changeTextStatus={changeTextStatus} />
                     <ButtonGroup size="sm">
                         <Button variant="outline-warning">Tổng Giá</Button>
-                        <Button variant="outline-info">{selects.length > 0 ? total : 0}</Button>
-                        <Button variant="outline-danger">VND</Button>
+                        <Button variant="outline-info"><CurrencyDisplay amount={selects.length > 0 ? total : 0} /></Button>
                     </ButtonGroup>{' '}
                     <Button variant="secondary" disabled={!(selects.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
                 </Card.Footer>

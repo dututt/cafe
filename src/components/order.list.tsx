@@ -15,14 +15,13 @@ function OrderList(props: IProps) {
 
     const inits: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
-    // const [orderTable, setOrderTable] = useState<IOrderTable>({ id: 0, count_items: 0, price: 0, status: '', table_num: 0, created_at: new Date })
     const [orderTable, setOrderTable] = useState<IOrderTable>(inits.items[0])
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
     const { data } = useSWR(
         "/api/order-list",
         fetcher,
-        { refreshInterval: 60000 }
+        { refreshInterval: 60000, revalidateIfStale: true }
     );
 
     if (!data) {
