@@ -40,7 +40,7 @@ function OrderList(props: IProps) {
 
     const refreshData = async () => {
         const newData = await fetcher('/api/order-list');
-        mutate('/api/order-list', newData, false); // false means do not revalidate after updating the cache
+        mutate('/api/order-list', newData, true); // false means do not revalidate after updating the cache
         console.log(">>>>>>>>>>>>>>>refreshData revalidate order list: ", orders, data)
     };
 
