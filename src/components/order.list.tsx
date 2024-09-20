@@ -21,7 +21,7 @@ function OrderList(props: IProps) {
     const { data } = useSWR(
         "/api/order-list",
         fetcher,
-        { refreshInterval: 60000, revalidateIfStale: true }
+        { refreshInterval: 60000, revalidateIfStale: true, refreshWhenHidden: true, refreshWhenOffline: true, revalidateOnFocus: true, revalidateOnMount: true, revalidateOnReconnect: true }
     );
 
     if (!data) {
