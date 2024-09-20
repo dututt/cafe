@@ -23,21 +23,25 @@ function OrderList(props: IProps) {
         fetcher,
         {
             refreshInterval: 60000,
-            revalidateIfStale: false,
-            // refreshWhenHidden: true,
-            // refreshWhenOffline: true,
-            // revalidateOnFocus: true,
-            // revalidateOnMount: true,
-            // revalidateOnReconnect: true
+            revalidateIfStale: true,
+            refreshWhenHidden: true,
+            refreshWhenOffline: true,
+            revalidateOnFocus: true,
+            revalidateOnMount: true,
+            revalidateOnReconnect: true
         }
     );
-
 
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>Orders loading...</div>
 
     const orders: IOrderTable[] = data
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
+
+    const refreshData = () => {
+        mutate('/api/order-list');
+        console.log(">>>>>>>>>>>>>>>refreshData revalidate order list: ", orders, data)
+    };
 
     const refreshButtons = (order: IOrderTable) => {
         return <>
@@ -82,7 +86,7 @@ function OrderList(props: IProps) {
     }
 
     return (
-        <>
+        <><button onClick={refreshData}>Refresh Data</button>
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
