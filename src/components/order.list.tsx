@@ -21,15 +21,15 @@ function OrderList(props: IProps) {
     const { data, error } = useSWR(
         "/api/order-list",
         fetcher,
-        {
-            refreshInterval: 60000,
-            revalidateIfStale: true,
-            refreshWhenHidden: true,
-            refreshWhenOffline: true,
-            revalidateOnFocus: true,
-            revalidateOnMount: true,
-            revalidateOnReconnect: true
-        }
+        // {
+        //     refreshInterval: 60000,
+        //     revalidateIfStale: true,
+        //     refreshWhenHidden: true,
+        //     refreshWhenOffline: true,
+        //     revalidateOnFocus: true,
+        //     revalidateOnMount: true,
+        //     revalidateOnReconnect: true
+        // }
     );
 
     if (error) return <div>Failed to load</div>;
