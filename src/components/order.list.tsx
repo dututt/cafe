@@ -5,42 +5,12 @@ import ViewCardDetail from "./view.cards.detail"
 import useSWR, { mutate } from "swr"
 import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
-import { GetStaticProps } from "next"
 
 interface IProps {
     showOrderList: boolean
 }
-interface IOrderTableProps {
-    refreshOrderTableProps: IOrderTable[]
-}
 
-export async function fetchData() {
-    // Replace with your actual data fetching logic
-    const response = await fetch('https://api-cafe-three.vercel.app/api/orders');
-    const data = await response.json();
-    return data;
-}
-
-export const getStaticProps: GetStaticProps<IOrderTableProps> = async () => {
-    const refreshOrderTableProps = await fetchData();
-    return {
-        props: {
-            refreshOrderTableProps,
-        },
-        revalidate: 60, // Revalidate every 60 seconds
-    };
-};
-// export const HomePage: React.FC<IOrderTableProps> = ({ data }) => {
-//     console.log(">>>>>>>>>>>>>>>>HomePage: ", data)
-//     return (
-//         <div>
-//             <h1>My Data</h1>
-//             <div>{data[0].id}</div>
-//         </div>
-//     );
-// };
-
-function OrderList(props: IProps, { refreshOrderTableProps }: IOrderTableProps) {
+function OrderList(props: IProps) {
     const { showOrderList } = props
 
     const inits: IOrderTables = { items: [] }
@@ -51,15 +21,23 @@ function OrderList(props: IProps, { refreshOrderTableProps }: IOrderTableProps) 
     const { data, error } = useSWR(
         "/api/order-list",
         fetcher,
-        { refreshInterval: 60000, revalidateIfStale: true, refreshWhenHidden: true, refreshWhenOffline: true, revalidateOnFocus: true, revalidateOnMount: true, revalidateOnReconnect: true }
+        {
+            refreshInterval: 60000,
+            revalidateIfStale: false,
+            // refreshWhenHidden: true,
+            // refreshWhenOffline: true,
+            // revalidateOnFocus: true,
+            // revalidateOnMount: true,
+            // revalidateOnReconnect: true
+        }
     );
+
 
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>Orders loading...</div>
 
     const orders: IOrderTable[] = data
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
-    console.log(">>>>>>>>>>>>>>>revalidate order list: ", refreshOrderTableProps)
 
     const refreshButtons = (order: IOrderTable) => {
         return <>
