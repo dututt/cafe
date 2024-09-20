@@ -16,7 +16,5 @@ export async function POST(req: NextRequest, res: NextResponse) {
         return NextResponse.json({ result }, { status: 200 })
     } catch (error) {
         return NextResponse.json(error, { status: 500 })
-    } finally {
-        return NextResponse.json({ revalidated: true, now: Date.now() })
     }
 }

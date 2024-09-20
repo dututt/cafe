@@ -5,10 +5,39 @@ import ViewCardDetail from "./view.cards.detail"
 import useSWR, { mutate } from "swr"
 import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
+import { GetStaticProps } from "next"
 
 interface IProps {
     showOrderList: boolean
 }
+interface IOrderTableProps {
+    data: IOrderTable[]
+}
+
+export async function fetchData() {
+    // Replace with your actual data fetching logic
+    const response = await fetch('https://api-cafe-three.vercel.app/api/orders');
+    const data = await response.json();
+    return data;
+}
+
+export const getStaticProps: GetStaticProps<IOrderTableProps> = async () => {
+    const data = await fetchData();
+    return {
+        props: {
+            data,
+        },
+        revalidate: 60, // Revalidate every 60 seconds
+    };
+};
+export const HomePage: React.FC<IOrderTableProps> = ({ data }) => {
+    return (
+        <div>
+            <h1>My Data</h1>
+            <div>{data[0].id}</div>
+        </div>
+    );
+};
 
 function OrderList(props: IProps) {
     const { showOrderList } = props
@@ -74,6 +103,7 @@ function OrderList(props: IProps) {
 
     return (
         <>
+            <HomePage data={data} />
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
