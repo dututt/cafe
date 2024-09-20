@@ -38,8 +38,9 @@ function OrderList(props: IProps) {
     const orders: IOrderTable[] = data
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
 
-    const refreshData = () => {
-        mutate('/api/order-list');
+    const refreshData = async () => {
+        const newData = await fetcher('/api/data');
+        mutate('/api/order-list', newData, false); // false means do not revalidate after updating the cache
         console.log(">>>>>>>>>>>>>>>refreshData revalidate order list: ", orders, data)
     };
 
