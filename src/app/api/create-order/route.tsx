@@ -1,3 +1,4 @@
+import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 
 
@@ -12,6 +13,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             },
             body: JSON.stringify({ numTable, total, selects, status })
         });
+        revalidatePath("/")
         return NextResponse.json({ result }, { status: 200 })
     } catch (error) {
         return NextResponse.json(error, { status: 500 })
