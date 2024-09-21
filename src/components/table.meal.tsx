@@ -18,9 +18,9 @@ function TableMeal(props: IProps) {
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
-    const [showOrderList, setShowOrderList] = useState<boolean>(false)
     const [catalog, setCatalog] = useState<ICatalogPrice | null>(null)
     const [data, setData] = useState<ICatalogPrice[]>([])
+    const [trackingOrderStatus, setTrackingOrderStatus] = useState<ITrackingState>({ key: 'Accepted', value: false })
 
     useEffect(() => {
         fetch('/api/food-beverage')
@@ -30,21 +30,30 @@ function TableMeal(props: IProps) {
 
     function handleShowModalCreate() {
         setShowModalCreate(true)
-        setShowOrderList(false)
+        setTrackingOrderStatus({ key: "", value: false })
     }
 
     function handleShowOrderList() {
-        setShowOrderList(true)
+        setTrackingOrderStatus({ key: "Accepted", value: true })
+    }
+
+    function handleShowOrderListCreate() {
+        setTrackingOrderStatus({ key: "Received", value: true })
+    }
+
+    function handleShowOrderListDonne() {
+        setTrackingOrderStatus({ key: "Created", value: true })
     }
 
     return (
         <>
-            <div className='mb-3'
-                style={{ display: "flex", justifyContent: "space-between" }}>
-                <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Danh sách đặt món</Button>
+            <ButtonGroup size="sm">
+                <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Món đã đặt</Button>
+                <Button variant='outline-primary' onClick={() => handleShowOrderListCreate()}>Món đang tạo</Button>
+                <Button variant='outline-primary' onClick={() => handleShowOrderListDonne()}>Món đã xong</Button>
                 <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
-            </div>
-            <Table striped bordered hover responsive size="sm" hidden={showOrderList}>
+            </ButtonGroup>
+            <Table striped bordered hover responsive size="sm" hidden={trackingOrderStatus.value}>
                 <thead>
                     <tr>
                         <th>#</th>
@@ -80,7 +89,7 @@ function TableMeal(props: IProps) {
                 </tbody>
             </Table>
 
-            <OrderList showOrderList={showOrderList} />
+            <OrderList trackingOrderStatus={trackingOrderStatus} />
             <CreateModal
                 showModalCreate={showModalCreate}
                 setShowModalCreate={setShowModalCreate}

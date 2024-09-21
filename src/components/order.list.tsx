@@ -7,11 +7,11 @@ import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
 
 interface IProps {
-    showOrderList: boolean
+    trackingOrderStatus: ITrackingState
 }
 
 function OrderList(props: IProps) {
-    const { showOrderList } = props
+    const { trackingOrderStatus } = props
 
     const inits: IOrderTables = { items: [] }
     const [showViewCard, setShowViewCard] = useState<boolean>(false)
@@ -36,8 +36,7 @@ function OrderList(props: IProps) {
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>Orders loading...</div>
 
-    const orders: IOrderTable[] = data
-    console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders)
+    let orders: IOrderTable[] = data
 
     const refreshButtons = (order: IOrderTable) => {
         return <>
@@ -45,12 +44,14 @@ function OrderList(props: IProps) {
         </>
     }
 
+    orders = orders.filter(item => item.status === trackingOrderStatus.key)
+
     function handleStatus(orderTable: IOrderTable, status: string): void {
         orders.map((item) => {
             if (orderTable.id === item.id) {
                 item.status = status;
-                refreshButtons(item)
                 updateOrderStatus(item)
+                refreshButtons(item)
                 return
             }
         })
@@ -83,7 +84,7 @@ function OrderList(props: IProps) {
 
     return (
         <>
-            <ListGroup as="ol" numbered hidden={!showOrderList}>
+            <ListGroup as="ol" numbered hidden={!trackingOrderStatus.value}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
                         as="li"
@@ -103,6 +104,7 @@ function OrderList(props: IProps) {
                     </ListGroup.Item>
                 ))}
             </ListGroup>
+
 
             <ViewCardDetail
                 showViewCard={showViewCard}
