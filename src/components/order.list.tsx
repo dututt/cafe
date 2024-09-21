@@ -5,7 +5,6 @@ import ViewCardDetail from "./view.cards.detail"
 import useSWR, { mutate } from "swr"
 import OrderListButtons from "./order.list.buttons"
 import { toast } from "react-toastify"
-import { fetchData } from "@/app/utils/fetchData"
 
 interface IProps {
     showOrderList: boolean
@@ -22,15 +21,15 @@ function OrderList(props: IProps) {
     const { data, error } = useSWR(
         "/api/order-list",
         fetcher,
-        // {
-        //     refreshInterval: 60000,
-        //     revalidateIfStale: true,
-        //     refreshWhenHidden: true,
-        //     refreshWhenOffline: true,
-        //     revalidateOnFocus: true,
-        //     revalidateOnMount: true,
-        //     revalidateOnReconnect: true
-        // }
+        {
+            // refreshInterval: 60000,
+            revalidateIfStale: true,
+            refreshWhenHidden: true,
+            refreshWhenOffline: true,
+            revalidateOnFocus: true,
+            revalidateOnMount: true,
+            revalidateOnReconnect: true
+        }
     );
 
     if (error) return <div>Failed to load</div>;
@@ -38,15 +37,6 @@ function OrderList(props: IProps) {
 
     const orders: IOrderTable[] = data
     console.log(">>>>>>>>>>>>>>>111UI revalidate order list: ", orders, data)
-
-    const refreshData = async () => {
-        const newData2 = fetchData('https://api-cafe-three.vercel.app/api/orders')
-        newData2.then((res) => console.log(">>>>>>>>>>>>>>>newData2 revalidate order list: ", res.json()))
-
-        const newData = await fetcher('/api/order-list');
-        mutate('/api/order-list', newData, true); // false means do not revalidate after updating the cache
-        console.log(">>>>>>>>>>>>>>>refreshData revalidate order list: ", newData, orders, data)
-    };
 
     const refreshButtons = (order: IOrderTable) => {
         return <>
@@ -73,7 +63,7 @@ function OrderList(props: IProps) {
     function updateOrderStatus(item: IOrderTable) {
         const id = item?.id
         const status = item?.status
-        console.log(">>>>>>>>>>>>>>{id,status}", { id, status })
+
         fetch(`/api/update-order-status`, {
             method: 'PUT',
             headers: {
@@ -91,7 +81,7 @@ function OrderList(props: IProps) {
     }
 
     return (
-        <><button onClick={refreshData}>Refresh Data</button>
+        <>
             <ListGroup as="ol" numbered hidden={!showOrderList}>
                 {orders && Array.from({ length: orders?.length }).map((_, idx) => (
                     <ListGroup.Item key={idx}
