@@ -7,10 +7,11 @@ import { mutate } from "swr";
 interface IProps {
     showModalCreate: boolean
     setShowModalCreate: (value: boolean) => void
+    data: ICatalogPrice[]
 }
 
 const CreateModal = (props: IProps) => {
-    const { showModalCreate, setShowModalCreate } = props
+    const { showModalCreate, setShowModalCreate, data } = props
 
     const [title, setTitle] = useState<string>("")
     const [content, setContent] = useState<string>("")
@@ -18,6 +19,12 @@ const CreateModal = (props: IProps) => {
     const [image, setImage] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
 
+
+    function checkExisting() {
+        const existItems = data.filter(item => item.title.trim() === title.trim())
+        if (existItems.length > 0) return true
+        return false
+    }
 
     const handleAddItem = () => {
 
@@ -37,6 +44,10 @@ const CreateModal = (props: IProps) => {
             toast.error("Not empty price !")
             return
         }
+        if (checkExisting()) {
+            toast.success("Meal existing !")
+            return
+        }
         fetch('/api/create', {
             method: 'POST',
             headers: {
@@ -48,7 +59,7 @@ const CreateModal = (props: IProps) => {
             .then(res => {
                 if (res) {
                     toast.success("Create new meal succeed !")
-                    mutate("/api/fetch")
+                    mutate("/api/food-beverage")
                 }
             })
     }
@@ -141,3 +152,4 @@ const CreateModal = (props: IProps) => {
 }
 
 export default CreateModal;
+

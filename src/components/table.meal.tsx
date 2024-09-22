@@ -93,6 +93,7 @@ function TableMeal(props: IProps) {
             <CreateModal
                 showModalCreate={showModalCreate}
                 setShowModalCreate={setShowModalCreate}
+                data={data}
             />
 
             <UpdateModal

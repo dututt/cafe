@@ -55,7 +55,6 @@ function ViewCard(props: IProps) {
             .then(res => {
                 if (res) {
                     toast.success("Create new order succeed !")
-                    console.log(">>>>>>>>>>>>>>>Create new order succeed")
                 }
             })
     }
