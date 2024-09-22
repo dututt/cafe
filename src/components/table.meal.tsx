@@ -5,7 +5,8 @@ import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
 import { useEffect, useState } from 'react';
 import OrderList from './order.list';
-import deleteItem from '@/app/api/delete/delete';
+import { toast } from 'react-toastify';
+import { mutate } from 'swr';
 
 
 interface IProps {
@@ -45,6 +46,23 @@ function TableMeal(props: IProps) {
         setTrackingOrderStatus({ key: "Created", value: true })
     }
 
+    const handleDeleteItem = (id: number) => {
+        console.log(">>>>>>>>>>>>>>>>handleDeleteItem: ", id)
+        fetch(`/api/food-beverage-delete`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        }).then(res => res.json())
+            .then(res => {
+                if (res) {
+                    toast.warning("Delete meal succeed !")
+                    mutate("/api/food-beverage")
+                }
+            })
+    }
+
     return (
         <>
             <ButtonGroup size="sm">
@@ -76,7 +94,7 @@ function TableMeal(props: IProps) {
                                             setShowModalUpdate(true)
                                         }}>Sửa</Button>
                                         <Button variant="outline-info">Xem</Button>
-                                        <Button variant="outline-danger" onClick={() => deleteItem(item.id)}>Xóa</Button>
+                                        <Button disabled variant="outline-danger" onClick={() => handleDeleteItem(item.id)}>Xóa</Button>
                                     </ButtonGroup>
                                 </td>
                                 <td>{item.title}</td>
