@@ -1,5 +1,5 @@
 import CurrencyDisplay from "@/app/utils/currency.display";
-import { Button, ButtonGroup, Card, Col, Form, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Card, CloseButton, Col, Form, Row } from "react-bootstrap";
 
 interface IProps {
     iSelects: ISelections
@@ -15,17 +15,16 @@ function MenuView(props: IProps) {
             <Row xs={1} md={2} className="g-4">
                 {Array.from({ length: iSelects?.selections?.length }).map((_, idx) => (
                     <Col key={idx}>
-                        <Card style={{ height: '11rem' }}>
+                        <Card style={{ height: '9rem' }}>
                             <Row>
                                 <Col>
-                                    <Card.Img variant="top" style={{ height: '10rem' }} className="card-img-top fixed-size" src={iSelects?.selections[idx].item.image} />
+                                    <Card.Img variant="top" style={{ height: '8rem' }} className="card-img-top fixed-size" src={iSelects?.selections[idx].item.image} />
                                 </Col>
                                 <Col>
                                     <Card.Body>
-                                        <Card.Title>{iSelects?.selections[idx].item.title}</Card.Title>
-                                        <Card.Text>
-                                            {iSelects?.selections[idx].item.content}
-                                        </Card.Text>
+                                        <Card.Title>
+                                            {iSelects?.selections[idx].item.title}
+                                        </Card.Title>
                                         <Card.Text>
                                             <ButtonGroup size="sm">
                                                 <Button variant="outline-warning">Giá</Button>

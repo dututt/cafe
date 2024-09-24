@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
+import { Badge, Button, ButtonGroup, Card, CloseButton, Col, Row } from "react-bootstrap";
 import OrderStatus from "./order.status";
 import Count from "./count";
 import CurrencyDisplay from "@/app/utils/currency.display";
@@ -31,11 +31,14 @@ function OrderView(props: IProps) {
                                         </Col>
                                         <Col>
                                             <Card.Body>
-                                                <Card.Title>{selects[idx].item?.title}</Card.Title>
+                                                <Card.Title className="d-flex justify-content-between align-items-start">
+                                                    {selects[idx].item?.title}
+                                                    <CloseButton onClick={() => deSelect(selects[idx])} />
+                                                </Card.Title>
                                                 <Card.Text><CurrencyDisplay amount={selects[idx].item?.price_order} /></Card.Text>
                                             </Card.Body>
                                             <Card.Footer>
-                                                <Count selects={selects} selection={selects[idx]} status={status} refreshPrice={TotalBill} deSelect={deSelect} />
+                                                <Count selects={selects} selection={selects[idx]} status={status} refreshPrice={TotalBill} />
                                             </Card.Footer>
                                         </Col>
                                     </Row>

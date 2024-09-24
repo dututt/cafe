@@ -6,10 +6,11 @@ interface IProps {
     selection: ISelection
     status: boolean
     refreshPrice: () => void
+    deSelect: (value: ISelection) => void
 }
 
-function Count(props: IProps) {
-    const { selects, selection, status, refreshPrice } = props
+function Count1(props: IProps) {
+    const { selects, selection, status, refreshPrice, deSelect } = props
 
     const [count, setCount] = useState<number>(1)
 
@@ -60,4 +61,4 @@ function Count(props: IProps) {
         </>
     );
 }
-export default Count;
+export default Count1;

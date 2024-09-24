@@ -10,6 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import useCustomHook from '@/components/useCustomHook';
 import { useState } from 'react';
+import Menu from '@/components/menu';
+import BrandCard from '@/components/brand.card';
+import MenuOffCanvas from '@/components/menu.offcanvas';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +29,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <NavBarApp useCustom={useCustom} setRole={setRole} />
         <AppHeader useCustom={useCustom} role={role} />
+        {/* <BrandCard />
+        <MenuOffCanvas />
+        <Menu /> */}
         <Container>
           {children}
         </Container>

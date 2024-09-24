@@ -71,6 +71,7 @@ function ViewCard(props: IProps) {
         const find = selects.filter(item => item.item.id === value.item.id)
         if (find) {
             find[0].selected = false;
+            find[0].amount = 0
             let index: number = selects.indexOf(find[0])
             selects.splice(index, 1)
         }
