@@ -21,7 +21,7 @@ function OrderView(props: IProps) {
             <Card className="text-center">
                 <Card.Header>Danh sách món đã chọn</Card.Header>
                 <Card.Body>
-                    <Row xs={1} md={2} className="g-4">
+                    <Row xs={1} md={2} className="g-0">
                         {Array.from({ length: selects?.length }).map((_, idx) => (
                             <Col key={idx}>
                                 <Card>
@@ -48,12 +48,12 @@ function OrderView(props: IProps) {
                     </Row>
                 </Card.Body>
                 <Card.Footer className="text-muted">
-                    <OrderStatus status={status} changeTextStatus={changeTextStatus} />
                     <ButtonGroup size="sm">
+                        <OrderStatus status={status} changeTextStatus={changeTextStatus} />
                         <Button variant="outline-warning">Tổng Giá</Button>
-                        <Button variant="outline-info"><CurrencyDisplay amount={selects.length > 0 ? total : 0} /></Button>
-                    </ButtonGroup>{' '}
-                    <Button variant="secondary" disabled={!(selects.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
+                        <Button variant="outline-danger"><CurrencyDisplay amount={selects.length > 0 ? total : 0} /></Button>
+                        <Button variant="secondary" disabled={!(selects.length > 0) || status} onClick={() => handleAcceptView()}>Đồng ý</Button>
+                    </ButtonGroup>
                 </Card.Footer>
             </Card>
         </>

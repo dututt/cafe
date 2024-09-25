@@ -12,7 +12,7 @@ function MenuView(props: IProps) {
 
     return (
         <>
-            <Row xs={1} md={2} className="g-4">
+            <Row xs={1} md={2} className="g-0">
                 {Array.from({ length: iSelects?.selections?.length }).map((_, idx) => (
                     <Col key={idx}>
                         <Card style={{ height: '9rem' }}>

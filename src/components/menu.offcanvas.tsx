@@ -1,4 +1,4 @@
-import { Offcanvas } from 'react-bootstrap';
+import { Image, Offcanvas } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -10,17 +10,21 @@ function MenuOffCanvas() {
     return (
         <>
             {['sm'].map((expand, idx) => (
-                <Navbar key={idx} expand={expand} className="bg-body-tertiary mb-3">
+                <Navbar key={idx} expand={expand} className="bg-body-tertiary mb-1">
                     <Container fluid>
                         <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                         <Form className="d-flex">
                             <Form.Control
                                 type="search"
-                                placeholder="Search"
+                                placeholder="Tìm kiếm"
                                 className="me-2"
-                                aria-label="Search"
+                                aria-label="Tìm kiếm"
                             />
-                            <Button variant="outline-success">Se..</Button>
+                            <Button variant="outline-success">
+                                {/* <Image src='https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-64.png'
+                                    alt='Tìm kiếm' /> */}
+                                Se...
+                            </Button>
                         </Form>
                         <Navbar.Offcanvas
                             id={`offcanvasNavbar-expand-${expand}`}
@@ -29,24 +33,23 @@ function MenuOffCanvas() {
                         >
                             <Offcanvas.Header closeButton>
                                 <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                                    Thực đơn
+                                    Quản lý
                                 </Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link href="#action1">Home</Nav.Link>
-                                    <Nav.Link href="#action2">Link</Nav.Link>
+                                    <Nav.Link href="#action2">Thực đơn</Nav.Link>
                                     <NavDropdown
-                                        title="Dropdown"
+                                        title="Doanh thu"
                                         id={`offcanvasNavbarDropdown-expand-${expand}`}
                                     >
-                                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                                        <NavDropdown.Item href="#action3">Theo ngày</NavDropdown.Item>
                                         <NavDropdown.Item href="#action4">
-                                            Another action
+                                            Theo tháng
                                         </NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item href="#action5">
-                                            Something else here
+                                            Theo năm
                                         </NavDropdown.Item>
                                     </NavDropdown>
                                 </Nav>

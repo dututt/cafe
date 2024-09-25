@@ -28,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NavBarApp useCustom={useCustom} setRole={setRole} />
+        <MenuOffCanvas />
         <AppHeader useCustom={useCustom} role={role} />
         {/* <BrandCard />
         <MenuOffCanvas />
