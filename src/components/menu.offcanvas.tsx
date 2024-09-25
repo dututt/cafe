@@ -21,8 +21,6 @@ function MenuOffCanvas() {
                                 aria-label="Tìm kiếm"
                             />
                             <Button variant="outline-success">
-                                {/* <Image src='https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-64.png'
-                                    alt='Tìm kiếm' /> */}
                                 Se...
                             </Button>
                         </Form>
@@ -38,7 +36,7 @@ function MenuOffCanvas() {
                             </Offcanvas.Header>
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                                    <Nav.Link href="#action2">Thực đơn</Nav.Link>
+                                    <Nav.Link href="#action2">Đơn hàng</Nav.Link>
                                     <NavDropdown
                                         title="Doanh thu"
                                         id={`offcanvasNavbarDropdown-expand-${expand}`}

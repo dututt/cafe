@@ -24,22 +24,20 @@ function OrderView(props: IProps) {
                     <Row xs={1} md={2} className="g-0">
                         {Array.from({ length: selects?.length }).map((_, idx) => (
                             <Col key={idx}>
-                                <Card>
+                                <Card style={{ height: '9rem' }}>
                                     <Row>
-                                        <Col xs={6} md={4}>
-                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={selects[idx].item?.image} />
+                                        <Col xs={6} md={0}>
+                                            <Card.Img variant="top" style={{ height: '8rem' }} className="card-img-top fixed-size-m p-1" src={selects[idx].item?.image} />
                                         </Col>
                                         <Col>
-                                            <Card.Body>
+                                            <Card.Body className="m-0 p-1">
                                                 <Card.Title className="d-flex justify-content-between align-items-start">
                                                     {selects[idx].item?.title}
                                                     <CloseButton onClick={() => deSelect(selects[idx])} />
                                                 </Card.Title>
                                                 <Card.Text><CurrencyDisplay amount={selects[idx].item?.price_order} /></Card.Text>
-                                            </Card.Body>
-                                            <Card.Footer>
                                                 <Count selects={selects} selection={selects[idx]} status={status} refreshPrice={TotalBill} />
-                                            </Card.Footer>
+                                            </Card.Body>
                                         </Col>
                                     </Row>
                                 </Card>

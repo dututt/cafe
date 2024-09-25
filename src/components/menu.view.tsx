@@ -18,10 +18,10 @@ function MenuView(props: IProps) {
                         <Card style={{ height: '9rem' }}>
                             <Row>
                                 <Col>
-                                    <Card.Img variant="top" style={{ height: '8rem' }} className="card-img-top fixed-size" src={iSelects?.selections[idx].item.image} />
+                                    <Card.Img variant="top" style={{ height: '8rem' }} className="card-img-top fixed-size p-1" src={iSelects?.selections[idx].item.image} />
                                 </Col>
                                 <Col>
-                                    <Card.Body>
+                                    <Card.Body className="m-0 p-1">
                                         <Card.Title>
                                             {iSelects?.selections[idx].item.title}
                                         </Card.Title>
