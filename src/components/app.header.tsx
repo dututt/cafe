@@ -5,18 +5,9 @@ import ViewCard from './view.cards';
 import useSWR from 'swr';
 import DrinkCard from './drink.card';
 import FoodCard from './food.card';
-import TableMeal from './table.meal';
 import { useState } from 'react';
 
-interface IProps {
-    role: boolean
-    useCustom: {
-        user: IUser
-    }
-}
-
-function AppHeader(props: IProps) {
-    const { useCustom, role } = props
+function AppHeader() {
 
     const s: ISelections = { selections: [] }
     const [selects, setSelects] = useState<ISelections>(s)
@@ -26,7 +17,7 @@ function AppHeader(props: IProps) {
     const [iSelects, setISelects] = useState<ISelections>({ selections: [] })
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    const { data } = useSWR(
+    const { data, error, isLoading } = useSWR(
         "/api/fetch",
         fetcher,
         {
@@ -35,7 +26,7 @@ function AppHeader(props: IProps) {
             revalidateOnReconnect: true
         }
     );
-    if (!data) {
+    if (isLoading) {
         return <div>loading...</div>
     }
 
@@ -55,10 +46,10 @@ function AppHeader(props: IProps) {
     function handleAcceptStatus(value: boolean) {
         setAcceptStatus(value)
     }
-
     const items: ICatalogPrice[] = data?.result?.rows
 
     if (iSelects?.selections.length === 0) {
+        // iSelects?.selections.splice(0, iSelects.selections.length)
         items && items.map(val => {
             const iS: ISelection = {
                 item: val,
@@ -95,10 +86,6 @@ function AppHeader(props: IProps) {
                 <Tab eventKey="view" title={"Xem (" + selectNum + ")"}>
                     <ViewCard viewSelects={iSelects} handleValueCheck={handleValueCheck} setAcceptStatus={handleAcceptStatus} />
                 </Tab>
-                {role &&
-                    (<Tab eventKey="admin" title="Admin">
-                        <TableMeal setAcceptStatus={setAcceptStatus} acceptStatus={acceptStatus} />
-                    </Tab>)}
             </Tabs>
         </>
     );

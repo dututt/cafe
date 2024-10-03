@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import OrderView from './order.view';
 
@@ -16,23 +15,23 @@ function ViewCard(props: IProps) {
     const [status, setStatus] = useState<boolean>(false)
     const [total, setTotal] = useState<number>(0)
     const [changeTextStatus, setChangeTextStatus] = useState<string>('')
+    const [tableNum, setTableNum] = useState<string>('')
 
-    const pathname = usePathname()
-    const searchParams = useSearchParams();
-    const hash = typeof window !== 'undefined' ? window.location.hash : '';
-    const fullUrl = `${window.location.origin}${pathname}${searchParams && searchParams.toString() ? '?' + searchParams.toString() : ''}${hash}`;
-    let tableNum = fullUrl.split("#")[1]
-
+    // const pathname = usePathname()
+    // const searchParams = useSearchParams();
+    // const hash = typeof window !== 'undefined' ? window.location.hash : '';
+    // const fullUrl = `${window.location.origin}${pathname}${searchParams && searchParams.toString() ? '?' + searchParams.toString() : ''}${hash}`;
+    // let tableNum = fullUrl.split("#")[1]
 
     function handleChangeTextStatus() {
-        setChangeTextStatus('Đang tiếp nhận...')
+        setChangeTextStatus('Thực đơn đã gửi...')
     }
 
     const selects = viewSelects.selections.filter(item => item.selected === true)
     useEffect(() => {
         refreshView()
         TotalBill()
-    }, [selects])
+    })
 
     function handleAcceptView(): void {
         setStatus(true)
@@ -41,7 +40,7 @@ function ViewCard(props: IProps) {
 
         let numTable = !tableNum ? 0 : Number.parseInt(tableNum)
         const status = "Accepted"
-
+        console.log(">>>>>>>>>>>>>>>numTable: ", numTable)
         fetch('/api/create-order', {
             method: 'POST',
             headers: {
@@ -68,18 +67,18 @@ function ViewCard(props: IProps) {
     }
 
     function deSelect(value: ISelection) {
-        const find = selects.filter(item => item.item.id === value.item.id)
-        if (find) {
-            find[0].selected = false;
-            find[0].amount = 0
-            let index: number = selects.indexOf(find[0])
+        let founds = selects.filter(item => item.item.id === value.item.id)
+        if (founds) {
+            founds[0].selected = false;
+            founds[0].amount = 0
+            let index: number = selects.indexOf(founds[0])
             selects.splice(index, 1)
         }
         handleValueCheck(value)
     }
 
     function refreshView() {
-        return (<><OrderView selects={selects} status={status} TotalBill={TotalBill} deSelect={deSelect} changeTextStatus={changeTextStatus} total={total} handleAcceptView={handleAcceptView} /></>)
+        return (<><OrderView selects={selects} status={status} TotalBill={TotalBill} deSelect={deSelect} changeTextStatus={changeTextStatus} total={total} handleAcceptView={handleAcceptView} setTableNum={setTableNum} /></>)
     }
 
     return (

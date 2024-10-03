@@ -13,7 +13,7 @@ function GridCard(props: IProps) {
 
     useEffect(() => {
         refreshView()
-    }, [iSelects])
+    })
 
     const handleCheck = (ck: boolean, cat: ISelection) => {
         cat.selected = ck
@@ -21,7 +21,7 @@ function GridCard(props: IProps) {
     }
 
     function refreshView() {
-        return <><MenuView iSelects={iSelects} valueCheck={valueCheck} handleCheck={handleCheck} /></>
+        return <><MenuView iSelects={iSelects?.selections} handleCheck={handleCheck} /></>
     }
 
     return (

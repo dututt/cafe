@@ -2,51 +2,50 @@
 import { FormEvent, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import useSWR from 'swr';
+import useSWR, { Fetcher } from 'swr';
 
 interface IProps {
     refreshChangeText: () => void
-    useCustom: {
-        user: IUser
-    }
 }
 
 function LoginCard(props: IProps) {
-    const { useCustom, refreshChangeText } = props
+    const { refreshChangeText } = props
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const fetcher = (url: string) => fetch(url).then((res) => res.json());
+    const fetcher: Fetcher<IUser[], string> = (url: string) => fetch(url).then((res) => res.json());
 
-    const { data } = useSWR(
+    const { data, error, isLoading } = useSWR(
         "/api/login",
         fetcher,
         {
-            revalidateIfStale: false,
-            revalidateOnFocus: false,
-            revalidateOnReconnect: false
+            revalidateIfStale: true,
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true
         }
     );
-    if (!data) {
+    if (error) {
         return <div>login failed...</div>
     }
-    const users: IUser[] = data
+    if (isLoading) {
+        return <div>isLoading...</div>
+    }
 
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (users[0].email === email && users[0].password === password) {
-            useCustom.user.checkRole = true
-            useCustom.user.email = email
-            useCustom.user.username = users[0].username
+        const user = data?.find(user => user.email === email && user.password === password)
+        if (user) {
+            // userLogin.checkRole = true
+            // userLogin.username = user.username
+            // setUserLogin(userLogin)
             refreshChangeText()
         }
     }
 
     return (
         <>
-
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>

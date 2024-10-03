@@ -4,24 +4,17 @@ import Table from 'react-bootstrap/Table';
 import UpdateModal from './update.modal';
 import CreateModal from './create.modal';
 import { useEffect, useState } from 'react';
-import OrderList from './order.list';
 import { toast } from 'react-toastify';
 import { mutate } from 'swr';
 
-
-interface IProps {
-    setAcceptStatus: (value: boolean) => void
-    acceptStatus: boolean
-}
-
-function TableMeal(props: IProps) {
-    const { setAcceptStatus, acceptStatus } = props
+function TableMeal() {
 
     const [showModalCreate, setShowModalCreate] = useState<boolean>(false)
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
     const [catalog, setCatalog] = useState<ICatalogPrice | null>(null)
     const [data, setData] = useState<ICatalogPrice[]>([])
-    const [trackingOrderStatus, setTrackingOrderStatus] = useState<ITrackingState>({ key: 'Accepted', value: false })
+    const [sortColumn, setSortColumn] = useState<string>('');
+    const [sortDirection, setSortDirection] = useState('asc');
 
     useEffect(() => {
         fetch('/api/food-beverage')
@@ -31,23 +24,9 @@ function TableMeal(props: IProps) {
 
     function handleShowModalCreate() {
         setShowModalCreate(true)
-        setTrackingOrderStatus({ key: "", value: false })
-    }
-
-    function handleShowOrderList() {
-        setTrackingOrderStatus({ key: "Accepted", value: true })
-    }
-
-    function handleShowOrderListCreate() {
-        setTrackingOrderStatus({ key: "Received", value: true })
-    }
-
-    function handleShowOrderListDonne() {
-        setTrackingOrderStatus({ key: "Created", value: true })
     }
 
     const handleDeleteItem = (id: number) => {
-        console.log(">>>>>>>>>>>>>>>>handleDeleteItem: ", id)
         fetch(`/api/food-beverage-delete`, {
             method: 'DELETE',
             headers: {
@@ -66,20 +45,17 @@ function TableMeal(props: IProps) {
     return (
         <>
             <ButtonGroup size="sm">
-                <Button variant='outline-primary' onClick={() => handleShowOrderList()}>Món đã đặt</Button>
-                <Button variant='outline-primary' onClick={() => handleShowOrderListCreate()}>Món đang tạo</Button>
-                <Button variant='outline-primary' onClick={() => handleShowOrderListDonne()}>Món đã xong</Button>
-                <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm món mới</Button>
+                <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm thực đơn</Button>
             </ButtonGroup>
-            <Table striped bordered hover responsive size="sm" hidden={trackingOrderStatus.value}>
+            <Table striped bordered hover responsive size="sm">
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th></th>
                         <th>Tiêu đề</th>
                         <th>Nội dung</th>
                         <th>Hình ảnh</th>
                         <th>Thể loại</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,7 +83,6 @@ function TableMeal(props: IProps) {
                 </tbody>
             </Table>
 
-            <OrderList trackingOrderStatus={trackingOrderStatus} />
             <CreateModal
                 showModalCreate={showModalCreate}
                 setShowModalCreate={setShowModalCreate}

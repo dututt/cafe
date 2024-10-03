@@ -1,45 +1,21 @@
+'use client'
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import LoginCard from './login.card';
-import Register from './register';
+import { Modal, NavLink } from 'react-bootstrap';
+import Register from '../../components/register';
+import { redirect, useRouter } from 'next/navigation';
+import { useClerk } from '@clerk/nextjs';
+import Link from 'next/link';
 
-interface IProps {
-    setRole: (value: boolean) => void
-    useCustom: {
-        user: IUser
-    }
-}
+function NavBarApp() {
 
-function NavBarApp(props: IProps) {
-    const { useCustom, setRole } = props
+    const router = useRouter()
+    const { user } = useClerk();
 
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
-    const [changeText, setChangeText] = useState<string>("Login")
-
     const handleClose = () => setShowLogin(false);
-
-    const handleShowLogin = () => {
-        if (useCustom.user.checkRole) {
-            useCustom.user.checkRole = false
-            refreshChangeText()
-        } else {
-            setShowLogin(true);
-        }
-        setRole(useCustom.user.checkRole)
-    }
-
-    function refreshChangeText(): void {
-        if (useCustom.user.checkRole) {
-            setChangeText(useCustom.user.username)
-            setShowLogin(false);
-        } else {
-            setChangeText("Login")
-        }
-        setRole(useCustom.user.checkRole)
-    }
 
     const handleCloseRegister = () => setShowRegister(false);
     const handleShowRegister = () => {
@@ -51,12 +27,12 @@ function NavBarApp(props: IProps) {
         <div>
             <Navbar className="bg-body-tertiary">
                 <Container>
-                    <Navbar.Brand href="#home">[Logo Cafe]</Navbar.Brand>
+                    <Navbar.Brand href="#home">[Cafe]</Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
-                        <Navbar.Text>
-                            <Navbar.Brand onClick={handleShowLogin} href="#">{changeText}</Navbar.Brand>
-                        </Navbar.Text>
+                        {user?.primaryEmailAddress?.emailAddress ?? <Link href='/login'>
+                            Login
+                        </Link>}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
@@ -67,7 +43,7 @@ function NavBarApp(props: IProps) {
                     <Modal.Title>Đăng Nhập</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <LoginCard useCustom={useCustom} refreshChangeText={refreshChangeText} />
+                    {/* <LoginCard refreshChangeText={refreshChangeText} /> */}
                     <Navbar.Brand onClick={handleShowRegister} href="#">Đăng Ký</Navbar.Brand>
                 </Modal.Body>
             </Modal>

@@ -27,11 +27,7 @@ function Count(props: IProps) {
             }
         })
         refreshPrice()
-    }, [selection])
-
-    useEffect(() => {
-        refreshPrice()
-    }, [count])
+    })
 
     const increment = () => {
         let co = count + 1

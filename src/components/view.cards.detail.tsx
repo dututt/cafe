@@ -50,13 +50,13 @@ function ViewCardDetail(props: IProps) {
                     <Row xs={1} md={2} className="g-4">
                         {Array.from({ length: order_items.length }).map((_, idx) => (
                             <Col key={idx}>
-                                <Card style={{ height: '10rem' }}>
+                                <Card style={{ height: '7rem' }}>
                                     <Row>
                                         <Col>
-                                            <Card.Img variant="top" className="card-img-top fixed-size-m" src={order_items[idx].image} />
+                                            <Card.Img variant="top" style={{ height: '6rem' }} className="card-img-top fixed-size-m" src={order_items[idx].image} />
                                         </Col>
                                         <Col>
-                                            <Card.Body>
+                                            <Card.Body className="m-0 p-1">
                                                 <Card.Title>{order_items[idx].title}</Card.Title>
                                             </Card.Body>
                                             <Card.Footer>

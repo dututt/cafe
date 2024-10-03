@@ -19,7 +19,7 @@ function OrderList(props: IProps) {
 
 
     const fetcher = (url: string) => fetch(url).then((res) => res.json());
-    const { data, error } = useSWR(
+    const { data, error, isLoading } = useSWR(
         "/api/order-list",
         fetcher,
         {
@@ -33,10 +33,9 @@ function OrderList(props: IProps) {
         }
     );
 
-    if (error) return <div>Failed to load</div>;
-    if (!data) return <div>Orders loading...</div>
 
-    let orders: IOrderTable[] = data
+    if (data?.error || error) return <div>Failed to load</div>;
+    if (isLoading) return <div>Orders loading...</div>
 
     const refreshButtons = (order: IOrderTable) => {
         return <>
@@ -44,10 +43,11 @@ function OrderList(props: IProps) {
         </>
     }
 
-    orders = orders.filter(item => item.status === trackingOrderStatus.key)
+    const _orders: IOrderTable[] = data
+    const orders = _orders?.filter(item => item.status === trackingOrderStatus.key)
 
     function handleStatus(orderTable: IOrderTable, status: string): void {
-        orders.map((item) => {
+        orders?.map((item) => {
             if (orderTable.id === item.id) {
                 item.status = status;
                 updateOrderStatus(item)

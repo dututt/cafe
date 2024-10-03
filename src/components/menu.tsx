@@ -1,8 +1,8 @@
 'use client'
 import { useState } from 'react';
-import { Accordion, Badge, ListGroup } from 'react-bootstrap';
+import { Accordion, Badge } from 'react-bootstrap';
 import useSWR from 'swr';
-import MenuView1 from './menu.view copy';
+import MenuView from './menu.view';
 
 
 function Menu() {
@@ -58,7 +58,7 @@ function Menu() {
 
 
     const handleCheck = (ck: boolean, cat: ISelection) => { }
-    const valueCheck = (value: ISelection) => { return 0 }
+    // const valueCheck = (value: ISelection) => { return 0 }
     return (
         <>
             <div>
@@ -73,7 +73,7 @@ function Menu() {
                             </Accordion.Header>
                             <Accordion.Body>
                                 <div className="ms-2 me-auto">
-                                    <MenuView1 iSelects={items} valueCheck={valueCheck} handleCheck={handleCheck} />
+                                    <MenuView iSelects={items} handleCheck={handleCheck} />
                                 </div>
 
                             </Accordion.Body>
@@ -82,37 +82,6 @@ function Menu() {
 
                 </Accordion>
             </div>
-
-
-            {/* <ListGroup as="ol">
-                <ListGroup.Item
-                    as="li"
-                    className="d-flex justify-content-between align-items-start"
-                >
-                    <div className="ms-2 me-auto">
-                        <div className="fw-bold">Món ăn</div>
-                        <GridCard iSelects={foodItems} valueCheck={handleValueCheck} />
-                    </div>
-                    <Badge bg="primary" pill>
-                        {foodItems.selections.length}
-                    </Badge>
-                </ListGroup.Item>
-            </ListGroup>
-
-            <ListGroup as="ol">
-                <ListGroup.Item
-                    as="li"
-                    className="d-flex justify-content-between align-items-start"
-                >
-                    <div className="ms-2 me-auto">
-                        <div className="fw-bold">Món uống</div>
-                        <GridCard iSelects={drinkItems} valueCheck={handleValueCheck} />
-                    </div>
-                    <Badge bg="primary" pill>
-                        {drinkItems.selections.length}
-                    </Badge>
-                </ListGroup.Item>
-            </ListGroup> */}
         </>
     );
 }
