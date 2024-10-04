@@ -40,7 +40,6 @@ function ViewCard(props: IProps) {
 
         let numTable = !tableNum ? 0 : Number.parseInt(tableNum)
         const status = "Accepted"
-        console.log(">>>>>>>>>>>>>>>numTable: ", numTable)
         fetch('/api/create-order', {
             method: 'POST',
             headers: {
