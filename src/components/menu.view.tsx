@@ -5,14 +5,13 @@ interface IProps {
     iSelects: ISelection[]
     handleCheck: (ck: boolean, cat: ISelection) => void
 }
-const selection: ISelection = { item: { id: 0, content: '', title: '', type: 1, image: '', price: 0, price_order: 0 }, amount: 0, selected: false }
 
 function MenuView(props: IProps) {
     const { iSelects, handleCheck } = props
 
     return (
         <>
-            <Row xs={1} md={2} className="g-4">
+            <Row xs={1} md={2} className="g-0">
                 {Array.from({ length: iSelects?.length }).map((_, idx) => (
                     <Col key={idx}>
                         <Card style={{ height: '9rem' }}>
@@ -21,7 +20,7 @@ function MenuView(props: IProps) {
                                     <Card.Img variant="top" style={{ height: '8rem' }} className="card-img-top fixed-size" src={iSelects[idx].item.image} />
                                 </Col>
                                 <Col>
-                                    <Card.Body >
+                                    <Card.Body className="m-0 p-1">
                                         <Card.Title className="d-flex justify-content-between align-items-start" >
 
                                             <div className="ms-2 me-auto">

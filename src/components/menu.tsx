@@ -35,14 +35,6 @@ function Menu() {
         iSelects?.selections.push(iS)
     })
 
-    function handleValueCheck(value: ISelection): number {
-        // setSelectNum((): number => {
-        //     return iSelects?.selections.filter(item => item.selected === true).length
-        // })
-        // setAcceptStatus(value.selected)
-        return value.item.id
-    }
-
     function groupBy<T>(array: T[], keyGetter: (item: T) => string): Record<string, T[]> {
         return array.reduce((result, currentItem) => {
             const key = keyGetter(currentItem);
@@ -58,7 +50,6 @@ function Menu() {
 
 
     const handleCheck = (ck: boolean, cat: ISelection) => { }
-    // const valueCheck = (value: ISelection) => { return 0 }
     return (
         <>
             <div>

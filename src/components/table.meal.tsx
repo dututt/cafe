@@ -6,6 +6,7 @@ import CreateModal from './create.modal';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { mutate } from 'swr';
+import { createNewMenu } from '@/app/admin/actions';
 
 function TableMeal() {
 
@@ -13,10 +14,11 @@ function TableMeal() {
     const [showModalUpdate, setShowModalUpdate] = useState<boolean>(false)
     const [catalog, setCatalog] = useState<ICatalogPrice | null>(null)
     const [data, setData] = useState<ICatalogPrice[]>([])
-    const [sortColumn, setSortColumn] = useState<string>('');
-    const [sortDirection, setSortDirection] = useState('asc');
+    const [role, setRole] = useState<boolean>(false)
 
     useEffect(() => {
+        getRole()
+
         fetch('/api/food-beverage')
             .then(response => response.json())
             .then(data => setData(data));
@@ -42,10 +44,17 @@ function TableMeal() {
             })
     }
 
+    const getRole = () => {
+        createNewMenu().then(res => {
+            setRole(res)
+        })
+        return true
+    }
+
     return (
         <>
             <ButtonGroup size="sm">
-                <Button variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm thực đơn</Button>
+                <Button disabled={!role} variant='outline-primary' onClick={() => handleShowModalCreate()}>Thêm thực đơn</Button>
             </ButtonGroup>
             <Table striped bordered hover responsive size="sm">
                 <thead>
