@@ -17,12 +17,6 @@ function ViewCard(props: IProps) {
     const [changeTextStatus, setChangeTextStatus] = useState<string>('')
     const [tableNum, setTableNum] = useState<string>('')
 
-    // const pathname = usePathname()
-    // const searchParams = useSearchParams();
-    // const hash = typeof window !== 'undefined' ? window.location.hash : '';
-    // const fullUrl = `${window.location.origin}${pathname}${searchParams && searchParams.toString() ? '?' + searchParams.toString() : ''}${hash}`;
-    // let tableNum = fullUrl.split("#")[1]
-
     function handleChangeTextStatus() {
         setChangeTextStatus('Thực đơn đã gửi...')
     }

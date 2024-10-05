@@ -2,15 +2,13 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { useState } from 'react';
-import { Modal, NavLink } from 'react-bootstrap';
+import { Modal, Placeholder, ProgressBar } from 'react-bootstrap';
 import Register from '../../components/register';
-import { redirect, useRouter } from 'next/navigation';
 import { useClerk } from '@clerk/nextjs';
 import Link from 'next/link';
 
 function NavBarApp() {
 
-    const router = useRouter()
     const { user } = useClerk();
 
     const [showLogin, setShowLogin] = useState(false);
@@ -27,7 +25,8 @@ function NavBarApp() {
         <div>
             <Navbar className="bg-body-tertiary">
                 <Container>
-                    <Navbar.Brand href="#home">[Cafe]</Navbar.Brand>
+                    <Navbar.Brand href="/home">Cafe 192</Navbar.Brand>
+
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                         {user?.primaryEmailAddress?.emailAddress ?? <Link href='/login'>

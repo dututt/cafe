@@ -47,7 +47,7 @@ function ViewCardDetail(props: IProps) {
                     <Modal.Title>Đặt món - Bàn {orderTable?.table_num}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row xs={1} md={2} className="g-4">
+                    <Row xs={1} md={2} className="g-0">
                         {Array.from({ length: order_items.length }).map((_, idx) => (
                             <Col key={idx}>
                                 <Card style={{ height: '7rem' }}>

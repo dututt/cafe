@@ -49,7 +49,6 @@ function AppHeader() {
     const items: ICatalogPrice[] = data?.result?.rows
 
     if (iSelects?.selections.length === 0) {
-        // iSelects?.selections.splice(0, iSelects.selections.length)
         items && items.map(val => {
             const iS: ISelection = {
                 item: val,

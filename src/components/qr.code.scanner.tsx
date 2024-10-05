@@ -15,8 +15,10 @@ const QrScanner = ({ setDecodedText }: IProps) => {
 
         scanner.render(
             (decodedText, decodedResult) => {
-                console.log(`Code matched = ${decodedText}`, decodedResult.result.text);
+                if (!decodedText.split("#")[0].includes("https://cafe-smoky.vercel.app")) return alert('Mã QR không hợp lệ!')
                 setDecodedText((decodedText.split("#")[1]).split("%")[0])
+                scanner.pause()
+                scanner.clear();
             },
             (errorMessage) => {
                 console.log(`Error scanning = ${errorMessage}`);
@@ -26,7 +28,7 @@ const QrScanner = ({ setDecodedText }: IProps) => {
         return () => {
             scanner.clear();
         };
-    }, []);
+    });
 
     return <div id="reader" style={{ width: "500px" }} />;
 };

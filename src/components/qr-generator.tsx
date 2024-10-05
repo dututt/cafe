@@ -2,25 +2,29 @@
 import React, { useState } from 'react';
 import { useQRCode } from 'next-qrcode';
 import { now } from 'next-auth/client/_utils';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 const QrGenerator: React.FC = () => {
-    const [text, setText] = useState(' ');
     const { Canvas } = useQRCode();
-    const handleOnChange = (val: string) => {
-        const value = "https://cafe-smoky.vercel.app/#" + val
-        setText(value)
-    }
+    const [number, setNumber] = useState(1);
 
+    const increment = () => {
+        setNumber((prev) => (prev < 99 ? prev + 1 : prev));
+    };
+
+    const decrement = () => {
+        setNumber((prev) => (prev > 1 ? prev - 1 : prev));
+    };
     return (
         <div>
-            Nhập số bàn: <input
-                type="text"
-                value={text}
-                onChange={(e) => + setText(e.target.value)}
-                placeholder="Enter text or URL"
-            />
+            <ButtonGroup size="lg" className="mb-2">
+                <Button disabled>Chọn số bàn: </Button>
+                <Button onClick={decrement}>-</Button>
+                <Button disabled>{number}</Button>
+                <Button onClick={increment}>+</Button>
+            </ButtonGroup>
             <Canvas
-                text={"https://cafe-smoky.vercel.app/#" + text.trim() + "#" + now()}
+                text={"https://cafe-smoky.vercel.app/#" + number + "#" + now()}
                 options={{
                     errorCorrectionLevel: 'M',
                     margin: 3,
