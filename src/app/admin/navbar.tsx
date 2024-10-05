@@ -25,7 +25,7 @@ function NavBarApp() {
         <div>
             <Navbar className="bg-body-tertiary">
                 <Container>
-                    <Navbar.Brand href="/home">Cafe 192</Navbar.Brand>
+                    <Navbar.Brand href="/home">Cafe 290</Navbar.Brand>
 
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
