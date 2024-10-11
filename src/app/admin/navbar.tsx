@@ -1,8 +1,9 @@
 "use client";
+
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { useState } from "react";
-import { Modal, Placeholder, ProgressBar } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import Register from "../../components/register";
 import { useClerk } from "@clerk/nextjs";
 import Link from "next/link";
