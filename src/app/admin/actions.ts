@@ -3,6 +3,11 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { isAdmin, isManager, isOrder } from "../utils/utils";
 
+export async function getCurrentUserRole() {
+  const user = await currentUser();
+  return user?.publicMetadata?.role;
+}
+
 export async function viewManager() {
   const user = await currentUser();
   if (!user || !isManager(user)) {

@@ -80,14 +80,14 @@ function MenuOffCanvas() {
                     title="Doanh thu"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}
                   >
-                    <NavDropdown.Item href="/report">
+                    <NavDropdown.Item href="/report/day">
                       Theo ngày
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
+                    <NavDropdown.Item href="/report/month">
                       Theo tháng
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
+                    <NavDropdown.Item href="/report/year">
                       Theo năm
                     </NavDropdown.Item>
                   </NavDropdown>
