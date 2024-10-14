@@ -1,9 +1,9 @@
 "use client";
 import { Button, Table } from "react-bootstrap";
-import useSWR from "swr";
 import CurrencyDisplay from "../utils/currency.display";
 import OrderDetail from "./order-detail";
 import { useState } from "react";
+import { GetOrders } from "@/components/actions";
 
 const Orders = () => {
   const [showModalOrderDetail, setShowModalOrderDetail] =
@@ -17,19 +17,7 @@ const Orders = () => {
     ["Done", "Xong"],
   ]);
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error, isLoading } = useSWR("/api/order-list", fetcher, {
-    refreshInterval: 60000,
-    revalidateIfStale: true,
-    revalidateOnFocus: true,
-    revalidateOnReconnect: true,
-  });
-
-  if (data?.error || error) return <div>Failed to load</div>;
-  if (isLoading) {
-    return <>loading...</>;
-  }
-  const orders: IOrderTable[] = data;
+  const orders: IOrderTable[] = GetOrders();
 
   function showOrderDetail(item: IOrderTable) {
     setShowModalOrderDetail(true);
@@ -38,11 +26,13 @@ const Orders = () => {
 
   return (
     <>
-      <OrderDetail
-        orderDetail={orderDetail}
-        showModalOrderDetail={showModalOrderDetail}
-        setShowModalOrderDetail={setShowModalOrderDetail}
-      />
+      {showModalOrderDetail && (
+        <OrderDetail
+          orderDetail={orderDetail}
+          showModalOrderDetail={showModalOrderDetail}
+          setShowModalOrderDetail={setShowModalOrderDetail}
+        />
+      )}
       <div>
         <Button variant="outline-primary">Quản lý danh sách đơn hàng</Button>
         <Table striped bordered hover responsive size="sm">

@@ -5,6 +5,7 @@ import ViewCardDetail from "./view.cards.detail";
 import useSWR, { mutate } from "swr";
 import OrderListButtons from "./order.list.buttons";
 import { toast } from "react-toastify";
+import OrderDetail from "@/app/orders-management/order-detail";
 
 interface IProps {
   trackingOrderStatus: ITrackingState;
@@ -112,11 +113,19 @@ function OrderList(props: IProps) {
           ))}
       </ListGroup>
 
-      <ViewCardDetail
+      {/* <ViewCardDetail
         showViewCard={showViewCard}
         setShowViewCard={setShowViewCard}
         orderTable={orderTable}
-      />
+      /> */}
+
+      {showViewCard && (
+        <OrderDetail
+          orderDetail={orderTable}
+          showModalOrderDetail={showViewCard}
+          setShowModalOrderDetail={setShowViewCard}
+        />
+      )}
     </>
   );
 }
