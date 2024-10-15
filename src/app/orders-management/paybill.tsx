@@ -20,7 +20,10 @@ function PayBill({ showCartQR, setShowCartQR }: IProps) {
 
         <Modal.Body>
           <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Img
+              variant="top"
+              src="/uploads/375e375932404955c997b5b00.jpg"
+            />
             <Card.Body>
               <Card.Title>Mã Ngân hàng</Card.Title>
               <Card.Text>Quét mã QR để thanh toán hóa đơn</Card.Text>
