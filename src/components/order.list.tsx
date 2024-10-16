@@ -14,6 +14,7 @@ function OrderList({ trackingOrderStatus }: IProps) {
   const inits: IOrderTables = { items: [] };
   const [showViewCard, setShowViewCard] = useState<boolean>(false);
   const [orderTable, setOrderTable] = useState<IOrderTable>(inits.items[0]);
+  const [payBillTotal, setPayBillTotal] = useState<number>(0);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, error, isLoading } = useSWR("/api/order-list", fetcher, {
@@ -62,6 +63,8 @@ function OrderList({ trackingOrderStatus }: IProps) {
     UpdateOrderStatus(item?.id, item?.status);
   }
 
+  function handlePaymentBill(): void {}
+
   return (
     <>
       <ListGroup as="ol" numbered hidden={!trackingOrderStatus.value}>
@@ -96,6 +99,8 @@ function OrderList({ trackingOrderStatus }: IProps) {
       {showViewCard && (
         <OrderDetail
           orderDetail={orderTable}
+          payBillTotal={payBillTotal}
+          handlePaymentBill={handlePaymentBill}
           showModalOrderDetail={showViewCard}
           setShowModalOrderDetail={setShowViewCard}
         />

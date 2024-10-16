@@ -47,21 +47,21 @@ const Orders = () => {
           variant="outline-primary"
           onClick={() => handleShowOrderList()}
         >
-          Món đã đặt
+          Thực đơn đã đặt
         </Button>
         <Button
           active={active[2].active_2}
           variant="outline-primary"
           onClick={() => handleShowOrderListCreate()}
         >
-          Món đang tạo
+          Tạo thực đơn
         </Button>
         <Button
           active={active[3].active_3}
           variant="outline-primary"
           onClick={() => handleShowOrderListServed()}
         >
-          Món đã xong
+          Phục vụ
         </Button>
       </ButtonGroup>
       <OrderList trackingOrderStatus={trackingOrderStatus} />

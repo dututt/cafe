@@ -7,12 +7,16 @@ import PayBill from "./paybill";
 
 interface IProps {
   orderDetail: IOrderTable | null;
+  payBillTotal: number;
+  handlePaymentBill: () => void;
   showModalOrderDetail: boolean;
   setShowModalOrderDetail: (value: boolean) => void;
 }
 
 function OrderDetail({
   orderDetail,
+  payBillTotal,
+  handlePaymentBill,
   showModalOrderDetail,
   setShowModalOrderDetail,
 }: IProps) {
@@ -29,9 +33,9 @@ function OrderDetail({
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data } = useSWR(`/api/order-items?id=${id}`, fetcher, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
+    revalidateIfStale: true,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
   });
 
   if (!data) {
@@ -63,13 +67,14 @@ function OrderDetail({
     }
     setModalTitle(`Chi tiết đơn hàng - Bàn ${numTable}`);
     setShowStatusTables(false);
+    const status = state ? "Mixed" : undefined;
     fetch(`/api/update-order-num-table`, {
       method: "PUT",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id, numTable }),
+      body: JSON.stringify({ id, numTable, status }),
     })
       .then((res) => res.json())
       .then((res) => {
@@ -88,6 +93,8 @@ function OrderDetail({
       {showCartQR && (
         <PayBill
           orderDetail={orderDetail}
+          payBillTotal={payBillTotal}
+          handlePaymentBill={handlePaymentBill}
           showCartQR={showCartQR}
           setShowCartQR={setShowCartQR}
         />
@@ -138,27 +145,40 @@ function OrderDetail({
           )}
         </Modal.Body>
         <Modal.Footer>
-          <ButtonGroup>
+          {orderDetail?.status === "Done" && (
+            <Button variant="outline-primary">Hóa đơn đã thanh toán</Button>
+          )}
+          <ButtonGroup hidden={orderDetail?.status === "Done"}>
             <Button
-              variant="outline-warning"
+              variant="outline-primary"
               onClick={() => handleShowQRBank()}
             >
               Thanh toán
             </Button>
             <Button
-              variant="outline-warning"
+              variant="outline-primary"
               onClick={() => handleChangeTable(true)}
             >
               Chuyển bàn
             </Button>
             <Button
-              variant="outline-warning"
+              variant="outline-primary"
               onClick={() => handleMixTable(true)}
             >
               Gộp bàn
             </Button>
             <Button variant="outline-primary">Thêm món</Button>
-            <Button variant="outline-danger">Hủy</Button>
+            <Button
+              variant="outline-danger"
+              disabled={
+                !(
+                  orderDetail?.status === "Accepted" ||
+                  orderDetail?.status === "Received"
+                )
+              }
+            >
+              Hủy
+            </Button>
           </ButtonGroup>
         </Modal.Footer>
       </Modal>

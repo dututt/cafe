@@ -1,16 +1,23 @@
 import { Button, Card, Modal } from "react-bootstrap";
 import CurrencyDisplay from "../utils/currency.display";
-import { UpdateOrderStatus } from "@/components/actions";
 
 interface IProps {
   orderDetail: IOrderTable | null;
+  payBillTotal: number;
+  handlePaymentBill: () => void;
   showCartQR: boolean;
   setShowCartQR: (value: boolean) => void;
 }
 
-function PayBill({ orderDetail, showCartQR, setShowCartQR }: IProps) {
-  function handlePaymentBill(): void {
-    UpdateOrderStatus(orderDetail?.id ?? 0, "Done");
+function PayBill({
+  orderDetail,
+  payBillTotal,
+  handlePaymentBill,
+  showCartQR,
+  setShowCartQR,
+}: IProps) {
+  function paymentBill(): void {
+    handlePaymentBill();
   }
 
   return (
@@ -22,7 +29,9 @@ function PayBill({ orderDetail, showCartQR, setShowCartQR }: IProps) {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Mã thanh toán</Modal.Title>
+          <Modal.Title>
+            Mã thanh toán - Bàn {orderDetail?.table_num}
+          </Modal.Title>
         </Modal.Header>
 
         <Modal.Body className="d-flex justify-content-center">
@@ -33,16 +42,12 @@ function PayBill({ orderDetail, showCartQR, setShowCartQR }: IProps) {
             />
             <Card.Body>
               <Card.Title>
-                Tổng hóa đơn:{" "}
-                <CurrencyDisplay amount={orderDetail?.price ?? 0} />
+                Tổng hóa đơn: <CurrencyDisplay amount={payBillTotal} />
               </Card.Title>
               <Card.Text>Quét mã QR để thanh toán hóa đơn</Card.Text>
             </Card.Body>
             <Card.Footer>
-              <Button
-                variant="outline-primary"
-                onClick={() => handlePaymentBill()}
-              >
+              <Button variant="outline-primary" onClick={() => paymentBill()}>
                 Thanh toán thành công
               </Button>
             </Card.Footer>

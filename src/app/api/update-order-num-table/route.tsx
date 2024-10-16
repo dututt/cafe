@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
   try {
-    const { id, numTable } = await req.json();
+    const { id, numTable, status } = await req.json();
+
     const result = await fetch(
       "https://api-cafe-three.vercel.app/api/update-order-num-table",
       {
@@ -11,7 +12,7 @@ export async function PUT(req: NextRequest) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id, numTable }),
+        body: JSON.stringify({ id, numTable, status }),
       }
     );
     return NextResponse.json(result, { status: 200 });
