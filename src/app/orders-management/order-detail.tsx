@@ -57,6 +57,10 @@ function OrderDetail({
   }
 
   function handleSelectCurrentTable(numTable: number): void {
+    if (numTable === orderDetail?.table_num) {
+      toast.warning("Hãy chọn số bàn khác số bàn hiện tại!");
+      return;
+    }
     setModalTitle(`Chi tiết đơn hàng - Bàn ${numTable}`);
     setShowStatusTables(false);
     fetch(`/api/update-order-num-table`, {
@@ -82,7 +86,11 @@ function OrderDetail({
   return (
     <>
       {showCartQR && (
-        <PayBill showCartQR={showCartQR} setShowCartQR={setShowCartQR} />
+        <PayBill
+          orderDetail={orderDetail}
+          showCartQR={showCartQR}
+          setShowCartQR={setShowCartQR}
+        />
       )}
       <Modal
         show={showModalOrderDetail}

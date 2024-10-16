@@ -14,7 +14,8 @@ const Orders = () => {
     ["Accepted", "Đồng ý"],
     ["Received", "Đã nhận"],
     ["Created", "Đã tạo món"],
-    ["Done", "Xong"],
+    ["Served", "Phục vụ"],
+    ["Done", "Đã thanh toán"],
   ]);
 
   const orders: IOrderTable[] = GetOrders();

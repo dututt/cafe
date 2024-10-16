@@ -1,19 +1,16 @@
 "use client";
 import { useState } from "react";
 import { Badge, Button, ButtonGroup, ListGroup } from "react-bootstrap";
-import ViewCardDetail from "./view.cards.detail";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import OrderListButtons from "./order.list.buttons";
-import { toast } from "react-toastify";
 import OrderDetail from "@/app/orders-management/order-detail";
+import { UpdateOrderStatus } from "./actions";
 
 interface IProps {
   trackingOrderStatus: ITrackingState;
 }
 
-function OrderList(props: IProps) {
-  const { trackingOrderStatus } = props;
-
+function OrderList({ trackingOrderStatus }: IProps) {
   const inits: IOrderTables = { items: [] };
   const [showViewCard, setShowViewCard] = useState<boolean>(false);
   const [orderTable, setOrderTable] = useState<IOrderTable>(inits.items[0]);
@@ -62,24 +59,7 @@ function OrderList(props: IProps) {
   }
 
   function updateOrderStatus(item: IOrderTable) {
-    const id = item?.id;
-    const status = item?.status;
-
-    fetch(`/api/update-order-status`, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id, status }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res) {
-          toast.warning("Update order status succeed !");
-          mutate("/api/order-list");
-        }
-      });
+    UpdateOrderStatus(item?.id, item?.status);
   }
 
   return (
@@ -112,12 +92,6 @@ function OrderList(props: IProps) {
             </ListGroup.Item>
           ))}
       </ListGroup>
-
-      {/* <ViewCardDetail
-        showViewCard={showViewCard}
-        setShowViewCard={setShowViewCard}
-        orderTable={orderTable}
-      /> */}
 
       {showViewCard && (
         <OrderDetail

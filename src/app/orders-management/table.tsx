@@ -7,7 +7,9 @@ interface IProps {
 }
 
 export default function TableManagement({ selectCurrentTable, state }: IProps) {
-  const orders: IOrderTable[] = GetOrders();
+  const orders: IOrderTable[] = GetOrders().filter(
+    (item) => item.status !== "Done"
+  );
 
   const numOrderedTables: number[] = Array.from(
     new Set(orders.map((order) => order.table_num))

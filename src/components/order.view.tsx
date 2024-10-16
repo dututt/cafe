@@ -23,17 +23,16 @@ interface IProps {
   setTableNum: (value: string) => void;
 }
 
-function OrderView(props: IProps) {
-  const {
-    selects,
-    status,
-    TotalBill,
-    deSelect,
-    changeTextStatus,
-    total,
-    handleAcceptView,
-    setTableNum,
-  } = props;
+function OrderView({
+  selects,
+  status,
+  TotalBill,
+  deSelect,
+  changeTextStatus,
+  total,
+  handleAcceptView,
+  setTableNum,
+}: IProps) {
   const [decodedText, setDecodedText] = useState<string>("");
   const [QRStatus, setQRStatus] = useState<boolean>(false);
 
@@ -119,7 +118,7 @@ function OrderView(props: IProps) {
               <CurrencyDisplay amount={selects.length > 0 ? total : 0} />
             </Button>
             <Button
-              variant="secondary"
+              variant="outline-success"
               disabled={!(selects.length > 0) || status || decodedText === ""}
               onClick={() => handleAcceptView()}
             >
