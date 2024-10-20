@@ -1,21 +1,32 @@
+import { useCart } from "@/components/cart.context";
+import { Colors } from "chart.js";
 import { Button, Form } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { text } from "stream/consumers";
 
 interface IProps {
   setValueSearch: (value: string) => void;
 }
 
 function MenuSearch({ setValueSearch }: IProps) {
+  const { state } = useCart();
+  let count = 0;
+  state.items.map((item) => (count = count + item.amount));
   return (
     <div className="flex-row-1 p-0">
       <Navbar expand="sm" className="bg-body-tertiary p-1">
         <Container fluid>
-          <Button variant="" className="material-icons p-0">
-            add_shopping_cart
+          <Button
+            variant=""
+            style={count == 0 ? {} : { color: "red" }}
+            className="p-0"
+          >
+            <i className="material-icons">add_shopping_cart</i>
+            {count == 0 ? "" : count}
           </Button>
-          <Form className="d-flex">
+          <Form className="d-flex p-0">
             <Form.Control
               onChange={(e) => setValueSearch(e.target.value)}
               type="search"
@@ -26,7 +37,7 @@ function MenuSearch({ setValueSearch }: IProps) {
           </Form>
           <Navbar.Toggle
             aria-controls="navbarScroll"
-            className="material-icons"
+            className="material-icons p-0"
           >
             reorder
           </Navbar.Toggle>

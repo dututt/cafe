@@ -2,7 +2,7 @@
 import CurrencyDisplay from "@/app/utils/currency.display";
 import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
 import { GetMenus } from "./actions";
-import Cart1 from "./Cart1";
+import Cart from "./Cart";
 
 interface IProps {
   valueSearch: string | undefined;
@@ -55,7 +55,7 @@ function MenuView({ valueSearch }: IProps) {
                       size="sm"
                       className="d-flex items-right justify-content-end"
                     >
-                      <Cart1 selection={menus[idx]} />
+                      <Cart selection={menus[idx]} />
                     </ButtonGroup>
                   </Card.Body>
                 </Col>

@@ -1,26 +1,41 @@
-// components/Cart.tsx
-
+import { Button } from "react-bootstrap";
+import AddToCartButton from "./AddToCartButton";
 import { useCart } from "./cart.context";
 import DecrementButton from "./DecrementButton";
-import IncrementButton from "./IncrementButton";
 import RemoveFromCartButton from "./RemoveFromCartButton";
 
-const Cart: React.FC = () => {
+interface IProps {
+  selection: ICatalogPrice;
+}
+
+const Cart: React.FC<IProps> = ({ selection }) => {
   const { state } = useCart();
 
   return (
-    <div>
-      <ul>
-        {state.items.map((item) => (
-          <li key={item.item.id}>
-            {item.item.content} - ${item.item.price} x {item.amount}
-            <IncrementButton id={item.item.id.toString()} />
-            <DecrementButton id={item.item.id.toString()} />
-            <RemoveFromCartButton id={item.item.id.toString()} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      {state.items.map((item) => {
+        if (item.item.id === selection.id) {
+          if (item.amount === 1) {
+            return (
+              <div key={item.item.id}>
+                <RemoveFromCartButton id={item.item.id.toString()} />
+                <Button variant="outline-primary">{item.amount}</Button>
+              </div>
+            );
+          } else {
+            return (
+              <div key={item.item.id}>
+                <DecrementButton id={item.item.id.toString()} />
+                <Button variant="outline-primary">{item.amount}</Button>
+              </div>
+            );
+          }
+        }
+      })}
+      <div>
+        <AddToCartButton item={selection} selected={false} />
+      </div>
+    </>
   );
 };
 

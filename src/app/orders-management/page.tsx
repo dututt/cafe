@@ -63,7 +63,7 @@ const Orders = () => {
           setShowModalOrderDetail={setShowModalOrderDetail}
         />
       )}
-      <div>
+      <>
         <Button variant="outline-primary">Quản lý danh sách đơn hàng</Button>
         <Table striped bordered hover responsive size="sm" className="p-0">
           <thead>
@@ -93,7 +93,7 @@ const Orders = () => {
             })}
           </tbody>
         </Table>
-      </div>
+      </>
     </>
   );
 };
