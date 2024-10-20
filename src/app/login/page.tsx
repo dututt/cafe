@@ -1,12 +1,6 @@
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
-
-    redirect("/")
-
-    return (
-        <>
-
-        </>
-    )
+export default async function Page() {
+  redirect("/");
+  return <></>;
 }

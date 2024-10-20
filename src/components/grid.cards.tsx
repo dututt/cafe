@@ -1,34 +1,33 @@
-'use client'
-import { useEffect } from 'react';
-import MenuView from './menu.view';
+"use client";
+import { useEffect } from "react";
+import MenuView from "./menu.view";
 
 interface IProps {
-    iSelects: ISelections
-    valueCheck: (value: ISelection) => number
+  iSelects: ISelections;
+  valueCheck: (value: ISelection) => number;
 }
 
-
 function GridCard(props: IProps) {
-    const { iSelects, valueCheck } = props
+  const { iSelects, valueCheck } = props;
 
-    useEffect(() => {
-        refreshView()
-    })
+  useEffect(() => {
+    refreshView();
+  });
 
-    const handleCheck = (ck: boolean, cat: ISelection) => {
-        cat.selected = ck
-        valueCheck(cat)
-    }
+  const handleCheck = (ck: boolean, cat: ISelection) => {
+    cat.selected = ck;
+    valueCheck(cat);
+  };
 
-    function refreshView() {
-        return <><MenuView iSelects={iSelects?.selections} handleCheck={handleCheck} /></>
-    }
-
+  function refreshView() {
     return (
-        <>
-            {refreshView()}
-        </>
+      <>
+        <MenuView valueSearch="" />
+      </>
     );
+  }
+
+  return <>{refreshView()}</>;
 }
 
 export default GridCard;

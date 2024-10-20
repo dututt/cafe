@@ -1,8 +1,18 @@
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+export const GetMenus = () => {
+  const { data, error, isLoading } = useSWR("/api/food-beverage", fetcher, {
+    revalidateIfStale: true,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+  });
+
+  return data;
+};
+
 export const GetOrders = (): IOrderTable[] => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, error, isLoading } = useSWR("/api/order-list", fetcher, {
     refreshInterval: 60000,
     revalidateIfStale: true,
@@ -14,7 +24,6 @@ export const GetOrders = (): IOrderTable[] => {
 };
 
 export const GetOrdersBy = (table_num: number): IOrderTable[] => {
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data, error, isLoading } = useSWR(
     `/api/order-items?table_num=${table_num}`,
     fetcher,

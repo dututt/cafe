@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonGroup, Card, Col, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  Col,
+  Modal,
+  Nav,
+  Row,
+} from "react-bootstrap";
 import useSWR from "swr";
 import { toast } from "react-toastify";
 import TableManagement from "./table";
 import PayBill from "./paybill";
+import Home from "../page";
 
 interface IProps {
   orderDetail: IOrderTable | null;
@@ -20,10 +29,9 @@ function OrderDetail({
   showModalOrderDetail,
   setShowModalOrderDetail,
 }: IProps) {
-  const [showStatusTables, setShowStatusTables] = useState<boolean>(false);
-  const [showCartQR, setShowCartQR] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>("");
   const [state, setState] = useState<boolean>(false); //false:change; true:mix
+  const [selected, setSelected] = useState<string>("");
 
   const id = orderDetail ? orderDetail.id : 0;
 
@@ -46,13 +54,13 @@ function OrderDetail({
   function handleChangeTable(status: boolean): void {
     setModalTitle(`Chuyển bàn - Bàn ${orderDetail?.table_num} ==> ...`);
     setState(false);
-    setShowStatusTables(status);
+    setSelected("select-table");
   }
 
   function handleMixTable(status: boolean): void {
     setModalTitle(`Gộp bàn - Bàn ${orderDetail?.table_num} ==> ...`);
     setState(true);
-    setShowStatusTables(status);
+    setSelected("select-table");
   }
 
   function handleShowModalOrderDetail(status: boolean): void {
@@ -66,7 +74,7 @@ function OrderDetail({
       return;
     }
     setModalTitle(`Chi tiết đơn hàng - Bàn ${numTable}`);
-    setShowStatusTables(false);
+    setSelected("");
     const status = state ? "Mixed" : undefined;
     fetch(`/api/update-order-num-table`, {
       method: "PUT",
@@ -85,75 +93,46 @@ function OrderDetail({
   }
 
   function handleShowQRBank() {
-    setShowCartQR(true);
+    setModalTitle(`Mã thanh toán - Bàn ${orderDetail?.table_num}`);
+    setSelected("pay-bill");
+  }
+
+  function handleLoadMenu(): void {
+    setModalTitle(`Thêm thực đơn - Bàn ${orderDetail?.table_num}`);
+    setSelected("add-more");
   }
 
   return (
     <>
-      {showCartQR && (
-        <PayBill
-          orderDetail={orderDetail}
-          payBillTotal={payBillTotal}
-          handlePaymentBill={handlePaymentBill}
-          showCartQR={showCartQR}
-          setShowCartQR={setShowCartQR}
-        />
-      )}
       <Modal
+        size="lg"
         show={showModalOrderDetail}
         onHide={() => handleShowModalOrderDetail(false)}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
+          <Button
+            variant=""
+            className="material-icons"
+            onClick={() => setSelected("")}
+          >
+            home
+          </Button>
           <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          {showStatusTables ? (
-            <TableManagement
-              selectCurrentTable={handleSelectCurrentTable}
-              state={state}
-            />
-          ) : (
-            <Row xs={1} md={2} className="g-0">
-              {Array.from({ length: order_items.length }).map((_, idx) => (
-                <Col key={idx}>
-                  <Card style={{ height: "7rem" }}>
-                    <Row>
-                      <Col>
-                        <Card.Img
-                          variant="top"
-                          style={{ height: "6rem" }}
-                          className="card-img-top fixed-size-m"
-                          src={order_items[idx].image}
-                        />
-                      </Col>
-                      <Col>
-                        <Card.Body className="m-0 p-1">
-                          <Card.Title>{order_items[idx].title}</Card.Title>
-                        </Card.Body>
-                        <Card.Footer>
-                          {order_items[idx].item_num} Phần
-                        </Card.Footer>
-                      </Col>
-                    </Row>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="p-0">
           {orderDetail?.status === "Done" && (
             <Button variant="outline-primary">Hóa đơn đã thanh toán</Button>
           )}
           <ButtonGroup hidden={orderDetail?.status === "Done"}>
             <Button
               variant="outline-primary"
+              className="material-icons"
               onClick={() => handleShowQRBank()}
             >
-              Thanh toán
+              account_balance
             </Button>
             <Button
               variant="outline-primary"
@@ -167,20 +146,68 @@ function OrderDetail({
             >
               Gộp bàn
             </Button>
-            <Button variant="outline-primary">Thêm món</Button>
+            <Button variant="outline-primary" onClick={() => handleLoadMenu()}>
+              Thêm món
+            </Button>
             <Button
               variant="outline-danger"
+              className="material-icons"
               disabled={
                 !(
                   orderDetail?.status === "Accepted" ||
                   orderDetail?.status === "Received"
                 )
               }
+              onClick={() => handleShowQRBank()}
             >
-              Hủy
+              remove_shopping_cart
             </Button>
           </ButtonGroup>
         </Modal.Footer>
+        <Modal.Body className="p-0">
+          {selected === "pay-bill" && (
+            <PayBill
+              orderDetail={orderDetail}
+              payBillTotal={payBillTotal}
+              handlePaymentBill={handlePaymentBill}
+            />
+          )}
+          {selected === "add-more" && <Home />}
+          {selected === "select-table" && (
+            <TableManagement
+              selectCurrentTable={handleSelectCurrentTable}
+              state={state}
+            />
+          )}
+          {selected === "" && (
+            <Row xs={1} md={2} className="g-0 p-0">
+              {Array.from({ length: order_items.length }).map((_, idx) => (
+                <Col key={idx}>
+                  <Card style={{ height: "7rem" }}>
+                    <Row>
+                      <Col>
+                        <Card.Img
+                          variant="top"
+                          style={{ height: "6rem" }}
+                          className="card-img-top fixed-size-m"
+                          src={order_items[idx].image}
+                        />
+                      </Col>
+                      <Col>
+                        <Card.Body className="m-0 p-0">
+                          <Card.Title>{order_items[idx].title}</Card.Title>
+                        </Card.Body>
+                        <Card.Footer>
+                          {order_items[idx].item_num} Phần
+                        </Card.Footer>
+                      </Col>
+                    </Row>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          )}
+        </Modal.Body>
       </Modal>
     </>
   );

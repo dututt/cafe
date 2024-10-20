@@ -1,5 +1,3 @@
-"use client";
-
 import "./globals.css";
 import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { ClerkProvider } from "@clerk/nextjs";
 import NavBarApp from "./admin/navbar";
-import MenuOffCanvas from "./admin/menu.offcanvas";
 import { Container } from "react-bootstrap";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,10 +17,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+        />
+      </head>
       <body className={inter.className}>
         <ClerkProvider>
           <NavBarApp />
-          <MenuOffCanvas />
         </ClerkProvider>
         <Container>{children}</Container>
         <AppFooter />

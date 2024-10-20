@@ -65,7 +65,7 @@ const Orders = () => {
       )}
       <div>
         <Button variant="outline-primary">Quản lý danh sách đơn hàng</Button>
-        <Table striped bordered hover responsive size="sm">
+        <Table striped bordered hover responsive size="sm" className="p-0">
           <thead>
             <tr>
               <th>#</th>
