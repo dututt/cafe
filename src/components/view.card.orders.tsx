@@ -24,13 +24,12 @@ function ViewCardOrder({ show, setShow }: IProps) {
     (acc, item) => (acc = acc + item.item.price * item.amount),
     0
   );
-
   function handleAcceptView(): void {
     setStatus(true);
     handleChangeTextStatus();
 
     let numTable = !decodedText ? 0 : Number.parseInt(decodedText);
-    const selectedItems = state.items;
+    const selects: ISelection[] = state.items;
     const status = "Accepted";
     fetch("/api/create-order", {
       method: "POST",
@@ -38,7 +37,7 @@ function ViewCardOrder({ show, setShow }: IProps) {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ numTable, total, selectedItems, status }),
+      body: JSON.stringify({ numTable, total, selects, status }),
     })
       .then((res) => {
         return res.json();
@@ -84,7 +83,7 @@ function ViewCardOrder({ show, setShow }: IProps) {
         </Modal.Header>
         <Card.Footer className="text-muted">
           <ButtonGroup size="lg">
-            <OrderStatus status={status} changeTextStatus={changeTextStatus} />
+            {/* <OrderStatus status={status} changeTextStatus={changeTextStatus} /> */}
             <Button variant="outline-warning">Tổng Giá</Button>
             <Button variant="outline-danger">
               <CurrencyDisplay amount={state.items.length > 0 ? total : 0} />

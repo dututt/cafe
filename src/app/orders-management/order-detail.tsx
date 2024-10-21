@@ -107,7 +107,7 @@ function OrderDetail({
         <Modal.Header closeButton>
           <Button
             variant=""
-            className="material-icons"
+            className="material-icons p-0"
             onClick={() => setSelected("")}
           >
             home
