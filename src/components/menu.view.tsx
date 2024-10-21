@@ -24,47 +24,44 @@ function MenuView({ valueSearch }: IProps) {
     );
   }
   return (
-    <div className="grow space-y-1">
-      <Row xs={1} md={2} className="g-0">
-        {Array.from({ length: menus?.length }).map((_, idx) => (
-          <Col key={idx}>
-            <Card style={{ height: "8rem" }}>
-              <Row>
-                <Col>
-                  <Card.Img
-                    variant="top"
-                    style={{ height: "7rem", width: "8rem" }}
-                    className="card-img-top fixed-size"
-                    src={menus[idx].image}
-                  />
-                </Col>
-                <Col className="flex items-center gap-3">
-                  <Card.Body className="p-0">
-                    <Card.Title className="d-flex justify-content-between align-items-start font-semibold">
-                      {menus[idx].title}
-                    </Card.Title>
-                  </Card.Body>
-                  <Card.Body className="p-0">
-                    <ButtonGroup size="sm">
-                      <Button variant="outline-warning">Giá</Button>
-                      <Button variant="outline-danger">
+    <>
+      <div className="grow space-y-1">
+        <Row xs={1} md={2} className="g-0">
+          {Array.from({ length: menus?.length }).map((_, idx) => (
+            <Col key={idx}>
+              <Card style={{ height: "8rem" }}>
+                <Row>
+                  <Col>
+                    <Card.Img
+                      variant="top"
+                      style={{ height: "7rem", width: "10rem" }}
+                      className="card-img-center fixed-size p-1"
+                      src={menus[idx].image}
+                    />
+                  </Col>
+                  <Col className="flex items-right gap-3">
+                    <Card.Body className="p-1">
+                      <Card.Title className="d-flex justify-content-between align-items-start font-semibold p-0">
+                        {menus[idx].title}
+                      </Card.Title>
+                      <Button variant="outline-primary" className="p-0">
                         <CurrencyDisplay amount={menus[idx].price} />
                       </Button>
-                    </ButtonGroup>
-                    <ButtonGroup
-                      size="sm"
-                      className="d-flex items-right justify-content-end"
-                    >
-                      <Cart selection={menus[idx]} />
-                    </ButtonGroup>
-                  </Card.Body>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+                      <ButtonGroup
+                        size="lg"
+                        className="d-flex items-right justify-content-end"
+                      >
+                        <Cart selection={menus[idx]} />
+                      </ButtonGroup>
+                    </Card.Body>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
+    </>
   );
 }
 export default MenuView;

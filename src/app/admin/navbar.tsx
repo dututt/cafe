@@ -35,18 +35,16 @@ function NavBarApp() {
   return (
     <div>
       <Navbar className="bg-body-tertiary p-0">
-        <Container>
-          <Button variant="" onClick={handleShow} className="material-icons">
-            reorder
-          </Button>
-          <Navbar.Brand href="/">Cafe 290</Navbar.Brand>
-          <Navbar.Toggle />
-          <Navbar.Collapse className="justify-content-end">
-            {user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? (
-              <Link href="/login">Login</Link>
-            )}
-          </Navbar.Collapse>
-        </Container>
+        <Button variant="" onClick={handleShow} className="material-icons p-0">
+          reorder
+        </Button>
+        <Navbar.Brand href="/">Cafe 290</Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end p-0">
+          {user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? (
+            <Link href="/login">Login</Link>
+          )}
+        </Navbar.Collapse>
       </Navbar>
 
       <Offcanvas show={show} onHide={_handleClose}>

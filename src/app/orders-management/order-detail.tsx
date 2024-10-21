@@ -102,6 +102,7 @@ function OrderDetail({
         onHide={() => handleShowModalOrderDetail(false)}
         backdrop="static"
         keyboard={false}
+        fullscreen={true}
       >
         <Modal.Header closeButton>
           <Button
@@ -180,8 +181,8 @@ function OrderDetail({
                       <Col>
                         <Card.Img
                           variant="top"
-                          style={{ height: "6rem" }}
-                          className="card-img-top fixed-size-m"
+                          style={{ height: "7rem", width: "10rem" }}
+                          className="card-img-center fixed-size p-1"
                           src={order_items[idx].image}
                         />
                       </Col>
