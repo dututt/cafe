@@ -40,7 +40,7 @@ const Orders = () => {
   }
 
   return (
-    <div>
+    <div className="border">
       <ButtonGroup size="sm">
         <Button
           active={active[1].active_1}

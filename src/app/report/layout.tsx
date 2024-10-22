@@ -1,14 +1,9 @@
-import { Metadata } from "next"
-import { Container } from "react-bootstrap"
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Report"
-}
+  title: "Report",
+};
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    return (
-        <Container>
-            {children}
-        </Container>
-    )
+  return <>{children}</>;
 }

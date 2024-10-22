@@ -1,36 +1,22 @@
 "use client";
-
-import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { useState } from "react";
 import {
   Button,
   ListGroup,
-  Modal,
   Nav,
   NavDropdown,
   Offcanvas,
 } from "react-bootstrap";
-import Register from "../../components/register";
 import { useClerk } from "@clerk/nextjs";
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
 function NavBarApp() {
-  const { user } = useClerk();
-
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
-  const handleClose = () => setShowLogin(false);
+  const { user, signOut } = useClerk();
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
-  const _handleClose = () => setShow(false);
-
-  const handleCloseRegister = () => setShowRegister(false);
-  const handleShowRegister = () => {
-    setShowLogin(false);
-    setShowRegister(true);
-  };
+  const handleClose = () => setShow(false);
 
   return (
     <div>
@@ -41,13 +27,11 @@ function NavBarApp() {
         <Navbar.Brand href="/">Cafe 290</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end p-0">
-          {user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? (
-            <Link href="/login">Login</Link>
-          )}
+          {user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? ""}
         </Navbar.Collapse>
       </Navbar>
 
-      <Offcanvas show={show} onHide={_handleClose}>
+      <Offcanvas show={show} onHide={handleClose}>
         <Offcanvas.Header closeButton>
           <Navbar.Brand href="/">Cafe 290</Navbar.Brand>
         </Offcanvas.Header>
@@ -88,20 +72,23 @@ function NavBarApp() {
               </NavDropdown>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Nav.Link
-                //   onClick={async () => {
-                //     await signOut();
-                //   }}
-                href="/"
+              <Button
+                variant=""
+                className="material-icons p-0"
+                onClick={async () => {
+                  await signOut();
+                  setShow(false);
+                  redirect("/");
+                }}
               >
-                Đăng xuất
-              </Nav.Link>
+                settings_power
+              </Button>
             </ListGroup.Item>
           </ListGroup>
         </Offcanvas.Body>
       </Offcanvas>
 
-      <Modal show={showLogin} onHide={handleClose}>
+      {/* <Modal show={showLogin} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Đăng Nhập</Modal.Title>
         </Modal.Header>
@@ -119,7 +106,7 @@ function NavBarApp() {
         <Modal.Body>
           <Register />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

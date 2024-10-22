@@ -27,6 +27,7 @@ function MenuSearch({ setValueSearch }: IProps) {
               variant=""
               style={count == 0 ? {} : { color: "red" }}
               className="p-0"
+              size="sm"
             >
               <i className="material-icons p-0">add_shopping_cart</i>
               {count == 0 ? "" : count}

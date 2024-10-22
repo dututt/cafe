@@ -5,7 +5,6 @@ import { useCart } from "./cart.context";
 import { useState } from "react";
 import CurrencyDisplay from "@/app/utils/currency.display";
 import QrScanner from "./qr.code.scanner";
-import OrderStatus from "./order.status";
 import { toast } from "react-toastify";
 
 interface IProps {

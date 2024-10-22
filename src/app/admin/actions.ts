@@ -4,6 +4,11 @@ import { currentUser } from "@clerk/nextjs/server";
 import { isAdmin, isManager, isOrder } from "../utils/utils";
 import { toast } from "react-toastify";
 
+export async function getUserAccount() {
+  const user = await currentUser();
+  return user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? "";
+}
+
 export async function getCurrentUserRole() {
   const user = await currentUser();
   return user?.publicMetadata?.role;

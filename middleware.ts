@@ -8,6 +8,7 @@ export const config = {
     "/report",
     "/(orders-status)(.*)",
     "/(login)(.*)",
+    "/(logout)(.*)",
     "/(orders-management)(.*)",
     "/(food-beverage-management)(.*)",
   ],
