@@ -9,7 +9,7 @@ import {
   Offcanvas,
 } from "react-bootstrap";
 import { useClerk } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+import NotificationBell from "@/components/NotificationBell";
 
 function NavBarApp() {
   const { user, signOut } = useClerk();
@@ -27,6 +27,7 @@ function NavBarApp() {
         <Navbar.Brand href="/">Cafe 290</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end p-0">
+          <NotificationBell />
           {user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? ""}
         </Navbar.Collapse>
       </Navbar>
@@ -72,17 +73,18 @@ function NavBarApp() {
               </NavDropdown>
             </ListGroup.Item>
             <ListGroup.Item>
-              <Button
-                variant=""
-                className="material-icons p-0"
-                onClick={async () => {
-                  await signOut();
-                  setShow(false);
-                  redirect("/");
-                }}
-              >
-                settings_power
-              </Button>
+              {user && (
+                <Button
+                  variant=""
+                  className="material-icons p-0"
+                  onClick={async () => {
+                    await signOut();
+                    setShow(false);
+                  }}
+                >
+                  settings_power
+                </Button>
+              )}
             </ListGroup.Item>
           </ListGroup>
         </Offcanvas.Body>

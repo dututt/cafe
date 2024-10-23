@@ -1,6 +1,6 @@
 "use client";
 import CurrencyDisplay from "@/app/utils/currency.display";
-import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Col, Image, Row } from "react-bootstrap";
 import { GetMenus } from "./actions";
 import Cart from "./Cart";
 
@@ -39,7 +39,7 @@ function MenuView({ valueSearch }: IProps) {
                       src={menus[idx].image}
                     />
                   </Col>
-                  <Col className="flex items-right gap-3">
+                  <Col>
                     <Card.Body className="p-1">
                       <Card.Title className="d-flex justify-content-between align-items-start font-semibold p-0">
                         {menus[idx].title}

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 const CurrencyDisplay: React.FC<{ amount: number }> = ({ amount }) => {
-    const formatter = new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND',
-    });
+  const formatter = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  });
 
-    return <div>{formatter.format(amount)}</div>;
+  return <>{formatter.format(amount)}</>;
 };
 
 export default CurrencyDisplay;

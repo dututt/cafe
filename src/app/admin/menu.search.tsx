@@ -25,12 +25,26 @@ function MenuSearch({ setValueSearch }: IProps) {
             <Button
               onClick={() => setShow(count > 0)}
               variant=""
-              style={count == 0 ? {} : { color: "red" }}
+              style={count == 0 ? {} : { color: "red", position: "relative" }}
               className="p-0"
               size="sm"
             >
               <i className="material-icons p-0">add_shopping_cart</i>
-              {count == 0 ? "" : count}
+              {count > 0 && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "-4px",
+                    right: "20px",
+                    borderRadius: "50%",
+                    padding: "2px",
+                    color: "red",
+                    fontSize: "14px",
+                  }}
+                >
+                  {count}
+                </span>
+              )}
             </Button>
             <Form className="d-flex p-0">
               <Form.Control
