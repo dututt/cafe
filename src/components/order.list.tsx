@@ -5,10 +5,13 @@ import useSWR from "swr";
 import OrderListButtons from "./order.list.buttons";
 import OrderDetail from "@/app/orders-management/order-detail";
 import { UpdateOrderStatus } from "./actions";
+import { playBeepSound } from "@/app/utils/utils";
 
 interface IProps {
   trackingOrderStatus: ITrackingState;
 }
+
+let countNotify = 0;
 
 function OrderList({ trackingOrderStatus }: IProps) {
   const inits: IOrderTables = { items: [] };
@@ -42,6 +45,11 @@ function OrderList({ trackingOrderStatus }: IProps) {
   const orders = _orders?.filter(
     (item) => item.status === trackingOrderStatus.key
   );
+
+  if (_orders.length > countNotify) {
+    playBeepSound();
+    countNotify = _orders.length;
+  }
 
   function handleStatus(orderTable: IOrderTable, status: string): void {
     orders?.map((item) => {

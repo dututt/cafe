@@ -16,7 +16,8 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
   };
   const playBeepSound = () => {
     const audioContext = new (window.AudioContext ||
-      (window as any).webkitAudioContext)();
+      (window as any).webkitAudioContext ||
+      AudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 

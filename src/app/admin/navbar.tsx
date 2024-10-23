@@ -9,7 +9,6 @@ import {
   Offcanvas,
 } from "react-bootstrap";
 import { useClerk } from "@clerk/nextjs";
-import NotificationBell from "@/components/NotificationBell";
 
 function NavBarApp() {
   const { user, signOut } = useClerk();
@@ -27,7 +26,6 @@ function NavBarApp() {
         <Navbar.Brand href="/">Cafe 290</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end p-0">
-          <NotificationBell />
           {user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? ""}
         </Navbar.Collapse>
       </Navbar>
@@ -43,37 +41,49 @@ function NavBarApp() {
                 home
               </Nav.Link>
             </ListGroup.Item>
+            {user?.publicMetadata?.role === "order" && (
+              <ListGroup.Item>
+                <Nav.Link href="/orders-status">Trạng thái</Nav.Link>
+              </ListGroup.Item>
+            )}
+            {(user?.publicMetadata?.role === "admin" ||
+              user?.publicMetadata?.role === "manager") && (
+              <>
+                <ListGroup.Item>
+                  <Nav.Link href="/orders-status">Trạng thái</Nav.Link>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Nav.Link href="/orders-management">Đơn hàng</Nav.Link>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Nav.Link href="/food-beverage-management">
+                    Thêm món mới
+                  </Nav.Link>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Nav.Link href="/admin">Quản lý</Nav.Link>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <NavDropdown
+                    title="Doanh thu"
+                    id={`offcanvasNavbarDropdown-expand`}
+                  >
+                    <NavDropdown.Item href="/report/day">
+                      Theo ngày
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/report/month">
+                      Theo tháng
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/report/year">
+                      Theo năm
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </ListGroup.Item>
+              </>
+            )}
             <ListGroup.Item>
-              <Nav.Link href="/orders-status">Trạng thái</Nav.Link>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Nav.Link href="/orders-management">Đơn hàng</Nav.Link>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Nav.Link href="/food-beverage-management">Thêm món mới</Nav.Link>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Nav.Link href="/admin">Quản lý</Nav.Link>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <NavDropdown
-                title="Doanh thu"
-                id={`offcanvasNavbarDropdown-expand`}
-              >
-                <NavDropdown.Item href="/report/day">
-                  Theo ngày
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/report/month">
-                  Theo tháng
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="/report/year">
-                  Theo năm
-                </NavDropdown.Item>
-              </NavDropdown>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {user && (
+              {user ? (
                 <Button
                   variant=""
                   className="material-icons p-0"
@@ -84,7 +94,12 @@ function NavBarApp() {
                 >
                   settings_power
                 </Button>
+              ) : (
+                <Nav.Link href="/login">Đăng nhập</Nav.Link>
               )}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Nav.Link href="/register">Đăng ký</Nav.Link>
             </ListGroup.Item>
           </ListGroup>
         </Offcanvas.Body>
