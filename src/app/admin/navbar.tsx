@@ -9,6 +9,7 @@ import {
   Offcanvas,
 } from "react-bootstrap";
 import { useClerk } from "@clerk/nextjs";
+import NotificationBell from "@/components/NotificationBell";
 
 function NavBarApp() {
   const { user, signOut } = useClerk();
@@ -26,6 +27,7 @@ function NavBarApp() {
         <Navbar.Brand href="/">Cafe 290</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end p-0">
+          <NotificationBell />
           {user?.primaryEmailAddress?.emailAddress.split("@")[0] ?? ""}
         </Navbar.Collapse>
       </Navbar>

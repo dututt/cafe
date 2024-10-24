@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 interface NotificationBellProps {
   initialCount?: number;
@@ -9,15 +9,24 @@ const NotificationBell: React.FC<NotificationBellProps> = ({
   initialCount = 0,
 }) => {
   const [count, setCount] = useState(initialCount);
+  const audioContextRef = useRef<AudioContext | null>(null);
 
   const incrementCount = () => {
     setCount(count + 1);
     playBeepSound();
   };
   const playBeepSound = () => {
-    const audioContext = new (window.AudioContext ||
-      (window as any).webkitAudioContext ||
-      AudioContext)();
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
+    }
+
+    const audioContext = audioContextRef.current;
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
 
