@@ -6,6 +6,7 @@ import { useState } from "react";
 import CurrencyDisplay from "@/app/utils/currency.display";
 import QrScanner from "./qr.code.scanner";
 import { toast } from "react-toastify";
+import OrderStatus from "./order.status";
 
 interface IProps {
   show: boolean;
@@ -23,6 +24,7 @@ function ViewCardOrder({ show, setShow }: IProps) {
     (acc, item) => (acc = acc + item.item.price * item.amount),
     0
   );
+
   function handleAcceptView(): void {
     setStatus(true);
     handleChangeTextStatus();
@@ -82,7 +84,6 @@ function ViewCardOrder({ show, setShow }: IProps) {
         </Modal.Header>
         <Card.Footer className="text-muted">
           <ButtonGroup size="lg">
-            {/* <OrderStatus status={status} changeTextStatus={changeTextStatus} /> */}
             <Button variant="outline-warning">Tổng Giá</Button>
             <Button variant="outline-danger">
               <CurrencyDisplay amount={state.items.length > 0 ? total : 0} />
@@ -97,6 +98,8 @@ function ViewCardOrder({ show, setShow }: IProps) {
               Đồng ý
             </Button>
           </ButtonGroup>
+
+          <OrderStatus status={status} changeTextStatus={changeTextStatus} />
         </Card.Footer>
         <Modal.Body className="p-0">
           <div className="grow space-y-1">

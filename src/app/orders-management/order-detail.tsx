@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonGroup, Card, Col, Modal, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  ButtonGroup,
+  Card,
+  Col,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import useSWR from "swr";
 import { toast } from "react-toastify";
 import TableManagement from "./table";
@@ -94,6 +102,15 @@ function OrderDetail({
     setSelected("add-more");
   }
 
+  function showDeleteOrder(): void {
+    setModalTitle(`Xóa thực đơn - Bàn ${orderDetail?.table_num}`);
+    setSelected("delete-order");
+  }
+
+  function handleDeleteOrder(): void {
+    handleShowModalOrderDetail(false);
+  }
+
   return (
     <>
       <Modal
@@ -124,22 +141,29 @@ function OrderDetail({
               variant="outline-primary"
               className="material-icons"
               onClick={() => handleShowQRBank()}
+              active={selected === "pay-bill"}
             >
               account_balance
             </Button>
             <Button
               variant="outline-primary"
               onClick={() => handleChangeTable(true)}
+              active={!state && selected === "select-table"}
             >
               Chuyển bàn
             </Button>
             <Button
               variant="outline-primary"
               onClick={() => handleMixTable(true)}
+              active={state && selected === "select-table"}
             >
               Gộp bàn
             </Button>
-            <Button variant="outline-primary" onClick={() => handleLoadMenu()}>
+            <Button
+              variant="outline-primary"
+              onClick={() => handleLoadMenu()}
+              active={selected === "add-more"}
+            >
               Thêm món
             </Button>
             <Button
@@ -151,7 +175,8 @@ function OrderDetail({
                   orderDetail?.status === "Received"
                 )
               }
-              onClick={() => handleShowQRBank()}
+              onClick={() => showDeleteOrder()}
+              active={selected === "delete-order"}
             >
               remove_shopping_cart
             </Button>
@@ -171,6 +196,22 @@ function OrderDetail({
               selectCurrentTable={handleSelectCurrentTable}
               state={state}
             />
+          )}
+          {selected === "delete-order" && (
+            <Alert variant="warning">
+              <Alert.Heading>Xóa</Alert.Heading>
+              <p>{modalTitle}?</p>
+              <hr />
+              <div className="d-flex justify-content-end">
+                <Button
+                  onClick={() => handleDeleteOrder()}
+                  variant="outline-warning"
+                  active
+                >
+                  Đồng ý
+                </Button>
+              </div>
+            </Alert>
           )}
           {selected === "" && (
             <Row xs={1} md={2} className="g-0 p-0">
