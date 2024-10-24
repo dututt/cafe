@@ -115,7 +115,7 @@ function OrderDetail({
           <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
 
-        <Modal.Footer className="p-0">
+        <Modal.Footer className="p-0 justify-content-md-center">
           {orderDetail?.status === "Done" && (
             <Button variant="outline-primary">Hóa đơn đã thanh toán</Button>
           )}
@@ -157,7 +157,7 @@ function OrderDetail({
             </Button>
           </ButtonGroup>
         </Modal.Footer>
-        <Modal.Body className="p-0">
+        <Modal.Body>
           {selected === "pay-bill" && (
             <PayBill
               orderDetail={orderDetail}

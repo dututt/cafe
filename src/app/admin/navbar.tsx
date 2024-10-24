@@ -83,6 +83,9 @@ function NavBarApp() {
               </>
             )}
             <ListGroup.Item>
+              <Nav.Link href="/register">Đăng ký</Nav.Link>
+            </ListGroup.Item>
+            <ListGroup.Item>
               {user ? (
                 <Button
                   variant=""
@@ -97,9 +100,6 @@ function NavBarApp() {
               ) : (
                 <Nav.Link href="/login">Đăng nhập</Nav.Link>
               )}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Nav.Link href="/register">Đăng ký</Nav.Link>
             </ListGroup.Item>
           </ListGroup>
         </Offcanvas.Body>
