@@ -35,6 +35,6 @@ export const playBeepSound = () => {
   oscillator.connect(gainNode);
   gainNode.connect(audioContext.destination);
 
-  oscillator.start();
+  oscillator.start(3);
   oscillator.stop(audioContext.currentTime + 0.5); // Beep duration in seconds
 };
