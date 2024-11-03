@@ -7,6 +7,7 @@ import CurrencyDisplay from "@/app/utils/currency.display";
 import QrScanner from "./qr.code.scanner";
 import { toast } from "react-toastify";
 import OrderStatus from "./order.status";
+import Cart from "./Cart";
 
 interface IProps {
   show: boolean;
@@ -24,6 +25,7 @@ function ViewCardOrder({ show, setShow }: IProps) {
     (acc, item) => (acc = acc + item.item.price * item.amount),
     0
   );
+  if (total === 0) setShow(false);
 
   function handleAcceptView(): void {
     setStatus(true);
@@ -108,10 +110,10 @@ function ViewCardOrder({ show, setShow }: IProps) {
                 <Col key={idx}>
                   <Card style={{ height: "8rem" }}>
                     <Row>
-                      <Col>
+                      <Col xs="auto">
                         <Card.Img
                           variant="top"
-                          style={{ height: "7rem", width: "10rem" }}
+                          style={{ height: "7rem", width: "7rem" }}
                           className="card-img-center fixed-size p-1"
                           src={state.items[idx].item.image}
                         />
@@ -127,6 +129,12 @@ function ViewCardOrder({ show, setShow }: IProps) {
                             />
                           </Button>{" "}
                           X {state.items[idx].amount} phần
+                          <ButtonGroup
+                            size="lg"
+                            className="d-flex items-right justify-content-end"
+                          >
+                            <Cart selection={state.items[idx].item} />
+                          </ButtonGroup>
                         </Card.Body>
                       </Col>
                     </Row>

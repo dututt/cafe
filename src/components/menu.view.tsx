@@ -1,6 +1,6 @@
 "use client";
 import CurrencyDisplay from "@/app/utils/currency.display";
-import { Button, ButtonGroup, Card, Col, Image, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Col, Row } from "react-bootstrap";
 import { GetMenus } from "./actions";
 import Cart from "./Cart";
 
@@ -31,11 +31,11 @@ function MenuView({ valueSearch }: IProps) {
             <Col key={idx}>
               <Card style={{ height: "8rem" }}>
                 <Row>
-                  <Col>
+                  <Col xs="auto">
                     <Card.Img
                       variant="top"
-                      style={{ height: "7rem", width: "10rem" }}
-                      className="card-img-center fixed-size p-1"
+                      style={{ height: "7rem", width: "7rem" }}
+                      className="card-img-center self-center fixed-size p-1"
                       src={menus[idx].image}
                     />
                   </Col>

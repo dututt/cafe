@@ -19,6 +19,7 @@ function MenuSearch({ setValueSearch }: IProps) {
   return (
     <>
       {show && <ViewCardOrder show={show} setShow={setShow} />}
+
       <div className="flex-row-1 p-0">
         <Navbar expand="sm" className="bg-body-tertiary p-1">
           <Container fluid>
